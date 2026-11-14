@@ -495,6 +495,11 @@ const UNITS = [
       "h": "How teams measure it",
       "p": "Google's DORA research found four key metrics: <b>deployment frequency</b>, <b>lead time for changes</b> (commit → production), <b>change failure rate</b>, and <b>time to restore</b> service after a failure.",
       "tip": "In interviews, mentioning DORA metrics shows you understand WHY we automate, not just HOW."
+     },
+     {
+      "h": "CALMS & toil",
+      "p": "Teams check their DevOps maturity with <b>CALMS</b>: <b>C</b>ulture, <b>A</b>utomation, <b>L</b>ean (small batches, less waste), <b>M</b>easurement, <b>S</b>haring. <b>Toil</b> is manual, repetitive ops work that scales with traffic — DevOps engineers hunt it down and automate it.",
+      "tip": "A good first-week habit: write down every manual task you repeat twice. That list is your automation backlog."
      }
     ],
     "qs": [
@@ -545,6 +550,78 @@ const UNITS = [
       ],
       "a": 2,
       "w": "Small, frequent, automated changes are lower risk than big, rare manual ones."
+     },
+     {
+      "t": "mc",
+      "q": "In CALMS, the \"A\" stands for…",
+      "o": [
+       "Agile",
+       "Automation",
+       "Availability",
+       "Architecture"
+      ],
+      "a": 1,
+      "w": "CALMS = Culture, Automation, Lean, Measurement, Sharing."
+     },
+     {
+      "t": "mc",
+      "q": "Change failure rate is…",
+      "o": [
+       "% of deployments that cause a production failure needing a fix or rollback",
+       "Number of failed builds per day",
+       "% of tests skipped",
+       "Bugs per developer"
+      ],
+      "a": 0,
+      "w": "It measures stability of what you ship."
+     },
+     {
+      "t": "mc",
+      "q": "Elite DORA performers typically deploy…",
+      "o": [
+       "Once a year",
+       "Once a quarter",
+       "On demand, multiple times per day",
+       "Only on weekends"
+      ],
+      "a": 2,
+      "w": "Frequent small deploys are a hallmark of high performers."
+     },
+     {
+      "t": "mc",
+      "q": "Manual, repetitive ops work that could be automated is called…",
+      "o": [
+       "Drift",
+       "Latency",
+       "Debt",
+       "Toil"
+      ],
+      "a": 3,
+      "w": "Toil grows with scale; automation removes it."
+     },
+     {
+      "t": "order",
+      "q": "Put the start of the DevOps loop in order:",
+      "items": [
+       "Plan",
+       "Code",
+       "Build",
+       "Test",
+       "Release"
+      ],
+      "w": "Plan the work, write it, build it, test it, release it."
+     },
+     {
+      "t": "mc",
+      "q": "Why do DevOps teams prefer small batches of change?",
+      "o": [
+       "They look busier",
+       "Smaller changes are easier to test, review and roll back",
+       "Big changes are illegal",
+       "Servers prefer them"
+      ],
+      "a": 1,
+      "w": "Lean thinking: less risk per change, faster feedback."
      }
     ]
    },
@@ -566,6 +643,11 @@ const UNITS = [
       "p": "Mark releases with <b>tags</b> like <code>v1.2.0</code>. Never commit secrets: put <code>.env</code> in <code>.gitignore</code>. A leaked key in history stays leaked even after you delete the file.",
       "code": "git tag -a v1.2.0 -m \"Release 1.2.0\"\ngit push origin v1.2.0",
       "tip": "Bots scan public GitHub for leaked cloud keys within minutes. Treat any committed secret as compromised."
+     },
+     {
+      "h": "History & undo",
+      "p": "<code>git log --oneline --graph</code> shows history; <code>git diff</code> shows unstaged changes. To undo a pushed commit safely use <b>git revert &lt;sha&gt;</b> — it adds a new commit that reverses it. <code>git reset</code> rewrites history: only use it on local, unpushed work. <code>git stash</code> shelves unfinished changes.",
+      "code": "git log --oneline --graph -10\ngit revert 3f2a9c1      # safe on shared branches\ngit stash               # shelve work\ngit stash pop           # bring it back"
      }
     ],
     "qs": [
@@ -617,6 +699,79 @@ const UNITS = [
       ],
       "a": 0,
       "w": "It blocks unreviewed or failing changes from reaching main."
+     },
+     {
+      "t": "mc",
+      "q": "Safely undo a bad commit already pushed to shared main:",
+      "o": [
+       "git reset --hard HEAD~1 then force push",
+       "git revert <sha>",
+       "Delete the repo",
+       "Edit files on the server"
+      ],
+      "a": 1,
+      "w": "revert adds a new commit; nobody's history breaks."
+     },
+     {
+      "t": "fill",
+      "q": "Temporarily shelve uncommitted changes:",
+      "code": "git ___",
+      "o": [
+       "stash",
+       "hide",
+       "save",
+       "park"
+      ],
+      "a": 0,
+      "w": "git stash saves work-in-progress and cleans your working tree."
+     },
+     {
+      "t": "mc",
+      "q": "Which command shows changes in files not yet staged?",
+      "o": [
+       "git log",
+       "git status -s",
+       "git tag",
+       "git diff"
+      ],
+      "a": 3,
+      "w": "git diff compares working tree vs staging area."
+     },
+     {
+      "t": "mc",
+      "q": "Why avoid git push --force on shared branches?",
+      "o": [
+       "It's slower",
+       "It rewrites history others have already pulled",
+       "It deletes tags",
+       "It needs admin rights"
+      ],
+      "a": 1,
+      "w": "Teammates' clones break and work can be lost."
+     },
+     {
+      "t": "mc",
+      "q": "Which commit message follows the Conventional Commits style?",
+      "o": [
+       "fix: handle empty /health response",
+       "Fixed stuff",
+       "update",
+       "BUG!!!"
+      ],
+      "a": 0,
+      "w": "type: description — tools can build changelogs from it."
+     },
+     {
+      "t": "order",
+      "q": "Order a safe hotfix flow:",
+      "items": [
+       "git switch -c hotfix/health",
+       "Commit the fix",
+       "Push and open a PR",
+       "CI passes + review",
+       "Merge and tag a release"
+      ],
+      "w": "Even urgent fixes go through CI and review — just faster."
      }
     ]
    },
@@ -660,6 +815,12 @@ const UNITS = [
       "p": "Long-running apps run as <b>systemd services</b>. Check, restart and read their logs:",
       "code": "systemctl status nginx\nsudo systemctl restart nginx\nsudo systemctl enable nginx   # start on boot\njournalctl -u nginx --since \"10 min ago\"",
       "tip": "When a service fails, read status THEN journalctl before changing anything."
+     },
+     {
+      "h": "Processes & resources",
+      "p": "<code>ps aux</code> lists processes, <code>top</code>/<code>htop</code> show live CPU and memory. <code>kill -15 PID</code> asks a process to stop gracefully; <code>kill -9</code> forces it. Check capacity with <code>df -h</code> (disk), <code>free -h</code> (memory) and <code>du -sh</code> (folder sizes).",
+      "code": "df -h\nfree -h\nsudo du -sh /var/* | sort -h | tail -5\ntail -f /var/log/nginx/error.log",
+      "tip": "\"Disk full\" is one of the most common real outages. df -h first, then du to find the culprit."
      }
     ],
     "qs": [
@@ -723,6 +884,79 @@ const UNITS = [
        "curl the endpoint to verify"
       ],
       "w": "Look, read, fix, restart, verify."
+     },
+     {
+      "t": "mc",
+      "q": "Which command shows disk space per filesystem?",
+      "o": [
+       "free -h",
+       "df -h",
+       "top",
+       "ps aux"
+      ],
+      "a": 1,
+      "w": "df = disk free."
+     },
+     {
+      "t": "mc",
+      "q": "kill -15 vs kill -9:",
+      "o": [
+       "-15 asks the process to stop gracefully; -9 forces it immediately",
+       "They are identical",
+       "-9 is the graceful one",
+       "-15 restarts the process"
+      ],
+      "a": 0,
+      "w": "Try SIGTERM (15) first so the app can clean up."
+     },
+     {
+      "t": "fill",
+      "q": "Show memory usage in human-readable form:",
+      "code": "___ -h",
+      "o": [
+       "mem",
+       "ram",
+       "free",
+       "df"
+      ],
+      "a": 2,
+      "w": "free -h shows used/available RAM and swap."
+     },
+     {
+      "t": "mc",
+      "q": "The disk is full. Which command finds the biggest folders?",
+      "o": [
+       "ps aux",
+       "chmod -R 777 /",
+       "systemctl status",
+       "du -sh /var/* | sort -h"
+      ],
+      "a": 3,
+      "w": "du sums folder sizes; sort -h orders them."
+     },
+     {
+      "t": "mc",
+      "q": "Which runs a single command with admin privileges?",
+      "o": [
+       "root",
+       "admin",
+       "sudo",
+       "run-as"
+      ],
+      "a": 2,
+      "w": "sudo runs one command as root, and it's logged."
+     },
+     {
+      "t": "mc",
+      "q": "What does tail -f /var/log/nginx/error.log do?",
+      "o": [
+       "Deletes the log",
+       "Follows the log live as new lines arrive",
+       "Shows the first 10 lines",
+       "Compresses it"
+      ],
+      "a": 1,
+      "w": "-f = follow; perfect while reproducing a bug."
      }
     ]
    },
@@ -745,6 +979,11 @@ const UNITS = [
       "p": "Cron fields: <b>minute hour day-of-month month day-of-week</b>.",
       "code": "crontab -e\n0 2 * * *  /opt/scripts/backup.sh   # every day 02:00\n*/5 * * * * /opt/scripts/health.sh  # every 5 minutes",
       "tip": "Pipes + grep/awk solve 80% of log questions: grep \" 500 \" access.log | wc -l"
+     },
+     {
+      "h": "Text power tools",
+      "p": "Ops work is mostly text. <code>grep</code> finds lines, <code>awk</code> picks columns, <code>sort | uniq -c</code> counts, <code>sed</code> replaces, <code>&gt;</code> redirects output and <code>2&gt;&amp;1</code> also sends errors.",
+      "code": "# top 3 client IPs in an access log\nawk '{print $1}' access.log | sort | uniq -c | sort -nr | head -3\n\nsed -i 's/staging/prod/g' config.yml\n./backup.sh > backup.log 2>&1"
      }
     ],
     "qs": [
@@ -808,6 +1047,80 @@ const UNITS = [
       ],
       "a": 3,
       "w": "Idempotence makes automation safe to retry."
+     },
+     {
+      "t": "mc",
+      "q": "What does this pipeline print?",
+      "o": [
+       "The last 3 lines",
+       "3 random lines",
+       "The 3 most frequent first fields (e.g. client IPs) with counts",
+       "An error"
+      ],
+      "a": 2,
+      "w": "Extract column → sort → count duplicates → sort by count → top 3.",
+      "code": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -3"
+     },
+     {
+      "t": "fill",
+      "q": "Replace 'staging' with 'prod' in config.yml in place:",
+      "code": "sed -i 's/staging/___/g' config.yml",
+      "o": [
+       "staging",
+       "-i",
+       "prod",
+       "g"
+      ],
+      "a": 2,
+      "w": "s/old/new/g substitutes every match on each line."
+     },
+     {
+      "t": "mc",
+      "q": "How do you read the first argument passed to a script?",
+      "o": [
+       "$0",
+       "$1",
+       "$#",
+       "$@"
+      ],
+      "a": 1,
+      "w": "$0 is the script's own name; $1 is the first argument."
+     },
+     {
+      "t": "mc",
+      "q": "What does $# hold?",
+      "o": [
+       "The script's PID",
+       "The last exit code",
+       "The first argument",
+       "The number of arguments"
+      ],
+      "a": 3,
+      "w": "Use it to validate input: if [ $# -lt 1 ]; then …"
+     },
+     {
+      "t": "mc",
+      "q": "command > out.log 2>&1 does what?",
+      "o": [
+       "Sends both normal output and errors to out.log",
+       "Sends only errors",
+       "Appends to out.log",
+       "Runs it in the background"
+      ],
+      "a": 0,
+      "w": "2>&1 redirects stderr to wherever stdout goes."
+     },
+     {
+      "t": "order",
+      "q": "Order the top of a robust script:",
+      "items": [
+       "#!/bin/bash",
+       "set -euo pipefail",
+       "Define variables",
+       "Main logic",
+       "exit 0"
+      ],
+      "w": "Interpreter, safety flags, config, work, explicit success."
      }
     ]
    },
@@ -852,6 +1165,11 @@ const UNITS = [
       "p": "Private ranges: <b>10.0.0.0/8</b>, <b>172.16.0.0/12</b>, <b>192.168.0.0/16</b>. A <b>/24</b> holds 256 addresses. You'll design these for cloud VPCs in Unit 6.",
       "code": "sudo ss -tulpn | grep 8000   # who listens on 8000?\ncurl -v http://localhost:8000/health",
       "tip": "Debug outside-in: DNS → reachable (port open?) → app responding?"
+     },
+     {
+      "h": "Troubleshooting toolkit",
+      "p": "<code>ping</code> tests reachability (ICMP), <code>traceroute</code> shows the path, <code>nc -zv host port</code> tests if a port is open, <code>curl -I</code> shows HTTP headers. DNS answers are cached for their <b>TTL</b>, so record changes take time to spread. <code>/etc/hosts</code> overrides DNS on one machine.",
+      "code": "nc -zv db.internal 5432\ncurl -I https://shipyard.example.com\ndig shipyard.example.com   # look at the TTL"
      }
     ],
     "qs": [
@@ -915,6 +1233,79 @@ const UNITS = [
       ],
       "a": 1,
       "w": "10.0.0.0/8 is RFC 1918 private space."
+     },
+     {
+      "t": "mc",
+      "q": "Check whether port 5432 on db.internal is open:",
+      "o": [
+       "ping db.internal 5432",
+       "nc -zv db.internal 5432",
+       "dig db.internal 5432",
+       "chmod 5432 db.internal"
+      ],
+      "a": 1,
+      "w": "ping can't test ports; nc can."
+     },
+     {
+      "t": "mc",
+      "q": "You changed a DNS record but some users still reach the old IP. Likely cause?",
+      "o": [
+       "Firewall rules",
+       "Wrong port",
+       "Resolvers cached the old record until its TTL expires",
+       "Docker"
+      ],
+      "a": 2,
+      "w": "Lower TTLs before a planned migration."
+     },
+     {
+      "t": "mc",
+      "q": "A CNAME record…",
+      "o": [
+       "Maps a name to an IPv4 address",
+       "Points one name to another name",
+       "Stores mail servers",
+       "Encrypts traffic"
+      ],
+      "a": 1,
+      "w": "e.g. www → shipyard-lb.amazonaws.com."
+     },
+     {
+      "t": "mc",
+      "q": "Which transport protocol guarantees ordered, reliable delivery?",
+      "o": [
+       "UDP",
+       "ICMP",
+       "TCP",
+       "ARP"
+      ],
+      "a": 2,
+      "w": "TCP retransmits and orders packets; UDP doesn't."
+     },
+     {
+      "t": "fill",
+      "q": "Show only the response headers of a URL:",
+      "code": "curl ___ https://shipyard.example.com",
+      "o": [
+       "-I",
+       "-X",
+       "-o",
+       "-d"
+      ],
+      "a": 0,
+      "w": "-I sends a HEAD request and prints headers."
+     },
+     {
+      "t": "mc",
+      "q": "Which port does SSH use by default?",
+      "o": [
+       "3389",
+       "21",
+       "25",
+       "22"
+      ],
+      "a": 3,
+      "w": "22 = SSH, 3389 = RDP, 21 = FTP, 25 = SMTP."
      }
     ]
    },
@@ -935,6 +1326,11 @@ const UNITS = [
       "h": "Errors that point somewhere",
       "p": "<b>502 Bad Gateway</b>: the proxy got a bad/no response from the app (app down or crashed). <b>504 Gateway Timeout</b>: the app was too slow. Free TLS certificates come from <b>Let's Encrypt</b> (certbot).",
       "tip": "Seeing 502? Check that the upstream app is running and on the port proxy_pass expects."
+     },
+     {
+      "h": "TLS & HTTPS",
+      "p": "<b>TLS</b> encrypts traffic and the <b>certificate</b> proves the server's identity; it's issued by a Certificate Authority and <b>expires</b>, so renewal must be automated (certbot does this). Redirect HTTP to HTTPS with a <b>301</b>. Status code families: <b>2xx</b> success, <b>3xx</b> redirect, <b>4xx</b> client error, <b>5xx</b> server error.",
+      "code": "server {\n  listen 80;\n  return 301 https://$host$request_uri;\n}"
      }
     ],
     "qs": [
@@ -985,6 +1381,79 @@ const UNITS = [
       ],
       "a": 0,
       "w": "Let's Encrypt issues free, automated certificates via ACME (certbot)."
+     },
+     {
+      "t": "mc",
+      "q": "Why automate certificate renewal?",
+      "o": [
+       "Certificates expire, and an expired cert breaks HTTPS for every user",
+       "It makes sites faster",
+       "It's needed for plain HTTP",
+       "To change the domain name"
+      ],
+      "a": 0,
+      "w": "Expired certs are a classic, embarrassing outage."
+     },
+     {
+      "t": "mc",
+      "q": "Status 301 means…",
+      "o": [
+       "Not found",
+       "Moved permanently (redirect)",
+       "Server error",
+       "Unauthorized"
+      ],
+      "a": 1,
+      "w": "3xx codes are redirects."
+     },
+     {
+      "t": "mc",
+      "q": "504 Gateway Timeout usually means…",
+      "o": [
+       "DNS failed",
+       "The client is offline",
+       "The certificate expired",
+       "The upstream app took too long to respond"
+      ],
+      "a": 3,
+      "w": "The proxy gave up waiting on the backend."
+     },
+     {
+      "t": "mc",
+      "q": "Where is TLS usually terminated in a typical setup?",
+      "o": [
+       "In the database",
+       "In DNS",
+       "At the load balancer or reverse proxy",
+       "In the browser cache"
+      ],
+      "a": 2,
+      "w": "The edge decrypts, then forwards to the app."
+     },
+     {
+      "t": "fill",
+      "q": "Forward requests to the app in Nginx:",
+      "code": "location / {\n  ___ http://127.0.0.1:8000;\n}",
+      "o": [
+       "proxy_pass",
+       "forward",
+       "upstream_to",
+       "redirect"
+      ],
+      "a": 0,
+      "w": "proxy_pass sends the request to the upstream."
+     },
+     {
+      "t": "mc",
+      "q": "4xx status codes generally mean…",
+      "o": [
+       "A server-side failure",
+       "A client-side error (bad request, unauthorized, not found)",
+       "Success",
+       "A redirect"
+      ],
+      "a": 1,
+      "w": "Look at the request first; 5xx means look at the server."
      }
     ]
    },
@@ -1029,6 +1498,11 @@ const UNITS = [
       "p": "",
       "code": "docker build -t shipyard:0.1 .\ndocker run -d -p 8080:8000 --name web shipyard:0.1\ndocker ps\ndocker logs -f web\ndocker exec -it web sh",
       "tip": "-p 8080:8000 means host port 8080 → container port 8000."
+     },
+     {
+      "h": "Container lifecycle",
+      "p": "Containers are <b>ephemeral</b>: delete one and anything written inside it is gone unless it's in a volume. Pass config with <b>environment variables</b> (<code>-e</code>). Use a <b>restart policy</b> so containers come back after a crash or reboot.",
+      "code": "docker ps -a                 # include stopped\ndocker run -d -e APP_ENV=prod --restart unless-stopped shipyard:0.1\ndocker stop web && docker rm web\ndocker system prune          # clean unused stuff"
      }
     ],
     "qs": [
@@ -1080,6 +1554,79 @@ const UNITS = [
        "CMD [\"python\", \"app.py\"]"
       ],
       "w": "Base → workdir → deps file → install → start command."
+     },
+     {
+      "t": "mc",
+      "q": "Show ALL containers, including stopped ones:",
+      "o": [
+       "docker images",
+       "docker logs",
+       "docker ps -a",
+       "docker ps"
+      ],
+      "a": 2,
+      "w": "-a includes exited containers."
+     },
+     {
+      "t": "fill",
+      "q": "Pass an environment variable to a container:",
+      "code": "docker run ___ APP_ENV=prod shipyard:0.1",
+      "o": [
+       "-e",
+       "-p",
+       "-v",
+       "-d"
+      ],
+      "a": 0,
+      "w": "-e sets environment variables; 12-factor apps read config from env."
+     },
+     {
+      "t": "mc",
+      "q": "You delete a container. Files written inside it (no volume) are…",
+      "o": [
+       "Saved into the image",
+       "Lost",
+       "Moved to /tmp on the host",
+       "Pushed to the registry"
+      ],
+      "a": 1,
+      "w": "Container filesystems are disposable."
+     },
+     {
+      "t": "mc",
+      "q": "docker run -d means…",
+      "o": [
+       "Debug mode",
+       "Delete after exit",
+       "Download only",
+       "Detached: run in the background"
+      ],
+      "a": 3,
+      "w": "--rm is delete-after-exit; -d is detached."
+     },
+     {
+      "t": "mc",
+      "q": "What does EXPOSE 8000 in a Dockerfile do?",
+      "o": [
+       "Documents the port the app listens on; you still need -p to publish it",
+       "Opens port 8000 in the host firewall",
+       "Starts the app",
+       "Pushes the image"
+      ],
+      "a": 0,
+      "w": "EXPOSE is metadata, not a port mapping."
+     },
+     {
+      "t": "mc",
+      "q": "Clean up stopped containers, unused networks and dangling images:",
+      "o": [
+       "docker clean",
+       "docker system prune",
+       "docker rm --all",
+       "docker gc"
+      ],
+      "a": 1,
+      "w": "Great when a CI runner or VM runs out of disk."
      }
     ]
    },
@@ -1100,6 +1647,11 @@ const UNITS = [
       "h": "Docker Compose",
       "p": "Compose runs multi-container apps from one YAML file. <b>Volumes</b> persist data beyond a container's life.",
       "code": "services:\n  web:\n    build: .\n    ports: [\"8080:8000\"]\n    depends_on: [db]\n  db:\n    image: postgres:16\n    environment:\n      POSTGRES_PASSWORD: ${DB_PASSWORD}\n    volumes: [\"dbdata:/var/lib/postgresql/data\"]\nvolumes:\n  dbdata:"
+     },
+     {
+      "h": "Compose in practice",
+      "p": "On the Compose network, services reach each other by <b>service name</b> (<code>db:5432</code>), not localhost. <code>depends_on</code> only controls start order — add a <b>healthcheck</b> to wait for readiness. <code>docker compose down</code> keeps volumes; <code>down -v</code> deletes them (your data!).",
+      "code": "docker compose up -d\ndocker compose logs -f web\ndocker compose down        # keeps data\n# DATABASE_URL=postgresql://app:${DB_PASSWORD}@db:5432/shipyard"
      }
     ],
     "qs": [
@@ -1163,6 +1715,78 @@ const UNITS = [
       ],
       "a": 2,
       "w": "Least privilege applies inside containers too."
+     },
+     {
+      "t": "mc",
+      "q": "In Compose, how does web connect to the database service named db?",
+      "o": [
+       "localhost:5432",
+       "db:5432 — the service name is the hostname",
+       "The host's public IP",
+       "It can't"
+      ],
+      "a": 1,
+      "w": "Compose provides DNS for service names."
+     },
+     {
+      "t": "mc",
+      "q": "docker compose down -v also…",
+      "o": [
+       "Pulls new images",
+       "Validates the YAML",
+       "Deletes named volumes — your data!",
+       "Restarts services"
+      ],
+      "a": 2,
+      "w": "Never run -v on something you care about."
+     },
+     {
+      "t": "fill",
+      "q": "Start all services in the background:",
+      "code": "docker compose up ___",
+      "o": [
+       "-b",
+       "--bg",
+       "-x",
+       "-d"
+      ],
+      "a": 3,
+      "w": "-d = detached."
+     },
+     {
+      "t": "mc",
+      "q": "depends_on by itself guarantees…",
+      "o": [
+       "Start order only — not that the database is ready",
+       "The DB is accepting connections",
+       "Data is backed up",
+       "Zero downtime"
+      ],
+      "a": 0,
+      "w": "Use healthchecks + condition: service_healthy for readiness."
+     },
+     {
+      "t": "mc",
+      "q": "Which base image usually gives a much smaller Python image?",
+      "o": [
+       "python:3.12 (full)",
+       "python:3.12-slim",
+       "ubuntu:latest + install Python",
+       "windows/servercore"
+      ],
+      "a": 1,
+      "w": "Slim drops compilers and docs you don't need at runtime."
+     },
+     {
+      "t": "order",
+      "q": "Order shipping an image:",
+      "items": [
+       "Write the Dockerfile",
+       "docker build",
+       "docker run locally to test",
+       "docker push"
+      ],
+      "w": "Never push an image you haven't run."
      }
     ]
    },
@@ -1206,6 +1830,11 @@ const UNITS = [
       "h": "Typical stages",
       "p": "<b>lint → unit test → build image → security scan → push to registry → deploy</b>. Mark CI as a required check in branch protection so a red pipeline blocks the merge.",
       "tip": "Keep the main pipeline under ~10 minutes. Slow pipelines get ignored."
+     },
+     {
+      "h": "Fast & reliable pipelines",
+      "p": "<b>Cache</b> dependencies so CI doesn't re-download them every run. Use a <b>matrix</b> to test several versions in parallel. Chain jobs with <code>needs:</code>. Hunt down <b>flaky tests</b> — they teach everyone to ignore red builds.",
+      "code": "jobs:\n  test:\n    strategy:\n      matrix: { python: [\"3.11\", \"3.12\"] }\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/setup-python@v5\n        with: { python-version: \"${{ matrix.python }}\", cache: pip }\n  deploy:\n    needs: test"
      }
     ],
     "qs": [
@@ -1257,6 +1886,79 @@ const UNITS = [
       ],
       "a": 1,
       "w": "Required status checks protect main."
+     },
+     {
+      "t": "fill",
+      "q": "Run deploy only after test succeeds:",
+      "code": "deploy:\n  ___: test\n  runs-on: ubuntu-latest",
+      "o": [
+       "after",
+       "depends_on",
+       "needs",
+       "requires"
+      ],
+      "a": 2,
+      "w": "needs creates job dependencies."
+     },
+     {
+      "t": "mc",
+      "q": "A matrix build is used to…",
+      "o": [
+       "Run the same job across several versions/OSes in parallel",
+       "Encrypt secrets",
+       "Deploy to production",
+       "Store logs"
+      ],
+      "a": 0,
+      "w": "e.g. Python 3.11 and 3.12 at once."
+     },
+     {
+      "t": "mc",
+      "q": "Why cache dependencies in CI?",
+      "o": [
+       "Security",
+       "Faster pipelines — no re-downloading packages every run",
+       "GitHub requires it",
+       "Smaller images"
+      ],
+      "a": 1,
+      "w": "Minutes saved on every push add up."
+     },
+     {
+      "t": "mc",
+      "q": "A test fails randomly about 1 in 10 runs. It's a…",
+      "o": [
+       "Canary",
+       "Hotfix",
+       "Regression budget",
+       "Flaky test"
+      ],
+      "a": 3,
+      "w": "Fix or quarantine it — flaky tests erode trust in CI."
+     },
+     {
+      "t": "mc",
+      "q": "Which trigger lets you run a workflow manually from the GitHub UI?",
+      "o": [
+       "on: push",
+       "on: workflow_dispatch",
+       "on: schedule",
+       "on: fork"
+      ],
+      "a": 1,
+      "w": "Handy for deploy or maintenance workflows."
+     },
+     {
+      "t": "mc",
+      "q": "on: schedule (cron) is useful for…",
+      "o": [
+       "PR reviews",
+       "Merge conflicts",
+       "Nightly jobs like dependency scans or backups",
+       "DNS changes"
+      ],
+      "a": 2,
+      "w": "Scheduled workflows run on a cron expression (UTC)."
      }
     ]
    },
@@ -1276,6 +1978,10 @@ const UNITS = [
       "h": "Release strategies",
       "p": "<b>Rolling</b>: replace instances gradually. <b>Blue-green</b>: run two identical environments and switch traffic at once (instant rollback). <b>Canary</b>: send a small % of users to the new version first and watch metrics. Always have a <b>rollback</b> plan.",
       "tip": "Interview favorite: \"How would you deploy with zero downtime?\" — answer with blue-green or rolling + health checks."
+     },
+     {
+      "h": "Rollback, flags & GitOps",
+      "p": "<b>Feature flags</b> decouple deploy from release: ship code dark, switch it on later. <b>Rollback</b> = redeploy the previous known-good image tag. Run <b>smoke tests</b> right after deploy. In <b>GitOps</b> (Argo CD, Flux), the cluster continuously syncs to the desired state stored in Git."
      }
     ],
     "qs": [
@@ -1326,6 +2032,78 @@ const UNITS = [
       ],
       "a": 2,
       "w": "Traceability makes debugging and rollback precise."
+     },
+     {
+      "t": "mc",
+      "q": "Feature flags let you…",
+      "o": [
+       "Deploy code but turn features on/off without redeploying",
+       "Skip tests",
+       "Encrypt secrets",
+       "Scale servers"
+      ],
+      "a": 0,
+      "w": "Release becomes a switch, not a deploy."
+     },
+     {
+      "t": "mc",
+      "q": "Fastest rollback when you use immutable image tags?",
+      "o": [
+       "Rebuild from memory",
+       "Edit code on the server",
+       "Redeploy the previous known-good tag",
+       "Restore the database"
+      ],
+      "a": 2,
+      "w": "That's why you never overwrite tags."
+     },
+     {
+      "t": "mc",
+      "q": "A smoke test after deploy…",
+      "o": [
+       "Load-tests for hours",
+       "Quickly checks critical paths like /health and login",
+       "Scans for viruses",
+       "Rebuilds the image"
+      ],
+      "a": 1,
+      "w": "Fast confidence that the deploy didn't break the basics."
+     },
+     {
+      "t": "mc",
+      "q": "GitOps means…",
+      "o": [
+       "Running git by hand on servers",
+       "Emailing patches",
+       "Committing passwords",
+       "A tool like Argo CD syncs the cluster to the desired state stored in Git"
+      ],
+      "a": 3,
+      "w": "Git is the source of truth; drift gets corrected automatically."
+     },
+     {
+      "t": "mc",
+      "q": "A rolling update replaces…",
+      "o": [
+       "All instances at once",
+       "Instances gradually, a few at a time",
+       "Only the database",
+       "Nothing"
+      ],
+      "a": 1,
+      "w": "Capacity stays up during the rollout."
+     },
+     {
+      "t": "order",
+      "q": "Order a safe production deploy:",
+      "items": [
+       "Build & tag the image with the git SHA",
+       "Deploy to staging",
+       "Run smoke tests",
+       "Approve production",
+       "Deploy to production & monitor"
+      ],
+      "w": "Every step adds confidence before users see it."
      }
     ]
    },
@@ -1369,6 +2147,11 @@ const UNITS = [
       "h": "Core services & responsibility",
       "p": "<b>EC2</b> = virtual servers, <b>S3</b> = object storage, <b>RDS</b> = managed databases. <b>Shared responsibility model</b>: AWS secures the cloud itself; you secure what you put in it (OS patches on EC2, IAM, data, security groups).",
       "tip": "Before anything else: create an AWS Budget alert (e.g. $5). Forgotten resources are how students get surprise bills."
+     },
+     {
+      "h": "S3 & the AWS CLI",
+      "p": "<b>S3</b> stores objects in <b>buckets</b> whose names are globally unique. Keep <b>Block Public Access</b> on unless you deliberately need public files. Use the <b>AWS CLI</b> with SSO or named profiles — and always check who you are before running anything destructive.",
+      "code": "aws sts get-caller-identity\naws s3 cp report.csv s3://shipyard-assets-geo/\naws s3 ls s3://shipyard-assets-geo/"
      }
     ],
     "qs": [
@@ -1419,6 +2202,79 @@ const UNITS = [
       ],
       "a": 2,
       "w": "Under shared responsibility, the OS on EC2 is yours."
+     },
+     {
+      "t": "mc",
+      "q": "Check which AWS identity your CLI is using:",
+      "o": [
+       "aws whoami",
+       "aws sts get-caller-identity",
+       "aws iam me",
+       "aws configure list-users"
+      ],
+      "a": 1,
+      "w": "Always confirm the account before you change things."
+     },
+     {
+      "t": "fill",
+      "q": "Upload a file to S3:",
+      "code": "aws s3 ___ report.csv s3://shipyard-assets-geo/",
+      "o": [
+       "put",
+       "send",
+       "cp",
+       "push"
+      ],
+      "a": 2,
+      "w": "aws s3 cp copies between local and S3."
+     },
+     {
+      "t": "mc",
+      "q": "S3 bucket names must be…",
+      "o": [
+       "Unique within your account only",
+       "Globally unique across all AWS accounts",
+       "Numbers only",
+       "Under 5 characters"
+      ],
+      "a": 1,
+      "w": "They're part of a global DNS namespace."
+     },
+     {
+      "t": "mc",
+      "q": "S3 Block Public Access should be…",
+      "o": [
+       "Left ON unless you deliberately need a public bucket",
+       "Always OFF",
+       "Only for Windows",
+       "Irrelevant"
+      ],
+      "a": 0,
+      "w": "Public buckets are a classic data-leak cause."
+     },
+     {
+      "t": "mc",
+      "q": "Which should you NEVER use for daily work?",
+      "o": [
+       "An IAM role",
+       "An IAM user with MFA",
+       "The root account",
+       "AWS IAM Identity Center (SSO)"
+      ],
+      "a": 2,
+      "w": "Lock root away with MFA; use it only for rare account tasks."
+     },
+     {
+      "t": "mc",
+      "q": "Which AWS service is a managed relational database?",
+      "o": [
+       "EC2",
+       "S3",
+       "IAM",
+       "RDS"
+      ],
+      "a": 3,
+      "w": "RDS runs PostgreSQL, MySQL and more with backups and patching handled."
      }
     ]
    },
@@ -1438,6 +2294,11 @@ const UNITS = [
       "h": "Scale & spread",
       "p": "An <b>Application Load Balancer</b> (Layer 7) spreads traffic across instances in multiple AZs. An <b>Auto Scaling Group</b> adds or removes instances based on load and replaces unhealthy ones.",
       "code": "Internet → ALB (public subnets, 2 AZs)\n         → EC2 in Auto Scaling Group (private subnets)\n         → RDS PostgreSQL (private subnets)"
+     },
+     {
+      "h": "Costs & cleanup",
+      "p": "Some resources bill <b>by the hour</b> even with no traffic: NAT Gateways, load balancers, unattached Elastic IPs, running instances. <b>Tag</b> everything (<code>Project=shipyard</code>), watch <b>Cost Explorer</b>, keep a <b>Budget alert</b>, and destroy labs when you're done.",
+      "tip": "Students' surprise AWS bills almost always come from a forgotten NAT Gateway or instance."
      }
     ],
     "qs": [
@@ -1488,6 +2349,79 @@ const UNITS = [
        "Launch EC2 instances"
       ],
       "w": "Network → subnets → routing → firewall → compute."
+     },
+     {
+      "t": "mc",
+      "q": "Which can quietly cost money even with almost no traffic?",
+      "o": [
+       "An empty IAM role",
+       "A NAT Gateway left running",
+       "A deleted S3 bucket",
+       "A security group"
+      ],
+      "a": 1,
+      "w": "NAT Gateways bill hourly plus per GB."
+     },
+     {
+      "t": "mc",
+      "q": "Why tag resources like Project=shipyard?",
+      "o": [
+       "To track cost and ownership",
+       "To make them faster",
+       "EC2 needs tags to boot",
+       "To encrypt data"
+      ],
+      "a": 0,
+      "w": "Tags let you filter bills and find orphaned resources."
+     },
+     {
+      "t": "mc",
+      "q": "Network ACLs are…",
+      "o": [
+       "Stateful",
+       "Stateless and attached to subnets",
+       "Attached to instances only",
+       "IAM policies"
+      ],
+      "a": 1,
+      "w": "You must allow return traffic explicitly."
+     },
+     {
+      "t": "mc",
+      "q": "An ALB health check fails on one instance. The ALB…",
+      "o": [
+       "Deletes the instance",
+       "Sends it more traffic",
+       "Stops sending traffic to that instance",
+       "Shuts down"
+      ],
+      "a": 2,
+      "w": "An Auto Scaling Group can then replace it."
+     },
+     {
+      "t": "mc",
+      "q": "An Auto Scaling Group spread across 2 AZs protects against…",
+      "o": [
+       "Bad code deploys",
+       "SQL injection",
+       "DNS typos",
+       "A whole Availability Zone failing"
+      ],
+      "a": 3,
+      "w": "Multi-AZ = infrastructure resilience, not code quality."
+     },
+     {
+      "t": "fill",
+      "q": "Allow HTTPS from anywhere in a security group:",
+      "code": "Inbound: TCP 443 from ___",
+      "o": [
+       "0.0.0.0/0",
+       "127.0.0.1/32",
+       "10.0.0.0/8",
+       "255.255.255.255/32"
+      ],
+      "a": 0,
+      "w": "0.0.0.0/0 means any IPv4 address — fine for 443 on a public LB, never for 22."
      }
     ]
    },
@@ -1531,6 +2465,11 @@ const UNITS = [
       "h": "State",
       "p": "Terraform keeps a <b>state file</b> mapping your code to real resources. Teams store it <b>remotely</b> (e.g. S3 with locking) so two people can't apply at once. Never commit state to Git — it can contain secrets.",
       "tip": "\"Plan says it will destroy something you didn't expect\" = stop and investigate."
+     },
+     {
+      "h": "Variables, outputs & hygiene",
+      "p": "Make code reusable with <b>variables</b> (set in <code>terraform.tfvars</code>), expose results with <b>outputs</b>, and read existing things with <b>data sources</b>. Run <code>terraform fmt</code> and <code>terraform validate</code> before every commit.",
+      "code": "variable \"instance_type\" {\n  type    = string\n  default = \"t3.micro\"\n}\n\ndata \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"099720109477\"]\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd*/ubuntu-*-24.04-amd64-server-*\"]\n  }\n}"
      }
     ],
     "qs": [
@@ -1593,6 +2532,79 @@ const UNITS = [
       ],
       "a": 1,
       "w": "The tool figures out how to reach that state."
+     },
+     {
+      "t": "fill",
+      "q": "Format all .tf files consistently:",
+      "code": "terraform ___",
+      "o": [
+       "lint",
+       "style",
+       "fmt",
+       "pretty"
+      ],
+      "a": 2,
+      "w": "terraform fmt rewrites files to canonical style."
+     },
+     {
+      "t": "mc",
+      "q": "Values for variables are commonly set in…",
+      "o": [
+       "terraform.tfvars",
+       "The state file",
+       ".gitignore",
+       "main.lock"
+      ],
+      "a": 0,
+      "w": "Or with -var flags / TF_VAR_ environment variables."
+     },
+     {
+      "t": "mc",
+      "q": "A data source is used to…",
+      "o": [
+       "Create resources",
+       "Read existing information (like the latest AMI) without managing it",
+       "Delete state",
+       "Store secrets"
+      ],
+      "a": 1,
+      "w": "data blocks query; resource blocks manage."
+     },
+     {
+      "t": "mc",
+      "q": "terraform destroy will…",
+      "o": [
+       "Delete your .tf files",
+       "Uninstall Terraform",
+       "Only show a plan",
+       "Delete all resources managed by this configuration"
+      ],
+      "a": 3,
+      "w": "It destroys real infrastructure — read the plan it shows."
+     },
+     {
+      "t": "mc",
+      "q": "Where should terraform.tfstate NOT go?",
+      "o": [
+       "A remote S3 backend",
+       "A Git repository",
+       "Encrypted storage",
+       "HCP Terraform"
+      ],
+      "a": 1,
+      "w": "State can contain secrets and must not be versioned in Git."
+     },
+     {
+      "t": "mc",
+      "q": "terraform validate checks…",
+      "o": [
+       "Syntax and internal consistency of the configuration",
+       "Your AWS bill",
+       "Live servers' health",
+       "DNS records"
+      ],
+      "a": 0,
+      "w": "It runs offline — no cloud calls."
      }
     ]
    },
@@ -1613,6 +2625,11 @@ const UNITS = [
       "h": "IaC discipline",
       "p": "<b>Drift</b> is when real infrastructure no longer matches code (someone clicked in the console). Fix: all changes go through code + PR. Reuse with <b>Terraform modules</b>. Review <code>plan</code> output in CI.",
       "tip": "\"No ClickOps\" is a real interview answer. Say you'd import manual resources into Terraform."
+     },
+     {
+      "h": "Inventory, roles & handlers",
+      "p": "An <b>inventory</b> lists hosts and groups. <b>Roles</b> package tasks, templates and files for reuse. <b>Handlers</b> run only when a task notifies them (e.g. restart nginx after its config changed). Dry-run with <code>--check</code>; encrypt secrets with <b>Ansible Vault</b>.",
+      "code": "- name: Deploy nginx config\n  template:\n    src: nginx.conf.j2\n    dest: /etc/nginx/nginx.conf\n  notify: restart nginx\n\nhandlers:\n  - name: restart nginx\n    service: { name: nginx, state: restarted }"
      }
     ],
     "qs": [
@@ -1664,6 +2681,79 @@ const UNITS = [
       ],
       "a": 3,
       "w": "state: present installs it only if missing — idempotent."
+     },
+     {
+      "t": "mc",
+      "q": "An Ansible inventory lists…",
+      "o": [
+       "Docker images",
+       "Terraform state",
+       "The hosts and groups to manage",
+       "Git branches"
+      ],
+      "a": 2,
+      "w": "e.g. [web] 10.0.1.10 10.0.1.11."
+     },
+     {
+      "t": "mc",
+      "q": "A handler runs…",
+      "o": [
+       "Only when notified by a task that changed something",
+       "Every time the playbook runs",
+       "Before all tasks",
+       "Never"
+      ],
+      "a": 0,
+      "w": "No change → no needless restart."
+     },
+     {
+      "t": "fill",
+      "q": "Dry-run a playbook without making changes:",
+      "code": "ansible-playbook -i hosts site.yml ___",
+      "o": [
+       "--dry",
+       "--test",
+       "--check",
+       "--plan"
+      ],
+      "a": 2,
+      "w": "--check (often with --diff) previews changes."
+     },
+     {
+      "t": "mc",
+      "q": "Ansible roles help you…",
+      "o": [
+       "Encrypt SSH",
+       "Reuse and organize tasks, templates and files",
+       "Replace Kubernetes",
+       "Bill clients"
+      ],
+      "a": 1,
+      "w": "Roles are Ansible's unit of reuse."
+     },
+     {
+      "t": "mc",
+      "q": "Where should secrets used by Ansible live?",
+      "o": [
+       "Plain text in the playbook",
+       "The README",
+       "Hostnames",
+       "Ansible Vault (encrypted)"
+      ],
+      "a": 3,
+      "w": "Vault-encrypted files can be committed safely."
+     },
+     {
+      "t": "mc",
+      "q": "A Terraform module is…",
+      "o": [
+       "A reusable package of Terraform configuration",
+       "A cloud provider",
+       "A state file",
+       "A CLI flag"
+      ],
+      "a": 0,
+      "w": "e.g. one vpc module used by dev, staging and prod."
      }
     ]
    },
@@ -1707,6 +2797,11 @@ const UNITS = [
       "h": "Services",
       "p": "Pods come and go with changing IPs. A <b>Service</b> gives a stable address: <b>ClusterIP</b> (internal only), <b>NodePort</b> (port on each node), <b>LoadBalancer</b> (cloud load balancer).",
       "code": "kubectl apply -f deploy.yaml\nkubectl get pods -o wide\nkubectl get svc\nkubectl scale deploy shipyard --replicas=5"
+     },
+     {
+      "h": "Namespaces, labels & kubectl",
+      "p": "<b>Namespaces</b> separate teams or environments. <b>Labels</b> tag objects and <b>selectors</b> find them — that's how a Service finds its Pods. The <b>kubelet</b> on each node runs containers; <b>etcd</b> stores cluster state.",
+      "code": "kubectl get pods -n staging -l app=shipyard\nkubectl get deploy shipyard -o yaml\nkubectl config get-contexts"
      }
     ],
     "qs": [
@@ -1758,6 +2853,79 @@ const UNITS = [
       ],
       "a": 3,
       "w": "ClusterIP is internal-only (the default)."
+     },
+     {
+      "t": "mc",
+      "q": "How does a Service know which Pods to send traffic to?",
+      "o": [
+       "Pod names",
+       "Label selectors",
+       "An IP list in DNS",
+       "Randomly"
+      ],
+      "a": 1,
+      "w": "selector: app=shipyard matches pods labelled app=shipyard."
+     },
+     {
+      "t": "fill",
+      "q": "List pods in the staging namespace:",
+      "code": "kubectl get pods ___ staging",
+      "o": [
+       "-s",
+       "-l",
+       "-n",
+       "--all"
+      ],
+      "a": 2,
+      "w": "-n / --namespace selects the namespace; -l filters by label."
+     },
+     {
+      "t": "mc",
+      "q": "Which control plane component stores all cluster state?",
+      "o": [
+       "kubelet",
+       "etcd",
+       "kube-proxy",
+       "CoreDNS"
+      ],
+      "a": 1,
+      "w": "etcd is a consistent key-value store — back it up."
+     },
+     {
+      "t": "mc",
+      "q": "Which agent on every node starts the pod's containers?",
+      "o": [
+       "etcd",
+       "The scheduler",
+       "kubelet",
+       "Ingress"
+      ],
+      "a": 2,
+      "w": "The scheduler picks the node; the kubelet runs the pod there."
+     },
+     {
+      "t": "mc",
+      "q": "A NodePort Service…",
+      "o": [
+       "Is internal only",
+       "Always creates a cloud load balancer",
+       "Is a database",
+       "Opens the same port on every node to reach the service"
+      ],
+      "a": 3,
+      "w": "Default range 30000–32767."
+     },
+     {
+      "t": "mc",
+      "q": "Export a resource's live definition as YAML:",
+      "o": [
+       "kubectl get deploy shipyard -o yaml",
+       "kubectl yaml shipyard",
+       "kubectl export shipyard",
+       "kubectl show shipyard"
+      ],
+      "a": 0,
+      "w": "-o yaml / -o json print the full object."
      }
     ]
    },
@@ -1779,6 +2947,11 @@ const UNITS = [
       "p": "Deployments do <b>rolling updates</b> and can be undone. <code>CrashLoopBackOff</code> = the container keeps crashing; read <code>describe</code> and <code>logs</code>. <b>Helm</b> packages apps as charts; <b>Ingress</b> routes HTTP by host/path.",
       "code": "kubectl describe pod <pod>\nkubectl logs <pod> --previous\nkubectl rollout status deploy/shipyard\nkubectl rollout undo deploy/shipyard",
       "tip": "OpenShift adds Routes, built-in registry and stricter security (non-root by default) on top of Kubernetes."
+     },
+     {
+      "h": "Scaling & storage",
+      "p": "A <b>HorizontalPodAutoscaler</b> adds pods when CPU (or other metrics) is high. Containers that exceed their memory limit are <b>OOMKilled</b>. Pods claim disk via a <b>PersistentVolumeClaim</b>; databases usually run as <b>StatefulSets</b> with stable names and storage.",
+      "code": "kubectl autoscale deploy shipyard --cpu-percent=70 --min=2 --max=10\nkubectl get hpa\nkubectl get pvc"
      }
     ],
     "qs": [
@@ -1841,6 +3014,79 @@ const UNITS = [
       ],
       "a": 3,
       "w": "Charts bundle templated manifests for reuse."
+     },
+     {
+      "t": "mc",
+      "q": "A container exceeds its memory limit. It is…",
+      "o": [
+       "Throttled",
+       "OOMKilled (terminated and restarted)",
+       "Given more memory",
+       "Moved to another cluster"
+      ],
+      "a": 1,
+      "w": "CPU over limit is throttled; memory over limit is killed."
+     },
+     {
+      "t": "mc",
+      "q": "Automatically add pods when CPU is high:",
+      "o": [
+       "ConfigMap",
+       "Namespace",
+       "HorizontalPodAutoscaler",
+       "Ingress"
+      ],
+      "a": 2,
+      "w": "HPA adjusts replicas based on metrics."
+     },
+     {
+      "t": "mc",
+      "q": "Pods needing stable identity and storage (like databases) use a…",
+      "o": [
+       "Deployment",
+       "StatefulSet",
+       "Job",
+       "DaemonSet"
+      ],
+      "a": 1,
+      "w": "StatefulSets give ordered, stable pod names and volumes."
+     },
+     {
+      "t": "mc",
+      "q": "A pod requests persistent storage through a…",
+      "o": [
+       "Secret",
+       "Service",
+       "Probe",
+       "PersistentVolumeClaim"
+      ],
+      "a": 3,
+      "w": "The PVC binds to a PersistentVolume."
+     },
+     {
+      "t": "mc",
+      "q": "Resource requests are used by the scheduler to…",
+      "o": [
+       "Choose a node with enough free capacity",
+       "Bill the user",
+       "Set the image tag",
+       "Rotate logs"
+      ],
+      "a": 0,
+      "w": "Requests = reservation; limits = ceiling."
+     },
+     {
+      "t": "fill",
+      "q": "Watch a rollout until it finishes:",
+      "code": "kubectl rollout ___ deploy/shipyard",
+      "o": [
+       "status",
+       "watch",
+       "follow",
+       "wait-all"
+      ],
+      "a": 0,
+      "w": "rollout status blocks until done or failed — great in CI."
      }
     ]
    },
@@ -1883,6 +3129,11 @@ const UNITS = [
      {
       "h": "The four golden signals",
       "p": "Monitor <b>latency</b>, <b>traffic</b>, <b>errors</b> and <b>saturation</b> (how full a resource is). Alert on symptoms users feel, and make every alert <b>actionable</b> — noisy alerts get ignored."
+     },
+     {
+      "h": "Metric types & percentiles",
+      "p": "A <b>counter</b> only goes up (total requests); a <b>gauge</b> goes up and down (memory in use); a <b>histogram</b> buckets values like latency so you can compute percentiles. Watch <b>p95/p99</b> latency — averages hide the slow requests users actually feel. Use <b>structured JSON logs</b> with a request ID.",
+      "code": "# p99 latency over 5 minutes\nhistogram_quantile(0.99,\n  sum(rate(http_request_duration_seconds_bucket[5m])) by (le))"
      }
     ],
     "qs": [
@@ -1933,6 +3184,79 @@ const UNITS = [
       ],
       "a": 1,
       "w": "Actionable and tied to user impact."
+     },
+     {
+      "t": "mc",
+      "q": "Total HTTP requests served is best stored as a…",
+      "o": [
+       "Gauge",
+       "Counter",
+       "Histogram bucket name",
+       "Log line"
+      ],
+      "a": 1,
+      "w": "Counters only increase; rate() turns them into per-second values."
+     },
+     {
+      "t": "mc",
+      "q": "Current memory usage is a…",
+      "o": [
+       "Counter",
+       "Trace",
+       "Label",
+       "Gauge"
+      ],
+      "a": 3,
+      "w": "Gauges go up and down."
+     },
+     {
+      "t": "mc",
+      "q": "Why watch p99 latency instead of the average?",
+      "o": [
+       "p99 is cheaper to store",
+       "Averages aren't allowed",
+       "Averages hide the slow requests real users feel",
+       "p99 counts errors"
+      ],
+      "a": 2,
+      "w": "1% of requests at 5 s is invisible in a 200 ms average."
+     },
+     {
+      "t": "mc",
+      "q": "Structured logs (e.g. JSON with request_id) help because…",
+      "o": [
+       "They're easy to search, filter and correlate",
+       "They're always smaller",
+       "They encrypt data",
+       "They replace metrics"
+      ],
+      "a": 0,
+      "w": "You can follow one request across services."
+     },
+     {
+      "t": "fill",
+      "q": "PromQL: per-second request rate over 5 minutes:",
+      "code": "___(http_requests_total[5m])",
+      "o": [
+       "sum",
+       "avg",
+       "rate",
+       "count"
+      ],
+      "a": 2,
+      "w": "rate() computes the per-second increase of a counter."
+     },
+     {
+      "t": "mc",
+      "q": "Grafana's main job is…",
+      "o": [
+       "Storing containers",
+       "Visualizing metrics and logs in dashboards (and alerting)",
+       "Building images",
+       "Serving DNS"
+      ],
+      "a": 1,
+      "w": "Prometheus stores; Grafana shows."
      }
     ]
    },
@@ -1952,6 +3276,10 @@ const UNITS = [
       "h": "Blameless postmortems",
       "p": "After an incident, write what happened, the timeline, impact, root cause and action items. <b>Blameless</b> means focusing on systems and processes, not punishing people — so people report problems honestly.",
       "tip": "Your DORA metrics (Unit 1) include time to restore — good monitoring and fast rollback improve it directly."
+     },
+     {
+      "h": "On-call & runbooks",
+      "p": "Every alert should link to a <b>runbook</b>: step-by-step actions for that known problem. Big incidents get an <b>incident commander</b> who coordinates while others fix. When the <b>error budget</b> is used up, teams pause risky releases and invest in reliability. Page humans only for urgent, user-impacting problems to avoid <b>alert fatigue</b>."
      }
     ],
     "qs": [
@@ -2014,6 +3342,78 @@ const UNITS = [
       ],
       "a": 3,
       "w": "SLA = agreement; SLO = internal target; SLI = measurement."
+     },
+     {
+      "t": "mc",
+      "q": "A runbook is…",
+      "o": [
+       "A list of employees",
+       "Step-by-step instructions for handling a known alert or task",
+       "A CI log",
+       "A billing report"
+      ],
+      "a": 1,
+      "w": "Runbooks make 3 AM on-call calmer and faster."
+     },
+     {
+      "t": "mc",
+      "q": "The monthly error budget is used up. A common policy is to…",
+      "o": [
+       "Freeze risky releases and focus on reliability work",
+       "Ship features faster",
+       "Delete the SLO",
+       "Ignore it"
+      ],
+      "a": 0,
+      "w": "The budget balances speed and stability."
+     },
+     {
+      "t": "mc",
+      "q": "During a major incident, the incident commander…",
+      "o": [
+       "Writes every fix alone",
+       "Must be the CEO",
+       "Coordinates the response and communication",
+       "Turns off monitoring"
+      ],
+      "a": 2,
+      "w": "Separating coordination from fixing reduces chaos."
+     },
+     {
+      "t": "mc",
+      "q": "A good SLI for an API is…",
+      "o": [
+       "Number of engineers",
+       "Lines of code",
+       "Office uptime",
+       "% of requests served successfully in under 300 ms"
+      ],
+      "a": 3,
+      "w": "SLIs measure what users experience."
+     },
+     {
+      "t": "mc",
+      "q": "MTTR (time to restore) measures…",
+      "o": [
+       "How fast you restore service after a failure",
+       "Average build time",
+       "Time to hire",
+       "Memory usage"
+      ],
+      "a": 0,
+      "w": "One of the four DORA metrics."
+     },
+     {
+      "t": "mc",
+      "q": "Why page a human only for urgent, user-impacting issues?",
+      "o": [
+       "To save electricity",
+       "To avoid alert fatigue, so real alerts get attention",
+       "Tools can't send alerts",
+       "It's required by law"
+      ],
+      "a": 1,
+      "w": "Non-urgent things go to a ticket queue, not a pager."
      }
     ]
    },
@@ -2057,6 +3457,11 @@ const UNITS = [
       "h": "Secrets done right",
       "p": "Use a secrets manager (AWS Secrets Manager, HashiCorp Vault), short-lived credentials (OIDC, IAM roles) and least privilege. If a key leaks: <b>revoke/rotate it immediately</b>, then clean history and investigate usage.",
       "tip": "Your cybersecurity webinars + AWS security training are a real differentiator here — mention them."
+     },
+     {
+      "h": "Supply chain & least privilege",
+      "p": "Your software includes everything you depend on. Pin versions, generate an <b>SBOM</b> (list of components), <b>sign images</b> (cosign), let <b>Dependabot</b> open update PRs, and give the workflow's <code>GITHUB_TOKEN</code> the minimum <code>permissions:</code> it needs.",
+      "code": "permissions:\n  contents: read\n  packages: write"
      }
     ],
     "qs": [
@@ -2108,6 +3513,78 @@ const UNITS = [
       ],
       "a": 0,
       "w": "Trivy severities: UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL."
+     },
+     {
+      "t": "mc",
+      "q": "An SBOM is…",
+      "o": [
+       "A server backup",
+       "A firewall rule",
+       "A list of all components and dependencies in your software",
+       "A billing model"
+      ],
+      "a": 2,
+      "w": "When a new CVE drops, the SBOM tells you if you're affected."
+     },
+     {
+      "t": "mc",
+      "q": "Why set minimal permissions: for GITHUB_TOKEN?",
+      "o": [
+       "To limit the damage if a workflow step is compromised",
+       "Faster builds",
+       "Required for caching",
+       "Cheaper runners"
+      ],
+      "a": 0,
+      "w": "Least privilege applies to CI too."
+     },
+     {
+      "t": "mc",
+      "q": "Dependabot mainly…",
+      "o": [
+       "Deploys apps",
+       "Opens PRs to update vulnerable or outdated dependencies",
+       "Monitors CPU",
+       "Writes Terraform"
+      ],
+      "a": 1,
+      "w": "Pair it with CI so updates are tested automatically."
+     },
+     {
+      "t": "mc",
+      "q": "SAST analyzes…",
+      "o": [
+       "Running apps from outside",
+       "Network traffic",
+       "Invoices",
+       "Source code for security flaws without running it"
+      ],
+      "a": 3,
+      "w": "Running-app testing from outside is DAST."
+     },
+     {
+      "t": "mc",
+      "q": "Which is a secret-scanning tool for Git repos?",
+      "o": [
+       "Grafana",
+       "Helm",
+       "gitleaks",
+       "kubectl"
+      ],
+      "a": 2,
+      "w": "Run it in CI and as a pre-commit hook."
+     },
+     {
+      "t": "mc",
+      "q": "Signing container images (e.g. with cosign) proves…",
+      "o": [
+       "The image came from you and wasn't tampered with",
+       "It has no bugs",
+       "It's small",
+       "It runs faster"
+      ],
+      "a": 0,
+      "w": "Clusters can refuse unsigned images."
      }
     ]
    },
@@ -2127,6 +3604,11 @@ const UNITS = [
       "h": "Interview patterns",
       "p": "Expect: \"Walk me through your pipeline end to end\", \"The site is down — what do you do?\", \"Container vs VM?\", plus STAR behavioral questions. Think out loud and say what you'd check and why.",
       "tip": "For \"site is down\": scope → recent changes → logs/metrics → mitigate (rollback) → root cause → postmortem."
+     },
+     {
+      "h": "Resume bullets that land",
+      "p": "Formula: <b>action verb + tool + measurable result</b>. \"Built a GitHub Actions + Terraform pipeline that deploys shipyard to AWS in 6 minutes with zero manual steps.\" Link the repo, mirror the keywords in each posting, and keep it to one page.",
+      "tip": "Recruiters skim for 10 seconds. Put shipyard at the top of Projects with a link."
      }
     ],
     "qs": [
@@ -2177,6 +3659,78 @@ const UNITS = [
       ],
       "a": 0,
       "w": "Show understanding of flow and decisions."
+     },
+     {
+      "t": "mc",
+      "q": "Best resume bullet?",
+      "o": [
+       "Responsible for DevOps stuff",
+       "Built a GitHub Actions + Terraform pipeline deploying shipyard to AWS in 6 minutes with zero manual steps",
+       "Know Docker, Kubernetes, AWS",
+       "Hard worker and fast learner"
+      ],
+      "a": 1,
+      "w": "Specific action, tools and result."
+     },
+     {
+      "t": "mc",
+      "q": "Interview: \"Container vs VM?\" — the core point:",
+      "o": [
+       "They're the same",
+       "VMs are always faster",
+       "Containers share the host kernel and are lighter; VMs virtualize hardware with a full OS each",
+       "Containers need Windows"
+      ],
+      "a": 2,
+      "w": "Then mention startup time, density and isolation trade-offs."
+     },
+     {
+      "t": "mc",
+      "q": "You don't know an answer in an interview. Best move?",
+      "o": [
+       "Make something up confidently",
+       "Say what you do know and explain how you'd find out",
+       "Stay silent",
+       "Change the subject"
+      ],
+      "a": 1,
+      "w": "Honest reasoning beats confident guessing."
+     },
+     {
+      "t": "mc",
+      "q": "STAR stands for…",
+      "o": [
+       "Start, Test, Assess, Repeat",
+       "Skill, Talent, Attitude, Reward",
+       "Setup, Tools, Automation, Release",
+       "Situation, Task, Action, Result"
+      ],
+      "a": 3,
+      "w": "Use it for every behavioral answer."
+     },
+     {
+      "t": "mc",
+      "q": "Why tailor resume keywords to each posting?",
+      "o": [
+       "Recruiters and screening tools look for the posting's required skills",
+       "It's required by law",
+       "To make it longer",
+       "It hides gaps"
+      ],
+      "a": 0,
+      "w": "Same experience, matched to their words."
+     },
+     {
+      "t": "mc",
+      "q": "What should a portfolio README show first?",
+      "o": [
+       "Your hobbies",
+       "What it does, an architecture diagram, and how to run it",
+       "A long license",
+       "Nothing"
+      ],
+      "a": 1,
+      "w": "Make the reviewer's first 30 seconds count."
      }
     ]
    },
@@ -2343,7 +3897,8 @@ function drawStep(){
       if(L.pool.every((p,k)=>p.i===k)&&L.pool.length>1)L.pool.reverse();
       body+=`<div class="answerrow" id="ans"></div><div class="tiles" id="pool"></div>`;
     } else {
-      body+=`<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`).join('')}</div>`;
+      L.perm=shuffle(q.o.map((_,i)=>i));
+      body+=`<div class="opts">${L.perm.map((oi,i)=>{const o=q.o[oi];return `<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`}).join('')}</div>`;
     }
     foot=`<button class="btn" id="chk" disabled onclick="check()">CHECK</button>`;
   }
@@ -2362,7 +3917,7 @@ function unOrder(k){if(L.answered)return;L.order.splice(k,1);drawOrder()}
 function pick(i){
   if(L.answered)return; L.sel=i;
   document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',+b.dataset.i===i));
-  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[i];
+  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[L.perm[i]];
   document.getElementById('chk').disabled=false;
 }
 document.addEventListener('keydown',e=>{
@@ -2374,8 +3929,8 @@ function check(){
   const st=L.steps[L.i],q=st.q; L.answered=true;
   let ok;
   if(q.t==='order') ok=L.order.every((p,k)=>p.i===k);
-  else{ ok=L.sel===q.a;
-    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===q.a)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
+  else{ ok=L.perm[L.sel]===q.a; const ci=L.perm.indexOf(q.a);
+    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===ci)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
   }
   const f=document.getElementById('lfoot');
   if(ok){ L.right++; if(!st.retry)L.firstTry++;

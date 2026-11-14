@@ -256,298 +256,3567 @@ function bit(mood){
 /*@@CONTENT_START@@*/
 /* ============ CONFIG (topic-specific) ============ */
 const CONFIG = {
-  id:'devquest', appName:'DevQuest', mascot:'Bit', glyph:'</>', profileTitle:'Future IBMer',
-  learner:'a BS Computer Engineering student (Philippines) preparing for an IBM Philippines Consulting OJT as a software engineer. They hold CompTIA Network+, Red Hat Academy Linux and AWS cybersecurity training',
-  reviewerRole:'a senior software engineer at a consulting firm',
-  capstone:'helpdesk-pro',
-  roadTitle:'Your roadmap 🗺️',
-  roadIntro:'Target: <b>IBM Philippines Consulting OJT — Software Engineer</b>, plus skills most tech job postings ask for through 2028. ~20 weeks at 1–2 hours/day. One capstone project, <b>helpdesk-pro</b>, grows through every phase.',
-  phases:[
-   {n:'Phase 1 · Foundations',w:'Weeks 1–5',c:'#58cc02',u:['u1','u2','u3'],chips:['Git','GitHub','Java 21','OOP','Collections','SQL','PostgreSQL'],why:'IBM Consulting intern postings list Java, data and backend/frontend development among the skills interns are trained on. Strong Java + SQL basics make you useful from week one.'},
-   {n:'Phase 2 · Building',w:'Weeks 6–11',c:'#ce82ff',u:['u4','u5','u6'],chips:['HTML/CSS','JavaScript','React','REST','Spring Boot','JUnit','Mockito'],why:'Interns help design applications, write code, test, debug and maintain software. This phase turns you into a full-stack builder who tests their own work.'},
-   {n:'Phase 3 · Shipping',w:'Weeks 12–16',c:'#1899d6',u:['u7','u8'],chips:['Linux','Docker/Podman','CI/CD','Kubernetes','OpenShift','watsonx','RAG'],why:'IBM\'s strategy is hybrid cloud + AI. Red Hat, cloud and DevOps appear on IBM intern skill lists — and your Red Hat Academy + AWS certs give you a head start.'},
-   {n:'Phase 4 · Consultant',w:'Weeks 17–20',c:'#e056a0',u:['u9','u10'],chips:['Scrum','User stories','ServiceNow','SLAs','STAR','Big-O'],why:'Consulting intern work includes ticket handling, requirements gathering with clients and unit testing. Soft skills separate consultants from coders.'}
+ "id": "devquest",
+ "appName": "DevQuest",
+ "mascot": "Bit",
+ "glyph": "</>",
+ "profileTitle": "Future IBMer",
+ "learner": "a BS Computer Engineering student (Philippines) preparing for an IBM Philippines Consulting OJT as a software engineer. They hold CompTIA Network+, Red Hat Academy Linux and AWS cybersecurity training",
+ "reviewerRole": "a senior software engineer at a consulting firm",
+ "capstone": "helpdesk-pro",
+ "roadTitle": "Your roadmap 🗺️",
+ "roadIntro": "Target: <b>IBM Philippines Consulting OJT — Software Engineer</b>, plus skills most tech job postings ask for through 2028. ~20 weeks at 1–2 hours/day. One capstone project, <b>helpdesk-pro</b>, grows through every phase.",
+ "phases": [
+  {
+   "n": "Phase 1 · Foundations",
+   "w": "Weeks 1–5",
+   "c": "#58cc02",
+   "u": [
+    "u1",
+    "u2",
+    "u3"
+   ],
+   "chips": [
+    "Git",
+    "GitHub",
+    "Java 21",
+    "OOP",
+    "Collections",
+    "SQL",
+    "PostgreSQL"
+   ],
+   "why": "IBM Consulting intern postings list Java, data and backend/frontend development among the skills interns are trained on. Strong Java + SQL basics make you useful from week one."
+  },
+  {
+   "n": "Phase 2 · Building",
+   "w": "Weeks 6–11",
+   "c": "#ce82ff",
+   "u": [
+    "u4",
+    "u5",
+    "u6"
+   ],
+   "chips": [
+    "HTML/CSS",
+    "JavaScript",
+    "React",
+    "REST",
+    "Spring Boot",
+    "JUnit",
+    "Mockito"
+   ],
+   "why": "Interns help design applications, write code, test, debug and maintain software. This phase turns you into a full-stack builder who tests their own work."
+  },
+  {
+   "n": "Phase 3 · Shipping",
+   "w": "Weeks 12–16",
+   "c": "#1899d6",
+   "u": [
+    "u7",
+    "u8"
+   ],
+   "chips": [
+    "Linux",
+    "Docker/Podman",
+    "CI/CD",
+    "Kubernetes",
+    "OpenShift",
+    "watsonx",
+    "RAG"
+   ],
+   "why": "IBM's strategy is hybrid cloud + AI. Red Hat, cloud and DevOps appear on IBM intern skill lists — and your Red Hat Academy + AWS certs give you a head start."
+  },
+  {
+   "n": "Phase 4 · Consultant",
+   "w": "Weeks 17–20",
+   "c": "#e056a0",
+   "u": [
+    "u9",
+    "u10"
+   ],
+   "chips": [
+    "Scrum",
+    "User stories",
+    "ServiceNow",
+    "SLAs",
+    "STAR",
+    "Big-O"
+   ],
+   "why": "Consulting intern work includes ticket handling, requirements gathering with clients and unit testing. Soft skills separate consultants from coders."
+  }
+ ],
+ "rhythm": "📘 <b>Mon–Thu:</b> 1–2 lessons/day (learn + quiz)<br>🛠 <b>Fri–Sat:</b> build mission, push to GitHub<br>🤖 <b>Sun:</b> mentor review + 1 mock interview question<br>🔥 Keep the streak — 15 minutes beats zero.",
+ "resources": [
+  [
+   "IBM SkillsBuild",
+   "https://skillsbuild.org",
+   "Free IBM courses + digital badges recruiters recognize"
   ],
-  rhythm:'📘 <b>Mon–Thu:</b> 1–2 lessons/day (learn + quiz)<br>🛠 <b>Fri–Sat:</b> build mission, push to GitHub<br>🤖 <b>Sun:</b> mentor review + 1 mock interview question<br>🔥 Keep the streak — 15 minutes beats zero.',
-  resources:[
-   ['IBM SkillsBuild','https://skillsbuild.org','Free IBM courses + digital badges recruiters recognize'],
-   ['IBM Careers','https://www.ibm.com/careers','Search "Philippines intern" for open OJT roles'],
-   ['dev.java','https://dev.java/learn/','Official Java learning path'],
-   ['Spring Guides','https://spring.io/guides','Short official Spring Boot tutorials'],
-   ['Red Hat Developer Sandbox','https://developers.redhat.com/developer-sandbox','Free OpenShift cluster to deploy your project'],
-   ['SQLBolt','https://sqlbolt.com','Interactive SQL practice'],
-   ['NeetCode Roadmap','https://neetcode.io/roadmap','Interview problem patterns']
+  [
+   "IBM Careers",
+   "https://www.ibm.com/careers",
+   "Search \"Philippines intern\" for open OJT roles"
   ],
-  /* {unit} and {lesson} are replaced with the learner's current unit/lesson */
-  quick:[
-   ['🧠 Quiz me','Quiz me with 3 short questions on {unit}, one at a time. Wait for my answer before the next.'],
-   ['👶 Explain simply','Explain the key ideas of "{lesson}" simply with one real-world analogy and one short example.'],
-   ['🎤 Mock interview','Run a mock IBM Consulting intern interview. Ask me one question at a time (mix behavioral and technical), then give feedback on each answer.'],
-   ['🐞 Debug drill','Give me a short buggy code snippet related to {unit} and let me find the bug.'],
-   ['📄 Resume bullet','Help me write a strong resume bullet for my helpdesk-pro project so far.']
+  [
+   "dev.java",
+   "https://dev.java/learn/",
+   "Official Java learning path"
   ],
-  /* badge rule: {lessons:n} | {streak:n} | {perfect:n} | {builds:n} | {unit:'uX'} | {lesson:'id'} | {all:true} */
-  badges:[
-   ['🚀','First lesson',{lessons:1}],['🔥','3-day streak',{streak:3}],['💯','Perfect lesson',{perfect:1}],
-   ['🛠','First build',{builds:1}],['☕','Java unit done',{unit:'u2'}],['🔌','API builder',{lesson:'u5b'}],
-   ['🐳','Shipped to cloud',{lesson:'u7b'}],['🤖','AI engineer',{lesson:'u8b'}],['🏆','IBM-ready',{all:true}]
+  [
+   "Spring Guides",
+   "https://spring.io/guides",
+   "Short official Spring Boot tutorials"
+  ],
+  [
+   "Red Hat Developer Sandbox",
+   "https://developers.redhat.com/developer-sandbox",
+   "Free OpenShift cluster to deploy your project"
+  ],
+  [
+   "SQLBolt",
+   "https://sqlbolt.com",
+   "Interactive SQL practice"
+  ],
+  [
+   "NeetCode Roadmap",
+   "https://neetcode.io/roadmap",
+   "Interview problem patterns"
   ]
+ ],
+ "quick": [
+  [
+   "🧠 Quiz me",
+   "Quiz me with 3 short questions on {unit}, one at a time. Wait for my answer before the next."
+  ],
+  [
+   "👶 Explain simply",
+   "Explain the key ideas of \"{lesson}\" simply with one real-world analogy and one short example."
+  ],
+  [
+   "🎤 Mock interview",
+   "Run a mock IBM Consulting intern interview. Ask me one question at a time (mix behavioral and technical), then give feedback on each answer."
+  ],
+  [
+   "🐞 Debug drill",
+   "Give me a short buggy code snippet related to {unit} and let me find the bug."
+  ],
+  [
+   "📄 Resume bullet",
+   "Help me write a strong resume bullet for my helpdesk-pro project so far."
+  ]
+ ],
+ "badges": [
+  [
+   "🚀",
+   "First lesson",
+   {
+    "lessons": 1
+   }
+  ],
+  [
+   "🔥",
+   "3-day streak",
+   {
+    "streak": 3
+   }
+  ],
+  [
+   "💯",
+   "Perfect lesson",
+   {
+    "perfect": 1
+   }
+  ],
+  [
+   "🛠",
+   "First build",
+   {
+    "builds": 1
+   }
+  ],
+  [
+   "☕",
+   "Java unit done",
+   {
+    "unit": "u2"
+   }
+  ],
+  [
+   "🔌",
+   "API builder",
+   {
+    "lesson": "u5b"
+   }
+  ],
+  [
+   "🐳",
+   "Shipped to cloud",
+   {
+    "lesson": "u7b"
+   }
+  ],
+  [
+   "🤖",
+   "AI engineer",
+   {
+    "lesson": "u8b"
+   }
+  ],
+  [
+   "🏆",
+   "IBM-ready",
+   {
+    "all": true
+   }
+  ]
+ ]
 };
 
 /* ============ CURRICULUM ============ */
 const UNITS = [
-{id:'u1',phase:'Phase 1 · Foundations',title:'Git & the Terminal',color:'#58cc02',goal:'Every IBM project lives in Git. Learn to save, branch and collaborate on code.',
-lessons:[
- {id:'u1l1',title:'Why version control',cards:[
-  {h:'Git = save points for code',p:'<b>Git</b> tracks every change to your files as a <b>commit</b> — a snapshot with a message. If something breaks, you can go back. <b>GitHub</b> (or IBM\'s GitHub Enterprise) hosts the repo so a team can share it.'},
-  {h:'The 3 areas',p:'<b>Working directory</b> (your edits) → <b>staging area</b> (<code>git add</code>) → <b>repository</b> (<code>git commit</code>). Staging lets you choose exactly what goes in a commit.',code:'git init\ngit add README.md\ngit commit -m "Add README"\ngit status   # what changed?\ngit log --oneline'},
-  {h:'Remote repos',p:'<code>git push</code> sends your commits to the remote. <code>git pull</code> fetches teammates\' commits and merges them. <code>git clone &lt;url&gt;</code> copies a remote repo to your laptop.',tip:'Mentor tip: write commit messages in imperative mood — "Fix login bug", not "fixed stuff". Reviewers notice.'}],
- qs:[
-  {t:'mc',q:'Which command moves a change into the staging area?',o:['git commit','git add','git push','git stage-all'],a:1,w:'git add stages changes; git commit then records the staged snapshot.'},
-  {t:'mc',q:'What does a commit represent?',o:['A backup of your whole PC','A snapshot of staged changes with a message','A copy of the remote server','A branch'],a:1,w:'A commit is a snapshot of the staged files plus metadata (author, message, parent).'},
-  {t:'order',q:'Put the steps to share a new file with your team in order.',items:['git add file.txt','git commit -m "Add file"','git push'],w:'Stage → commit → push.'},
-  {t:'fill',q:'Fill in the blank to copy a GitHub repo to your machine.',code:'git ___ https://github.com/ibm/sample.git',o:['pull','clone','init','fetch'],a:1,w:'clone creates a local copy of a remote repository.'},
-  {t:'mc',q:'Best commit message?',o:['"stuff"','"Fixed it lol"','"Add input validation to signup form"','"update"'],a:2,w:'Short, specific, imperative. It tells reviewers exactly what changed.'}]},
- {id:'u1l2',title:'Branches & Pull Requests',cards:[
-  {h:'Branches keep main safe',p:'A <b>branch</b> is a parallel line of work. You build a feature on <code>feature/login</code> without touching <code>main</code>, which should always be deployable.',code:'git switch -c feature/login\n# ...edit, add, commit...\ngit push -u origin feature/login'},
-  {h:'Pull Request (PR)',p:'A <b>PR</b> asks the team to review and merge your branch into main. At IBM-style client projects, PRs need approvals and passing automated tests (CI) before merge.'},
-  {h:'Merge conflicts',p:'If two people change the same lines, Git can\'t decide — that\'s a <b>conflict</b>. Git marks it with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. You edit the file to the correct version, then add and commit.',tip:'Pull from main often. Small PRs = fewer conflicts and faster reviews.'}],
- qs:[
-  {t:'mc',q:'Why work on a feature branch instead of main?',o:['It\'s faster to type','It keeps main stable while work is in progress','Git requires it','Branches use less storage'],a:1,w:'main should always be releasable; branches isolate unfinished work.'},
-  {t:'fill',q:'Create AND switch to a new branch:',code:'git ___ -c feature/cart',o:['branch','checkout','switch','merge'],a:2,w:'git switch -c creates and switches (git checkout -b does the same, older syntax).'},
-  {t:'mc',q:'A merge conflict happens when…',o:['The internet disconnects','Two branches changed the same lines differently','You forget a commit message','A branch has no commits'],a:1,w:'Git can\'t auto-choose between two different edits to the same lines.'},
-  {t:'mc',q:'What usually must pass before a PR is merged on a professional team?',o:['Nothing','Code review approval + automated tests (CI)','Manager\'s signature on paper','A meeting'],a:1,w:'Review + CI checks are the standard quality gate.'}]},
- {id:'u1b',title:'BUILD: Your first repo',build:true,mission:'Create a public GitHub repo called <b>helpdesk-pro</b> — this is your capstone project for the whole path: a ticket management system, the kind of tool IBM consultants support for clients every day.',
-  steps:['Install Git and create a GitHub account (use a professional username)','Create repo helpdesk-pro with a README.md describing the project goal','Make at least 3 small commits with good messages','Create a branch docs/setup, add a SETUP.md, open a PR and merge it yourself'],
-  submit:'Paste your README text and the output of `git log --oneline` below for review.'}
-]},
-{id:'u2',phase:'Phase 1 · Foundations',title:'Java Core',color:'#1cb0f6',goal:'Java is IBM Consulting\'s workhorse language for enterprise apps. Master the basics + OOP.',
-lessons:[
- {id:'u2l1',title:'Types, variables & flow',cards:[
-  {h:'Strongly typed',p:'In Java every variable has a type declared up front. Primitives: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>. Objects: <code>String</code>, arrays, your classes.',code:'int age = 21;\ndouble gpa = 1.75;\nboolean enrolled = true;\nString name = "Geo";'},
-  {h:'Control flow',p:'<code>if/else</code> for decisions, <code>for</code>/<code>while</code> for loops. Every Java program starts at <code>public static void main(String[] args)</code>.',code:'for (int i = 1; i <= 3; i++) {\n  if (i % 2 == 0) System.out.println(i + " even");\n  else System.out.println(i + " odd");\n}'},
-  {h:'== vs .equals()',p:'For objects like String, <code>==</code> compares <b>references</b> (same object in memory), <code>.equals()</code> compares <b>content</b>. This is a classic interview trap.',tip:'Always compare Strings with .equals(). Use "admin".equals(role) to avoid NullPointerException.'}],
- qs:[
-  {t:'mc',q:'Which type stores true/false?',o:['int','boolean','String','char'],a:1,w:'boolean holds true or false.'},
-  {t:'mc',q:'How should you compare two Strings for equal text?',o:['a == b','a.equals(b)','a = b','compare(a,b)'],a:1,w:'.equals() compares content; == compares references.'},
-  {t:'fill',q:'Complete the entry point of a Java program:',code:'public static void ___(String[] args) { }',o:['start','run','main','init'],a:2,w:'The JVM looks for public static void main(String[] args).'},
-  {t:'mc',q:'What does this print?',code:'int x = 7;\nSystem.out.println(x % 3);',o:['2','1','0','2.33'],a:1,w:'% is remainder: 7 = 2×3 + 1.'},
-  {t:'mc',q:'Which loop runs exactly 5 times?',o:['for(int i=0;i<=5;i++)','for(int i=1;i<5;i++)','for(int i=0;i<5;i++)','for(int i=5;i<0;i++)'],a:2,w:'i = 0,1,2,3,4 → five iterations.'}]},
- {id:'u2l2',title:'Object-Oriented Programming',cards:[
-  {h:'Class vs object',p:'A <b>class</b> is a blueprint; an <b>object</b> is an instance built from it with <code>new</code>.',code:'class Ticket {\n  private String title;\n  private String status = "OPEN";\n  Ticket(String title) { this.title = title; }\n  void close() { status = "CLOSED"; }\n  String getStatus() { return status; }\n}\nTicket t = new Ticket("VPN down");'},
-  {h:'The 4 pillars',p:'<b>Encapsulation</b> — hide data behind methods (private fields + getters). <b>Inheritance</b> — <code>class Incident extends Ticket</code>. <b>Polymorphism</b> — same method call, different behavior per subclass. <b>Abstraction</b> — expose what, hide how (interfaces, abstract classes).'},
-  {h:'Interfaces',p:'An <b>interface</b> is a contract: methods a class promises to implement. Spring Boot (Unit 5) is built on interfaces + dependency injection.',code:'interface Notifier { void send(String msg); }\nclass EmailNotifier implements Notifier {\n  public void send(String msg) { /* ... */ }\n}',tip:'Interviewers LOVE "explain the 4 pillars with an example." Use the Ticket example — it\'s relevant to consulting.'}],
- qs:[
-  {t:'mc',q:'Making fields private and exposing getters is…',o:['Inheritance','Encapsulation','Polymorphism','Recursion'],a:1,w:'Encapsulation protects internal state.'},
-  {t:'fill',q:'Make Incident a subclass of Ticket:',code:'class Incident ___ Ticket { }',o:['implements','extends','inherits','super'],a:1,w:'Classes extend classes; classes implement interfaces.'},
-  {t:'mc',q:'Which keyword creates an object?',o:['class','new','this','static'],a:1,w:'new allocates and calls the constructor.'},
-  {t:'mc',q:'A Notifier variable holds an EmailNotifier or SmsNotifier, and notifier.send() behaves differently for each. This is…',o:['Encapsulation','Polymorphism','Abstraction only','Overloading'],a:1,w:'Polymorphism: one interface, many implementations.'},
-  {t:'order',q:'Order from most abstract to most concrete:',items:['interface Notifier','class EmailNotifier implements Notifier','new EmailNotifier()'],w:'Contract → implementation → instance.'}]},
- {id:'u2l3',title:'Collections & Streams',cards:[
-  {h:'The big three',p:'<b>List</b> (ordered, duplicates OK — <code>ArrayList</code>), <b>Set</b> (unique — <code>HashSet</code>), <b>Map</b> (key→value — <code>HashMap</code>). HashMap lookups are O(1) on average.',code:'List<String> names = new ArrayList<>();\nnames.add("Ana");\nMap<String,Integer> stock = new HashMap<>();\nstock.put("soap", 12);\nint s = stock.get("soap");'},
-  {h:'Streams',p:'Streams process collections declaratively: <code>filter</code>, <code>map</code>, <code>collect</code>. Modern enterprise Java uses them everywhere.',code:'List<Ticket> open = tickets.stream()\n  .filter(t -> t.getStatus().equals("OPEN"))\n  .toList();'},
-  {h:'Exceptions',p:'Errors are thrown as exceptions. Handle what you can with <code>try/catch</code>; let the rest bubble up. Never swallow exceptions silently.',code:'try {\n  int n = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n  System.out.println("Not a number");\n}'}],
- qs:[
-  {t:'mc',q:'You need unique employee IDs with no duplicates. Best collection?',o:['ArrayList','HashSet','LinkedList','Array'],a:1,w:'Sets reject duplicates.'},
-  {t:'mc',q:'Store product name → price lookups:',o:['List','Set','Map','Queue'],a:2,w:'Map stores key→value pairs.'},
-  {t:'fill',q:'Keep only tickets with priority above 3:',code:'tickets.stream().___(t -> t.getPriority() > 3).toList();',o:['map','filter','reduce','sort'],a:1,w:'filter keeps elements matching the predicate.'},
-  {t:'mc',q:'Average time for HashMap.get()?',o:['O(1)','O(n)','O(log n)','O(n²)'],a:0,w:'Hashing gives constant-time average lookups.'}]},
- {id:'u2b',title:'BUILD: Ticket CLI',build:true,mission:'Build a Java command-line app for <b>helpdesk-pro</b> that manages tickets in memory.',
-  steps:['Create a Ticket class (id, title, priority 1–5, status) with private fields + getters','Store tickets in an ArrayList; give each an auto-increment id','Menu: 1) Add 2) List 3) Close by id 4) Show high priority (stream filter) 5) Exit','Handle bad input with try/catch (no crashes)','Commit to your repo on a feature branch and merge via PR'],
-  submit:'Paste your Ticket class and main menu code for review.'}
-]},
-{id:'u3',phase:'Phase 1 · Foundations',title:'SQL & Databases',color:'#ff9600',goal:'Every client system stores data. Query it, join it, design it.',
-lessons:[
- {id:'u3l1',title:'SELECT like a pro',cards:[
-  {h:'Tables, rows, columns',p:'A relational database stores data in <b>tables</b>. Each row is a record; each column a field. A <b>primary key</b> uniquely identifies each row.'},
-  {h:'Core query',p:'Read order of clauses: <code>SELECT</code> columns <code>FROM</code> table <code>WHERE</code> filter <code>ORDER BY</code> sort <code>LIMIT</code> count.',code:"SELECT id, title, priority\nFROM tickets\nWHERE status = 'OPEN'\nORDER BY priority DESC\nLIMIT 10;"},
-  {h:'Write data',p:'<code>INSERT</code> adds, <code>UPDATE</code> changes, <code>DELETE</code> removes.',code:"UPDATE tickets SET status = 'CLOSED' WHERE id = 42;",tip:'NEVER run UPDATE or DELETE without WHERE on a client database. It hits every row.'}],
- qs:[
-  {t:'mc',q:'Which clause filters rows?',o:['ORDER BY','WHERE','SELECT','FROM'],a:1,w:'WHERE filters rows before they are returned.'},
-  {t:'order',q:'Arrange into a valid query:',items:['SELECT title','FROM tickets',"WHERE status = 'OPEN'",'ORDER BY priority DESC'],w:'SELECT → FROM → WHERE → ORDER BY.'},
-  {t:'mc',q:'What is dangerous here?',code:"DELETE FROM tickets;",o:['Nothing','It deletes every row','Syntax error','It drops the table structure'],a:1,w:'No WHERE = all rows deleted.'},
-  {t:'fill',q:'Sort newest first:',code:'SELECT * FROM tickets ORDER BY created_at ___;',o:['ASC','DESC','UP','NEW'],a:1,w:'DESC = descending (largest/newest first).'}]},
- {id:'u3l2',title:'JOINs & GROUP BY',cards:[
-  {h:'Relationships',p:'A <b>foreign key</b> links tables. <code>tickets.assignee_id</code> → <code>users.id</code>. This avoids duplicating user info in every ticket (normalization).'},
-  {h:'INNER vs LEFT JOIN',p:'<b>INNER JOIN</b> returns only matching rows in both tables. <b>LEFT JOIN</b> returns all rows from the left table, with NULLs where no match.',code:'SELECT t.title, u.name\nFROM tickets t\nLEFT JOIN users u ON t.assignee_id = u.id;'},
-  {h:'Aggregates',p:'<code>COUNT</code>, <code>SUM</code>, <code>AVG</code> with <code>GROUP BY</code>. Filter groups with <code>HAVING</code> (WHERE filters rows, HAVING filters groups).',code:'SELECT assignee_id, COUNT(*) AS open_count\nFROM tickets\nWHERE status = \'OPEN\'\nGROUP BY assignee_id\nHAVING COUNT(*) > 5;'}],
- qs:[
-  {t:'mc',q:'Show ALL tickets, including unassigned ones, with the assignee name:',o:['INNER JOIN users','LEFT JOIN users','CROSS JOIN users','No join needed'],a:1,w:'LEFT JOIN keeps unmatched left rows (unassigned tickets).'},
-  {t:'mc',q:'Filter groups after aggregation with…',o:['WHERE','HAVING','ORDER BY','LIMIT'],a:1,w:'HAVING filters aggregated groups.'},
-  {t:'fill',q:'Count tickets per status:',code:'SELECT status, COUNT(*) FROM tickets ___ status;',o:['ORDER BY','GROUP BY','JOIN','WHERE'],a:1,w:'GROUP BY buckets rows by status.'},
-  {t:'mc',q:'A column that references another table\'s primary key is a…',o:['Index','Foreign key','View','Trigger'],a:1,w:'Foreign keys enforce relationships between tables.'}]},
- {id:'u3b',title:'BUILD: Design the schema',build:true,mission:'Design the database for <b>helpdesk-pro</b> and run it in PostgreSQL (or the free online DB-Fiddle).',
-  steps:['Tables: users, tickets, comments — with primary and foreign keys','Insert at least 5 users and 15 tickets of varied status/priority','Write queries: open tickets by priority, tickets per assignee, unassigned tickets (LEFT JOIN … IS NULL)','Save schema.sql + queries.sql to your repo'],
-  submit:'Paste your CREATE TABLE statements and your 3 queries.'}
-]},
-{id:'u4',phase:'Phase 2 · Building',title:'Web Frontend',color:'#ce82ff',goal:'Clients see the UI first. Build responsive pages and React components.',
-lessons:[
- {id:'u4l1',title:'HTML, CSS & the DOM',cards:[
-  {h:'Three layers',p:'<b>HTML</b> = structure, <b>CSS</b> = style, <b>JavaScript</b> = behavior. Use semantic tags (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;button&gt;</code>) — better accessibility, which enterprise clients require.'},
-  {h:'Flexbox layout',p:'<code>display:flex</code> lines children up in a row or column; <code>justify-content</code> spaces along the main axis, <code>align-items</code> along the cross axis.',code:'.toolbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}'},
-  {h:'DOM + events',p:'JavaScript finds elements and reacts to events.',code:'const btn = document.querySelector("#save");\nbtn.addEventListener("click", () => {\n  console.log("Saved!");\n});',tip:'Use const by default, let when reassigning, never var.'}],
- qs:[
-  {t:'mc',q:'Which layer controls layout and colors?',o:['HTML','CSS','JavaScript','JSON'],a:1,w:'CSS handles presentation.'},
-  {t:'fill',q:'Run code when a button is clicked:',code:'btn.___("click", handleClick);',o:['onClick','addEventListener','listen','bind'],a:1,w:'addEventListener attaches an event handler.'},
-  {t:'mc',q:'Center items vertically in a flex row:',o:['justify-content:center','align-items:center','text-align:center','float:center'],a:1,w:'In a row, the cross axis is vertical → align-items.'},
-  {t:'mc',q:'Which declaration should you prefer for a value that never gets reassigned?',o:['var','let','const','static'],a:2,w:'const prevents reassignment and signals intent.'}]},
- {id:'u4l2',title:'React fundamentals',cards:[
-  {h:'Components',p:'React UIs are built from <b>components</b> — functions that return JSX (HTML-like syntax). <b>Props</b> pass data in; <b>state</b> holds data that changes.',code:'function TicketCard({ title, priority }) {\n  return <div className="card">{title} — P{priority}</div>;\n}'},
-  {h:'useState',p:'Calling the setter re-renders the component with the new value.',code:'const [count, setCount] = useState(0);\n<button onClick={() => setCount(count + 1)}>{count}</button>'},
-  {h:'Fetching data',p:'<code>useEffect</code> runs side effects like API calls after render.',code:'useEffect(() => {\n  fetch("/api/tickets")\n    .then(r => r.json())\n    .then(setTickets);\n}, []);',tip:'The [] means "run once on mount." Forgetting it can cause infinite fetch loops.'}],
- qs:[
-  {t:'mc',q:'Data passed from parent to child component is called…',o:['state','props','hooks','context'],a:1,w:'Props flow down from parent to child.'},
-  {t:'fill',q:'Declare state for a list of tickets:',code:'const [tickets, setTickets] = ___([]);',o:['useEffect','useState','useRef','useMemo'],a:1,w:'useState returns [value, setter].'},
-  {t:'mc',q:'What does the empty array in useEffect(fn, []) mean?',o:['Never run','Run once after first render','Run on every render','Run on unmount only'],a:1,w:'No dependencies → runs once after mount.'},
-  {t:'mc',q:'Why must you call setTickets instead of tickets.push()?',o:['push is slower','React only re-renders when state is set via its setter','push is not valid JS','It saves memory'],a:1,w:'Mutating directly doesn\'t trigger a re-render.'}]},
- {id:'u4b',title:'BUILD: Ticket dashboard',build:true,mission:'Build the <b>helpdesk-pro</b> web dashboard with React (Vite: <code>npm create vite@latest</code>).',
-  steps:['TicketCard and TicketList components using props','A form to add tickets (title + priority) using useState','Filter buttons: All / Open / Closed','Responsive layout with flexbox — test on your phone','Deploy free on Vercel or Netlify and put the link in your README'],
-  submit:'Paste your main component code (and live link if deployed).'}
-]},
-{id:'u5',phase:'Phase 2 · Building',title:'Backend & REST APIs',color:'#ff4b4b',goal:'Spring Boot REST APIs are core to IBM Java consulting work.',
-lessons:[
- {id:'u5l1',title:'HTTP & REST',cards:[
-  {h:'Request/response',p:'Clients send HTTP <b>requests</b> (method + URL + headers + body); servers return <b>responses</b> with a status code and usually JSON.'},
-  {h:'REST verbs',p:'<code>GET</code> read · <code>POST</code> create · <code>PUT</code> replace · <code>PATCH</code> partial update · <code>DELETE</code> remove. Resources are nouns: <code>/api/tickets/42</code>, not <code>/getTicket?id=42</code>.'},
-  {h:'Status codes',p:'<b>200</b> OK · <b>201</b> Created · <b>400</b> Bad Request · <b>401</b> Unauthenticated · <b>403</b> Forbidden · <b>404</b> Not Found · <b>500</b> Server Error.',tip:'2xx = success, 4xx = client\'s fault, 5xx = server\'s fault.'}],
- qs:[
-  {t:'mc',q:'Create a new ticket via REST:',o:['GET /api/tickets','POST /api/tickets','DELETE /api/tickets','GET /api/createTicket'],a:1,w:'POST to the collection creates a resource.'},
-  {t:'mc',q:'Successful creation should return…',o:['200','201','204','302'],a:1,w:'201 Created.'},
-  {t:'mc',q:'User is logged in but lacks permission:',o:['401','403','404','500'],a:1,w:'403 Forbidden: authenticated but not allowed.'},
-  {t:'mc',q:'Which URL is most RESTful?',o:['/api/getAllTickets','/api/tickets','/api/ticket_list.php','/api/doTickets'],a:1,w:'Plural nouns; the HTTP method gives the action.'}]},
- {id:'u5l2',title:'Spring Boot essentials',cards:[
-  {h:'Layered architecture',p:'<b>Controller</b> (HTTP endpoints) → <b>Service</b> (business logic) → <b>Repository</b> (database). Each layer has one job.'},
-  {h:'Annotations do the wiring',p:'Spring creates and injects objects for you (<b>dependency injection</b>).',code:'@RestController\n@RequestMapping("/api/tickets")\nclass TicketController {\n  private final TicketService service;\n  TicketController(TicketService s) { this.service = s; }\n\n  @GetMapping\n  List<Ticket> all() { return service.findAll(); }\n\n  @PostMapping\n  @ResponseStatus(HttpStatus.CREATED)\n  Ticket create(@RequestBody Ticket t) { return service.save(t); }\n}'},
-  {h:'Spring Data JPA',p:'Extend an interface and get CRUD for free.',code:'interface TicketRepository\n    extends JpaRepository<Ticket, Long> {\n  List<Ticket> findByStatus(String status);\n}',tip:'Constructor injection (shown above) is the recommended style — easier to test.'}],
- qs:[
-  {t:'mc',q:'Where does business logic belong?',o:['Controller','Service','Repository','Entity'],a:1,w:'Controllers stay thin; services hold logic.'},
-  {t:'fill',q:'Map an HTTP GET to this method:',code:'@___\nList<Ticket> all() { ... }',o:['GetMapping','PostMapping','Get','RequestBody'],a:0,w:'@GetMapping handles GET requests.'},
-  {t:'mc',q:'@RequestBody does what?',o:['Sends JSON to client','Converts the JSON request body into a Java object','Validates the URL','Logs the request'],a:1,w:'It deserializes the request JSON into the parameter.'},
-  {t:'mc',q:'Spring creating TicketService and passing it into the controller is called…',o:['Inheritance','Dependency injection','Reflection','Serialization'],a:1,w:'DI: the framework supplies dependencies.'}]},
- {id:'u5b',title:'BUILD: Ticket REST API',build:true,mission:'Build the <b>helpdesk-pro</b> backend with Spring Boot (start.spring.io: Web, JPA, PostgreSQL or H2).',
-  steps:['Ticket entity + TicketRepository','TicketService with create/list/close logic','Endpoints: GET /api/tickets, GET /api/tickets/{id}, POST, PATCH /{id}/close','Return 404 for missing tickets and 400 for invalid input','Connect your React dashboard to the API'],
-  submit:'Paste your controller and service code.'}
-]},
-{id:'u6',phase:'Phase 2 · Building',title:'Testing & Clean Code',color:'#2ec4b6',goal:'IBM consulting interns do unit testing and QA. Professionals prove code works.',
-lessons:[
- {id:'u6l1',title:'Unit testing with JUnit',cards:[
-  {h:'The test pyramid',p:'Many fast <b>unit tests</b> (one class), fewer <b>integration tests</b> (components together), few <b>end-to-end tests</b> (full user flows).'},
-  {h:'Arrange · Act · Assert',p:'Every test: set up data, run the code, check the result.',code:'@Test\nvoid closeSetsStatusClosed() {\n  Ticket t = new Ticket("VPN down");   // Arrange\n  t.close();                           // Act\n  assertEquals("CLOSED", t.getStatus()); // Assert\n}'},
-  {h:'Mocks',p:'Use <b>Mockito</b> to fake dependencies (like the repository) so a unit test doesn\'t need a real database.',code:'when(repo.findById(1L)).thenReturn(Optional.of(ticket));',tip:'Test edge cases: empty input, null, max values, wrong id.'}],
- qs:[
-  {t:'order',q:'Order the parts of a good unit test:',items:['Arrange','Act','Assert'],w:'AAA pattern.'},
-  {t:'mc',q:'Which tests should you have the MOST of?',o:['End-to-end','Unit','Manual','Load'],a:1,w:'Unit tests are fast, cheap and pinpoint failures.'},
-  {t:'mc',q:'Why mock the repository in a service test?',o:['To make tests slower','To isolate the service from the database','Mocks are required by Java','To test the database'],a:1,w:'Mocks isolate the unit under test.'},
-  {t:'fill',q:'Check two values are equal:',code:'___(5, cart.itemCount());',o:['assertTrue','assertEquals','expect','check'],a:1,w:'assertEquals(expected, actual).'}]},
- {id:'u6l2',title:'Clean code & debugging',cards:[
-  {h:'Readable > clever',p:'Clear names (<code>overdueTickets</code>, not <code>list2</code>), small functions that do one thing, no magic numbers (<code>MAX_PRIORITY = 5</code>).'},
-  {h:'SOLID in one line each',p:'<b>S</b>ingle responsibility · <b>O</b>pen for extension, closed for modification · <b>L</b>iskov substitution · <b>I</b>nterface segregation · <b>D</b>ependency inversion (depend on interfaces).'},
-  {h:'Debug like an engineer',p:'1) Reproduce reliably 2) Read the full stack trace — the top "Caused by" line in YOUR code is the clue 3) Form a hypothesis 4) Use breakpoints, not random prints 5) Fix + add a test so it never returns.'}],
- qs:[
-  {t:'mc',q:'Best variable name for tickets past their deadline?',o:['t2','data','overdueTickets','x'],a:2,w:'Names should reveal intent.'},
-  {t:'mc',q:'"A class should have one reason to change" is…',o:['Open/Closed','Single Responsibility','Liskov','DRY'],a:1,w:'S in SOLID.'},
-  {t:'order',q:'Order a professional debugging process:',items:['Reproduce the bug','Read the stack trace','Form a hypothesis','Fix it','Add a regression test'],w:'Reproduce → read → hypothesize → fix → test.'},
-  {t:'mc',q:'Replace `if (priority > 5)` with…',o:['A comment','if (priority > MAX_PRIORITY)','if (priority > 4+1)','Nothing'],a:1,w:'Named constants remove magic numbers.'}]},
- {id:'u6b',title:'BUILD: Test your API',build:true,mission:'Bring <b>helpdesk-pro</b> to professional quality.',
-  steps:['Write at least 8 JUnit tests for TicketService (use Mockito for the repository)','Cover edge cases: closing a missing ticket, invalid priority','Refactor one messy method and name things clearly','Measure coverage (IntelliJ or JaCoCo) — aim for 70%+ on the service'],
-  submit:'Paste your test class.'}
-]},
-{id:'u7',phase:'Phase 3 · Shipping',title:'Cloud, Linux & DevOps',color:'#1899d6',goal:'IBM = hybrid cloud + Red Hat. Containerize, automate and deploy.',
-lessons:[
- {id:'u7l1',title:'Linux & Docker',cards:[
-  {h:'Linux daily drivers',p:'<code>ls</code> <code>cd</code> <code>pwd</code> <code>cat</code> <code>grep</code> <code>chmod</code> <code>ps</code> <code>systemctl</code>. You already have Red Hat Academy training — this is where it pays off.',code:'grep -i "error" app.log | tail -20\nchmod +x deploy.sh\nps aux | grep java'},
-  {h:'Containers',p:'A <b>container</b> packages your app + its runtime so it runs the same everywhere. An <b>image</b> is the blueprint; a <b>container</b> is a running instance.',code:'FROM eclipse-temurin:21-jre\nCOPY target/app.jar app.jar\nEXPOSE 8080\nENTRYPOINT ["java","-jar","app.jar"]'},
-  {h:'Core commands',p:'',code:'docker build -t helpdesk-api .\ndocker run -p 8080:8080 helpdesk-api\ndocker ps\ndocker logs <id>',tip:'IBM and Red Hat often use Podman — same commands, no daemon.'}],
- qs:[
-  {t:'mc',q:'Image vs container:',o:['Same thing','Image = blueprint, container = running instance','Container = blueprint','Image runs, container stores'],a:1,w:'You run containers from images.'},
-  {t:'fill',q:'Search a log file for errors (case-insensitive):',code:'___ -i "error" app.log',o:['find','grep','cat','ls'],a:1,w:'grep searches text.'},
-  {t:'mc',q:'In docker run -p 8080:8080, what does -p do?',o:['Sets priority','Maps a host port to a container port','Sets password','Pulls the image'],a:1,w:'host:container port mapping.'},
-  {t:'mc',q:'Main benefit of containers?',o:['Prettier code','Runs consistently across environments','No need for testing','Free hosting'],a:1,w:'"Works on my machine" → works everywhere.'}]},
- {id:'u7l2',title:'CI/CD & Kubernetes',cards:[
-  {h:'CI/CD',p:'<b>Continuous Integration</b>: every push builds + runs tests automatically. <b>Continuous Delivery/Deployment</b>: passing builds ship to staging/production automatically. Tools: GitHub Actions, Jenkins, Tekton.',code:'# .github/workflows/ci.yml\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: ./mvnw test'},
-  {h:'Kubernetes & OpenShift',p:'<b>Kubernetes</b> runs and scales containers across many machines. <b>Pods</b> hold containers; <b>Deployments</b> keep N copies running; <b>Services</b> expose them. <b>Red Hat OpenShift</b> is IBM\'s enterprise Kubernetes platform.'},
-  {h:'Cloud models',p:'<b>IaaS</b> (you manage VMs) · <b>PaaS</b> (you deploy code/containers) · <b>SaaS</b> (you just use software). <b>Hybrid cloud</b> = on-prem + public cloud working together — IBM\'s core strategy.'}],
- qs:[
-  {t:'mc',q:'Automatically running tests on every push is…',o:['Continuous Integration','Continuous Deployment','Code review','Monitoring'],a:0,w:'CI = integrate + verify continuously.'},
-  {t:'mc',q:'IBM\'s enterprise Kubernetes platform:',o:['Docker Swarm','Red Hat OpenShift','Heroku','Ansible'],a:1,w:'OpenShift, from Red Hat (owned by IBM).'},
-  {t:'mc',q:'Which object keeps 3 replicas of your app running?',o:['Pod','Deployment','Service','Namespace'],a:1,w:'A Deployment manages replica Pods.'},
-  {t:'mc',q:'Gmail is an example of…',o:['IaaS','PaaS','SaaS','Hybrid'],a:2,w:'You use finished software → SaaS.'}]},
- {id:'u7b',title:'BUILD: Ship it',build:true,mission:'Containerize and automate <b>helpdesk-pro</b>.',
-  steps:['Write a Dockerfile for the API and run it locally','Add docker-compose.yml with the API + PostgreSQL','Add a GitHub Actions workflow that runs tests on every push','Deploy free (Render/Railway, or Red Hat OpenShift Developer Sandbox)','Add a CI status badge to README'],
-  submit:'Paste your Dockerfile and CI workflow.'}
-]},
-{id:'u8',phase:'Phase 3 · Shipping',title:'AI Engineering',color:'#ffc800',goal:'Every client asks about AI now. Learn to build with LLMs responsibly.',
-lessons:[
- {id:'u8l1',title:'LLMs & prompting',cards:[
-  {h:'What an LLM does',p:'A <b>large language model</b> predicts the next token based on patterns from training data. It\'s powerful but can <b>hallucinate</b> — produce confident, wrong answers.'},
-  {h:'Prompting that works',p:'Give <b>role + context + task + format + constraints</b>. Show examples (few-shot). Ask for structured output like JSON so code can parse it.',code:'Role: You are a support triage assistant.\nTask: Classify the ticket below.\nFormat: JSON {"category": "...", "priority": 1-5}\nTicket: "VPN disconnects every 10 min"'},
-  {h:'Calling an API',p:'Apps call models over HTTP with an API key (kept on the server, never in frontend code). IBM\'s platform is <b>watsonx.ai</b>; others include Anthropic, OpenAI, and open models.',tip:'Never paste client confidential data into public AI tools. Consultants are bound by client data agreements.'}],
- qs:[
-  {t:'mc',q:'An LLM states a fake statistic confidently. This is…',o:['Overfitting','Hallucination','Latency','Tokenization'],a:1,w:'Hallucination = plausible but false output.'},
-  {t:'mc',q:'Where should an AI API key live?',o:['In React code','In a server-side environment variable','In the README','In the URL'],a:1,w:'Secrets stay on the server.'},
-  {t:'mc',q:'Why ask the model for JSON?',o:['It\'s faster','Your code can parse it reliably','JSON is smarter','Required by law'],a:1,w:'Structured output is machine-readable.'},
-  {t:'mc',q:'IBM\'s AI and data platform for building with foundation models:',o:['watsonx','Azure','Vertex','Bedrock'],a:0,w:'watsonx (watsonx.ai, watsonx.data, watsonx.governance).'}]},
- {id:'u8l2',title:'RAG & AI in production',cards:[
-  {h:'RAG',p:'<b>Retrieval-Augmented Generation</b>: search your own documents first, put the relevant chunks into the prompt, then let the model answer. This grounds answers in real data and reduces hallucination.'},
-  {h:'Embeddings',p:'Text is turned into vectors (lists of numbers) where similar meanings are close together. A <b>vector database</b> finds the nearest chunks to a question.'},
-  {h:'Responsible AI',p:'Evaluate outputs, log them, keep a human in the loop for important decisions, protect personal data (Philippines Data Privacy Act), and watch for bias. Clients care about <b>governance</b> as much as features.'}],
- qs:[
-  {t:'order',q:'Order the RAG flow:',items:['User asks a question','Retrieve relevant document chunks','Add chunks to the prompt','LLM generates a grounded answer'],w:'Retrieve → augment → generate.'},
-  {t:'mc',q:'Embeddings represent text as…',o:['Images','Vectors of numbers','SQL rows','Hashes'],a:1,w:'Vectors capture semantic meaning.'},
-  {t:'mc',q:'Main benefit of RAG?',o:['Cheaper GPUs','Answers grounded in your own, current data','No need for prompts','Model retraining'],a:1,w:'It injects relevant facts at query time.'},
-  {t:'mc',q:'A bank wants AI to auto-approve loans. Best advice?',o:['Fully automate it','Keep a human reviewer and audit for bias','Use the biggest model','Skip testing'],a:1,w:'High-stakes decisions need oversight and governance.'}]},
- {id:'u8b',title:'BUILD: AI ticket triage',build:true,mission:'Add an AI feature to <b>helpdesk-pro</b>: auto-categorize and summarize new tickets.',
-  steps:['Create a backend endpoint POST /api/tickets/{id}/triage','Call an LLM API (watsonx.ai free trial or another provider) with a structured prompt','Parse JSON output: category, suggested priority, one-line summary','Show the suggestion in the UI with an "Accept" button (human in the loop)','Handle API errors and timeouts gracefully'],
-  submit:'Paste your prompt and the service method that calls the model.'}
-]},
-{id:'u9',phase:'Phase 4 · Consultant',title:'Agile & Consulting Skills',color:'#e056a0',goal:'IBM Consulting = tech + clients. Learn Scrum, tickets and requirements.',
-lessons:[
- {id:'u9l1',title:'Agile & Scrum',cards:[
-  {h:'Scrum in 30 seconds',p:'Work happens in <b>sprints</b> (usually 2 weeks). <b>Product Owner</b> prioritizes the backlog; <b>Scrum Master</b> removes blockers; <b>Developers</b> build. Events: Sprint Planning, Daily Stand-up, Sprint Review, Retrospective.'},
-  {h:'User stories',p:'Format: <b>As a</b> &lt;user&gt;, <b>I want</b> &lt;goal&gt;, <b>so that</b> &lt;benefit&gt;. Add <b>acceptance criteria</b> so "done" is testable.',code:'As a support agent,\nI want to filter tickets by priority,\nso that I handle urgent issues first.\n\nAC: Given 10 tickets, when I pick P1,\nthen only P1 tickets are shown.'},
-  {h:'Stand-up format',p:'Yesterday I… · Today I will… · Blockers: … Keep it under a minute.',tip:'Raise blockers early. Interns who stay silent for 3 days look worse than ones who ask on day 1.'}],
- qs:[
-  {t:'mc',q:'Who prioritizes the product backlog?',o:['Scrum Master','Product Owner','Developers','Client CEO'],a:1,w:'The Product Owner owns backlog priority.'},
-  {t:'order',q:'Build the user story:',items:['As a support agent,','I want to filter tickets by priority,','so that I handle urgent issues first.'],w:'As a / I want / so that.'},
-  {t:'mc',q:'What makes a story "testable"?',o:['Long description','Acceptance criteria','Story points','A deadline'],a:1,w:'AC define pass/fail conditions.'},
-  {t:'mc',q:'In stand-up you\'re stuck on a DB permission issue for 2 days. You should…',o:['Stay quiet and keep trying','Raise it as a blocker','Wait for the retro','Skip stand-up'],a:1,w:'Blockers are exactly what stand-up is for.'}]},
- {id:'u9l2',title:'Tickets, ITSM & clients',cards:[
-  {h:'ITSM basics',p:'Consulting support work runs on tools like <b>ServiceNow</b> or Jira. <b>Incident</b> = something broke, restore service fast. <b>Service request</b> = user asks for something standard (access, install). <b>Problem</b> = root cause behind repeated incidents. <b>Change</b> = controlled modification to production.'},
-  {h:'SLAs',p:'A <b>Service Level Agreement</b> sets response/resolution times by priority (e.g., P1: respond in 15 min). Breaching SLAs costs clients money and IBM credibility.'},
-  {h:'Talking to clients',p:'Listen first, confirm understanding ("So the issue is…"), never blame, give realistic timelines, and follow up in writing. Requirements gathering = asking <b>why</b> until you find the real need.',tip:'Good ticket update: what you found, what you did, next step, ETA.'}],
- qs:[
-  {t:'mc',q:'Production checkout page is down. This is a…',o:['Service request','Incident','Change','Problem'],a:1,w:'Unplanned interruption = incident.'},
-  {t:'mc',q:'The same server crashes weekly. Investigating the root cause is…',o:['Incident management','Problem management','Change management','Request fulfillment'],a:1,w:'Problem management finds root causes.'},
-  {t:'mc',q:'Best ticket update?',o:['"Working on it"','"Fixed"','"Root cause: expired SSL cert. Renewed it, verified login works. Monitoring 24h; closing tomorrow 5PM."','"Not my fault"'],a:2,w:'Finding + action + next step + ETA.'},
-  {t:'mc',q:'Client says "we need a dashboard." Your first move?',o:['Start coding','Ask what decisions the dashboard should help them make','Pick a chart library','Quote a price'],a:1,w:'Find the real need before building.'}]},
- {id:'u9b',title:'BUILD: Run a sprint',build:true,mission:'Run <b>helpdesk-pro</b> like a real client project.',
-  steps:['Write 8 user stories with acceptance criteria in GitHub Issues','Create a GitHub Projects board (To Do / In Progress / Review / Done)','Plan a 1-week sprint, complete 3 stories, link each PR to its issue','Write a short sprint review + retrospective (what went well / improve)'],
-  submit:'Paste 3 of your user stories and your retro notes.'}
-]},
-{id:'u10',phase:'Phase 4 · Consultant',title:'Interview & Launch',color:'#58cc02',goal:'Turn your skills into an offer: portfolio, resume, technical + behavioral interviews.',
-lessons:[
- {id:'u10l1',title:'Behavioral: STAR method',cards:[
-  {h:'STAR',p:'<b>S</b>ituation (context) · <b>T</b>ask (your responsibility) · <b>A</b>ction (what YOU did — most detail here) · <b>R</b>esult (measurable outcome + what you learned).'},
-  {h:'Your story bank',p:'Prepare 5 stories: a team conflict, a failure, a tough deadline, learning something fast, leading something. Your thesis project and helpdesk-pro are great sources.'},
-  {h:'IBM values',p:'IBM looks for <b>growth mindset</b>, client focus, and collaboration. Show curiosity: "I didn\'t know Docker, so I…"',tip:'Use "I", not "we", in the Action part. Interviewers are evaluating you.'}],
- qs:[
-  {t:'order',q:'Order the STAR method:',items:['Situation','Task','Action','Result'],w:'S-T-A-R.'},
-  {t:'mc',q:'Which part should get the most detail?',o:['Situation','Task','Action','Result'],a:2,w:'Action shows your skills and decisions.'},
-  {t:'mc',q:'Best Result statement?',o:['"It went well."','"We finished."','"Cut ticket response time 40% and the team adopted my script."','"The client was happy, I think."'],a:2,w:'Specific and measurable.'},
-  {t:'mc',q:'"Tell me about a failure." Best approach?',o:['Say you never fail','Blame a teammate','Own a real mistake, show what you changed afterward','Pick a fake weakness'],a:2,w:'Ownership + learning = growth mindset.'}]},
- {id:'u10l2',title:'Technical interview patterns',cards:[
-  {h:'Big-O',p:'How runtime grows with input size. O(1) constant · O(log n) binary search · O(n) one loop · O(n log n) good sorts · O(n²) nested loops.'},
-  {h:'Hash map trick',p:'Many problems drop from O(n²) to O(n) by remembering what you\'ve seen in a HashMap/Set.',code:'// Two Sum: indices of two nums adding to target\nMap<Integer,Integer> seen = new HashMap<>();\nfor (int i = 0; i < nums.length; i++) {\n  int need = target - nums[i];\n  if (seen.containsKey(need)) return new int[]{seen.get(need), i};\n  seen.put(nums[i], i);\n}'},
-  {h:'Think out loud',p:'1) Clarify the question + edge cases 2) Say a brute-force idea 3) Optimize 4) Code 5) Test with an example. Interviewers grade your process, not just the answer.'}],
- qs:[
-  {t:'mc',q:'Two nested loops over n items:',o:['O(n)','O(n²)','O(log n)','O(1)'],a:1,w:'n × n.'},
-  {t:'mc',q:'Binary search on a sorted array:',o:['O(n)','O(log n)','O(n²)','O(1)'],a:1,w:'Halves the search space each step.'},
-  {t:'mc',q:'Find if an array has duplicates fastest:',o:['Compare every pair','Add to a HashSet, check if already present','Print the array','Reverse it'],a:1,w:'O(n) with a Set.'},
-  {t:'order',q:'Order your interview approach:',items:['Clarify the problem','State brute force','Optimize','Write code','Test with an example'],w:'Clarify → brute → optimize → code → test.'}]},
- {id:'u10b',title:'BUILD: Apply to IBM',build:true,mission:'Package everything and apply to the <b>IBM Philippines Consulting OJT</b>.',
-  steps:['Polish helpdesk-pro README: screenshots, tech stack, live link, architecture diagram','Update resume: projects with impact bullets, certifications (Network+, Red Hat, AWS), GitHub + LinkedIn','Complete a free IBM SkillsBuild course and add the badge','Do 2 mock interviews with the Mentor tab (1 behavioral, 1 technical)','Submit your application via IBM Careers'],
-  submit:'Paste your resume project section for a final review.'}
-]}
+ {
+  "id": "u1",
+  "phase": "Phase 1 · Foundations",
+  "title": "Git & the Terminal",
+  "color": "#58cc02",
+  "goal": "Every IBM project lives in Git. Learn to save, branch and collaborate on code.",
+  "lessons": [
+   {
+    "id": "u1l1",
+    "title": "Why version control",
+    "cards": [
+     {
+      "h": "Git = save points for code",
+      "p": "<b>Git</b> tracks every change to your files as a <b>commit</b> — a snapshot with a message. If something breaks, you can go back. <b>GitHub</b> (or IBM's GitHub Enterprise) hosts the repo so a team can share it."
+     },
+     {
+      "h": "The 3 areas",
+      "p": "<b>Working directory</b> (your edits) → <b>staging area</b> (<code>git add</code>) → <b>repository</b> (<code>git commit</code>). Staging lets you choose exactly what goes in a commit.",
+      "code": "git init\ngit add README.md\ngit commit -m \"Add README\"\ngit status   # what changed?\ngit log --oneline"
+     },
+     {
+      "h": "Remote repos",
+      "p": "<code>git push</code> sends your commits to the remote. <code>git pull</code> fetches teammates' commits and merges them. <code>git clone &lt;url&gt;</code> copies a remote repo to your laptop.",
+      "tip": "Mentor tip: write commit messages in imperative mood — \"Fix login bug\", not \"fixed stuff\". Reviewers notice."
+     },
+     {
+      "h": "Fixing mistakes",
+      "p": "Everyone makes Git mistakes — knowing the undo buttons is what makes you calm. <code>git restore file</code> discards local edits, <code>git restore --staged file</code> unstages, <code>git commit --amend</code> fixes your last (unpushed) commit. A <b>.gitignore</b> keeps builds, secrets and <code>node_modules</code> out of the repo.",
+      "code": "git restore app.js            # throw away my edits\ngit restore --staged app.js   # unstage, keep edits\ngit commit --amend -m \"Add login form\""
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which command moves a change into the staging area?",
+      "o": [
+       "git commit",
+       "git add",
+       "git push",
+       "git stage-all"
+      ],
+      "a": 1,
+      "w": "git add stages changes; git commit then records the staged snapshot."
+     },
+     {
+      "t": "mc",
+      "q": "What does a commit represent?",
+      "o": [
+       "A backup of your whole PC",
+       "A snapshot of staged changes with a message",
+       "A copy of the remote server",
+       "A branch"
+      ],
+      "a": 1,
+      "w": "A commit is a snapshot of the staged files plus metadata (author, message, parent)."
+     },
+     {
+      "t": "order",
+      "q": "Put the steps to share a new file with your team in order.",
+      "items": [
+       "git add file.txt",
+       "git commit -m \"Add file\"",
+       "git push"
+      ],
+      "w": "Stage → commit → push."
+     },
+     {
+      "t": "fill",
+      "q": "Fill in the blank to copy a GitHub repo to your machine.",
+      "code": "git ___ https://github.com/ibm/sample.git",
+      "o": [
+       "pull",
+       "clone",
+       "init",
+       "fetch"
+      ],
+      "a": 1,
+      "w": "clone creates a local copy of a remote repository."
+     },
+     {
+      "t": "mc",
+      "q": "Best commit message?",
+      "o": [
+       "\"stuff\"",
+       "\"Fixed it lol\"",
+       "\"Add input validation to signup form\"",
+       "\"update\""
+      ],
+      "a": 2,
+      "w": "Short, specific, imperative. It tells reviewers exactly what changed."
+     },
+     {
+      "t": "mc",
+      "q": "Unstage a file you added by mistake:",
+      "o": [
+       "git delete file",
+       "git restore --staged file",
+       "git rm -rf .",
+       "git push"
+      ],
+      "a": 1,
+      "w": "It removes the file from staging but keeps your edits."
+     },
+     {
+      "t": "mc",
+      "q": "Fix the message of your last, unpushed commit:",
+      "o": [
+       "git revert",
+       "git log",
+       "git commit --amend",
+       "git init"
+      ],
+      "a": 2,
+      "w": "--amend rewrites the latest commit (safe only before pushing)."
+     },
+     {
+      "t": "fill",
+      "q": "Discard local changes to app.js:",
+      "code": "git ___ app.js",
+      "o": [
+       "restore",
+       "undo",
+       "clear",
+       "reset-all"
+      ],
+      "a": 0,
+      "w": "git restore returns the file to the last committed version."
+     },
+     {
+      "t": "mc",
+      "q": "What is .gitignore for?",
+      "o": [
+       "Ignoring merge conflicts",
+       "Hiding commits",
+       "Blocking users",
+       "Listing files Git should not track (builds, secrets, node_modules)"
+      ],
+      "a": 3,
+      "w": "Keeps the repo clean and secrets out."
+     },
+     {
+      "t": "mc",
+      "q": "git status shows…",
+      "o": [
+       "Which files are modified, staged or untracked",
+       "The commit history graph",
+       "Remote URLs",
+       "Your GitHub profile"
+      ],
+      "a": 0,
+      "w": "Run it constantly — it tells you where you are."
+     },
+     {
+      "t": "mc",
+      "q": "GitHub is…",
+      "o": [
+       "The same thing as Git",
+       "A hosting platform for Git repositories",
+       "A programming language",
+       "A database"
+      ],
+      "a": 1,
+      "w": "Git is the tool; GitHub hosts repos and adds PRs, issues and CI."
+     }
+    ]
+   },
+   {
+    "id": "u1l2",
+    "title": "Branches & Pull Requests",
+    "cards": [
+     {
+      "h": "Branches keep main safe",
+      "p": "A <b>branch</b> is a parallel line of work. You build a feature on <code>feature/login</code> without touching <code>main</code>, which should always be deployable.",
+      "code": "git switch -c feature/login\n# ...edit, add, commit...\ngit push -u origin feature/login"
+     },
+     {
+      "h": "Pull Request (PR)",
+      "p": "A <b>PR</b> asks the team to review and merge your branch into main. At IBM-style client projects, PRs need approvals and passing automated tests (CI) before merge."
+     },
+     {
+      "h": "Merge conflicts",
+      "p": "If two people change the same lines, Git can't decide — that's a <b>conflict</b>. Git marks it with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. You edit the file to the correct version, then add and commit.",
+      "tip": "Pull from main often. Small PRs = fewer conflicts and faster reviews."
+     },
+     {
+      "h": "Good PR etiquette",
+      "p": "Keep PRs <b>small and focused</b>. The description says <b>what</b> changed, <b>why</b>, and <b>how you tested</b> it, and links the issue. Answer review comments politely — explain your reasoning or apply the fix. Reviewers check correctness, readability and tests.",
+      "code": "## What\nAdd priority filter to ticket list\n## Why\nAgents need to see P1 tickets first (#12)\n## Testing\nUnit tests + manual check in browser"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Why work on a feature branch instead of main?",
+      "o": [
+       "It's faster to type",
+       "It keeps main stable while work is in progress",
+       "Git requires it",
+       "Branches use less storage"
+      ],
+      "a": 1,
+      "w": "main should always be releasable; branches isolate unfinished work."
+     },
+     {
+      "t": "fill",
+      "q": "Create AND switch to a new branch:",
+      "code": "git ___ -c feature/cart",
+      "o": [
+       "branch",
+       "checkout",
+       "switch",
+       "merge"
+      ],
+      "a": 2,
+      "w": "git switch -c creates and switches (git checkout -b does the same, older syntax)."
+     },
+     {
+      "t": "mc",
+      "q": "A merge conflict happens when…",
+      "o": [
+       "The internet disconnects",
+       "Two branches changed the same lines differently",
+       "You forget a commit message",
+       "A branch has no commits"
+      ],
+      "a": 1,
+      "w": "Git can't auto-choose between two different edits to the same lines."
+     },
+     {
+      "t": "mc",
+      "q": "What usually must pass before a PR is merged on a professional team?",
+      "o": [
+       "Nothing",
+       "Code review approval + automated tests (CI)",
+       "Manager's signature on paper",
+       "A meeting"
+      ],
+      "a": 1,
+      "w": "Review + CI checks are the standard quality gate."
+     },
+     {
+      "t": "mc",
+      "q": "A good PR description includes…",
+      "o": [
+       "Only 'pls merge'",
+       "Your password",
+       "What changed, why, and how it was tested",
+       "Nothing"
+      ],
+      "a": 2,
+      "w": "Reviewers approve faster when context is clear."
+     },
+     {
+      "t": "mc",
+      "q": "A reviewer leaves a comment you disagree with. Best response?",
+      "o": [
+       "Explain your reasoning politely and discuss",
+       "Ignore it",
+       "Force merge",
+       "Close the PR"
+      ],
+      "a": 0,
+      "w": "Reviews are collaboration, not combat."
+     },
+     {
+      "t": "fill",
+      "q": "Update your branch with the latest main from GitHub:",
+      "code": "git ___ origin main",
+      "o": [
+       "clone",
+       "init",
+       "pull",
+       "tag"
+      ],
+      "a": 2,
+      "w": "pull = fetch + merge."
+     },
+     {
+      "t": "mc",
+      "q": "Ideal PR size?",
+      "o": [
+       "5,000 lines touching everything",
+       "Small and focused on one change",
+       "One giant PR per month",
+       "Empty"
+      ],
+      "a": 1,
+      "w": "Small PRs get reviewed faster and break less."
+     },
+     {
+      "t": "order",
+      "q": "Order the PR workflow:",
+      "items": [
+       "Create a branch",
+       "Commit changes",
+       "Push the branch",
+       "Open a PR",
+       "Merge after approval"
+      ],
+      "w": "Branch → commit → push → PR → merge."
+     },
+     {
+      "t": "mc",
+      "q": "List all local branches:",
+      "o": [
+       "git log",
+       "git status",
+       "git remote",
+       "git branch"
+      ],
+      "a": 3,
+      "w": "git branch -a also shows remote branches."
+     }
+    ]
+   },
+   {
+    "id": "u1b",
+    "title": "BUILD: Your first repo",
+    "build": true,
+    "mission": "Create a public GitHub repo called <b>helpdesk-pro</b> — this is your capstone project for the whole path: a ticket management system, the kind of tool IBM consultants support for clients every day.",
+    "steps": [
+     "Install Git and create a GitHub account (use a professional username)",
+     "Create repo helpdesk-pro with a README.md describing the project goal",
+     "Make at least 3 small commits with good messages",
+     "Create a branch docs/setup, add a SETUP.md, open a PR and merge it yourself"
+    ],
+    "submit": "Paste your README text and the output of `git log --oneline` below for review."
+   }
+  ]
+ },
+ {
+  "id": "u2",
+  "phase": "Phase 1 · Foundations",
+  "title": "Java Core",
+  "color": "#1cb0f6",
+  "goal": "Java is IBM Consulting's workhorse language for enterprise apps. Master the basics + OOP.",
+  "lessons": [
+   {
+    "id": "u2l1",
+    "title": "Types, variables & flow",
+    "cards": [
+     {
+      "h": "Strongly typed",
+      "p": "In Java every variable has a type declared up front. Primitives: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>. Objects: <code>String</code>, arrays, your classes.",
+      "code": "int age = 21;\ndouble gpa = 1.75;\nboolean enrolled = true;\nString name = \"Geo\";"
+     },
+     {
+      "h": "Control flow",
+      "p": "<code>if/else</code> for decisions, <code>for</code>/<code>while</code> for loops. Every Java program starts at <code>public static void main(String[] args)</code>.",
+      "code": "for (int i = 1; i <= 3; i++) {\n  if (i % 2 == 0) System.out.println(i + \" even\");\n  else System.out.println(i + \" odd\");\n}"
+     },
+     {
+      "h": "== vs .equals()",
+      "p": "For objects like String, <code>==</code> compares <b>references</b> (same object in memory), <code>.equals()</code> compares <b>content</b>. This is a classic interview trap.",
+      "tip": "Always compare Strings with .equals(). Use \"admin\".equals(role) to avoid NullPointerException."
+     },
+     {
+      "h": "Methods",
+      "p": "Methods package logic: a <b>return type</b>, a name and <b>parameters</b>. <code>void</code> means it returns nothing. Two methods with the same name but different parameters is <b>overloading</b>. Note: <code>int / int</code> does integer division.",
+      "code": "static int add(int a, int b) { return a + b; }\nstatic double add(double a, double b) { return a + b; } // overload\nstatic void greet(String name) {\n  System.out.println(\"Hi \" + name);\n}"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which type stores true/false?",
+      "o": [
+       "int",
+       "boolean",
+       "String",
+       "char"
+      ],
+      "a": 1,
+      "w": "boolean holds true or false."
+     },
+     {
+      "t": "mc",
+      "q": "How should you compare two Strings for equal text?",
+      "o": [
+       "a == b",
+       "a.equals(b)",
+       "a = b",
+       "compare(a,b)"
+      ],
+      "a": 1,
+      "w": ".equals() compares content; == compares references."
+     },
+     {
+      "t": "fill",
+      "q": "Complete the entry point of a Java program:",
+      "code": "public static void ___(String[] args) { }",
+      "o": [
+       "start",
+       "run",
+       "main",
+       "init"
+      ],
+      "a": 2,
+      "w": "The JVM looks for public static void main(String[] args)."
+     },
+     {
+      "t": "mc",
+      "q": "What does this print?",
+      "code": "int x = 7;\nSystem.out.println(x % 3);",
+      "o": [
+       "2",
+       "1",
+       "0",
+       "2.33"
+      ],
+      "a": 1,
+      "w": "% is remainder: 7 = 2×3 + 1."
+     },
+     {
+      "t": "mc",
+      "q": "Which loop runs exactly 5 times?",
+      "o": [
+       "for(int i=0;i<=5;i++)",
+       "for(int i=1;i<5;i++)",
+       "for(int i=0;i<5;i++)",
+       "for(int i=5;i<0;i++)"
+      ],
+      "a": 2,
+      "w": "i = 0,1,2,3,4 → five iterations."
+     },
+     {
+      "t": "mc",
+      "q": "A method that returns nothing has the return type…",
+      "o": [
+       "null",
+       "void",
+       "empty",
+       "none"
+      ],
+      "a": 1,
+      "w": "void = no return value."
+     },
+     {
+      "t": "fill",
+      "q": "Declare a method returning the sum of two ints:",
+      "code": "static ___ add(int a, int b) { return a + b; }",
+      "o": [
+       "void",
+       "String",
+       "int",
+       "boolean"
+      ],
+      "a": 2,
+      "w": "The return type must match what you return."
+     },
+     {
+      "t": "mc",
+      "q": "Two methods with the same name but different parameters is…",
+      "o": [
+       "Overriding",
+       "Inheritance",
+       "Casting",
+       "Overloading"
+      ],
+      "a": 3,
+      "w": "Overriding is a subclass replacing a parent method."
+     },
+     {
+      "t": "mc",
+      "q": "Which is NOT a primitive type?",
+      "o": [
+       "int",
+       "double",
+       "String",
+       "char"
+      ],
+      "a": 2,
+      "w": "String is an object (a class)."
+     },
+     {
+      "t": "mc",
+      "q": "What does i++ do?",
+      "o": [
+       "Adds 1 to i",
+       "Doubles i",
+       "Compares i to 1",
+       "Prints i"
+      ],
+      "a": 0,
+      "w": "Shorthand for i = i + 1."
+     }
+    ]
+   },
+   {
+    "id": "u2l2",
+    "title": "Object-Oriented Programming",
+    "cards": [
+     {
+      "h": "Class vs object",
+      "p": "A <b>class</b> is a blueprint; an <b>object</b> is an instance built from it with <code>new</code>.",
+      "code": "class Ticket {\n  private String title;\n  private String status = \"OPEN\";\n  Ticket(String title) { this.title = title; }\n  void close() { status = \"CLOSED\"; }\n  String getStatus() { return status; }\n}\nTicket t = new Ticket(\"VPN down\");"
+     },
+     {
+      "h": "The 4 pillars",
+      "p": "<b>Encapsulation</b> — hide data behind methods (private fields + getters). <b>Inheritance</b> — <code>class Incident extends Ticket</code>. <b>Polymorphism</b> — same method call, different behavior per subclass. <b>Abstraction</b> — expose what, hide how (interfaces, abstract classes)."
+     },
+     {
+      "h": "Interfaces",
+      "p": "An <b>interface</b> is a contract: methods a class promises to implement. Spring Boot (Unit 5) is built on interfaces + dependency injection.",
+      "code": "interface Notifier { void send(String msg); }\nclass EmailNotifier implements Notifier {\n  public void send(String msg) { /* ... */ }\n}",
+      "tip": "Interviewers LOVE \"explain the 4 pillars with an example.\" Use the Ticket example — it's relevant to consulting."
+     },
+     {
+      "h": "Constructors, this & static",
+      "p": "A <b>constructor</b> has the class name and no return type; it sets up a new object. <code>this</code> means \"this object\". <b>static</b> members belong to the class, shared by all objects. <code>@Override</code> marks a method that replaces a parent's; <code>super(...)</code> calls the parent constructor.",
+      "code": "class Incident extends Ticket {\n  static int count = 0;\n  Incident(String title) {\n    super(title);\n    count++;\n  }\n  @Override\n  public String toString() { return \"[INC] \" + getTitle(); }\n}"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Making fields private and exposing getters is…",
+      "o": [
+       "Inheritance",
+       "Encapsulation",
+       "Polymorphism",
+       "Recursion"
+      ],
+      "a": 1,
+      "w": "Encapsulation protects internal state."
+     },
+     {
+      "t": "fill",
+      "q": "Make Incident a subclass of Ticket:",
+      "code": "class Incident ___ Ticket { }",
+      "o": [
+       "implements",
+       "extends",
+       "inherits",
+       "super"
+      ],
+      "a": 1,
+      "w": "Classes extend classes; classes implement interfaces."
+     },
+     {
+      "t": "mc",
+      "q": "Which keyword creates an object?",
+      "o": [
+       "class",
+       "new",
+       "this",
+       "static"
+      ],
+      "a": 1,
+      "w": "new allocates and calls the constructor."
+     },
+     {
+      "t": "mc",
+      "q": "A Notifier variable holds an EmailNotifier or SmsNotifier, and notifier.send() behaves differently for each. This is…",
+      "o": [
+       "Encapsulation",
+       "Polymorphism",
+       "Abstraction only",
+       "Overloading"
+      ],
+      "a": 1,
+      "w": "Polymorphism: one interface, many implementations."
+     },
+     {
+      "t": "order",
+      "q": "Order from most abstract to most concrete:",
+      "items": [
+       "interface Notifier",
+       "class EmailNotifier implements Notifier",
+       "new EmailNotifier()"
+      ],
+      "w": "Contract → implementation → instance."
+     },
+     {
+      "t": "mc",
+      "q": "A constructor…",
+      "o": [
+       "Must return void",
+       "Has the class name and no return type",
+       "Is called manually after new",
+       "Must be static"
+      ],
+      "a": 1,
+      "w": "new Ticket(\"x\") runs the constructor."
+     },
+     {
+      "t": "mc",
+      "q": "In this.title = title;, `this` refers to…",
+      "o": [
+       "The current object",
+       "The class",
+       "The parent class",
+       "The method"
+      ],
+      "a": 0,
+      "w": "It separates the field from the parameter with the same name."
+     },
+     {
+      "t": "mc",
+      "q": "A static field is…",
+      "o": [
+       "Unique per object",
+       "Read-only",
+       "Shared by all instances of the class",
+       "Always private"
+      ],
+      "a": 2,
+      "w": "Incident.count is one value for every Incident."
+     },
+     {
+      "t": "fill",
+      "q": "Mark a method that replaces a parent's method:",
+      "code": "@___\npublic String toString() { return title; }",
+      "o": [
+       "Overload",
+       "Static",
+       "Super",
+       "Override"
+      ],
+      "a": 3,
+      "w": "@Override makes the compiler check the signature."
+     },
+     {
+      "t": "mc",
+      "q": "Abstract class vs interface (modern Java):",
+      "o": [
+       "An abstract class can hold fields and constructors; a class can implement many interfaces but extend only one class",
+       "They're identical",
+       "Interfaces can have constructors",
+       "You can extend many abstract classes"
+      ],
+      "a": 0,
+      "w": "Single inheritance of classes, multiple of interfaces."
+     },
+     {
+      "t": "mc",
+      "q": "Call the parent class constructor:",
+      "o": [
+       "parent(...)",
+       "this.parent()",
+       "super(...)",
+       "base()"
+      ],
+      "a": 2,
+      "w": "super(...) must be the first line of the constructor."
+     }
+    ]
+   },
+   {
+    "id": "u2l3",
+    "title": "Collections & Streams",
+    "cards": [
+     {
+      "h": "The big three",
+      "p": "<b>List</b> (ordered, duplicates OK — <code>ArrayList</code>), <b>Set</b> (unique — <code>HashSet</code>), <b>Map</b> (key→value — <code>HashMap</code>). HashMap lookups are O(1) on average.",
+      "code": "List<String> names = new ArrayList<>();\nnames.add(\"Ana\");\nMap<String,Integer> stock = new HashMap<>();\nstock.put(\"soap\", 12);\nint s = stock.get(\"soap\");"
+     },
+     {
+      "h": "Streams",
+      "p": "Streams process collections declaratively: <code>filter</code>, <code>map</code>, <code>collect</code>. Modern enterprise Java uses them everywhere.",
+      "code": "List<Ticket> open = tickets.stream()\n  .filter(t -> t.getStatus().equals(\"OPEN\"))\n  .toList();"
+     },
+     {
+      "h": "Exceptions",
+      "p": "Errors are thrown as exceptions. Handle what you can with <code>try/catch</code>; let the rest bubble up. Never swallow exceptions silently.",
+      "code": "try {\n  int n = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n  System.out.println(\"Not a number\");\n}"
+     },
+     {
+      "h": "Common pitfalls",
+      "p": "<b>NullPointerException</b>: calling a method on null — use <code>Optional</code> or null checks. Removing items while looping with for-each throws <b>ConcurrentModificationException</b>; use <code>removeIf</code>. Objects used as HashMap keys must override <code>equals()</code> and <code>hashCode()</code>.",
+      "code": "tickets.removeIf(t -> t.isClosed());\nOptional<Ticket> t = repo.findById(42L);\nString title = t.map(Ticket::getTitle).orElse(\"(none)\");"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "You need unique employee IDs with no duplicates. Best collection?",
+      "o": [
+       "ArrayList",
+       "HashSet",
+       "LinkedList",
+       "Array"
+      ],
+      "a": 1,
+      "w": "Sets reject duplicates."
+     },
+     {
+      "t": "mc",
+      "q": "Store product name → price lookups:",
+      "o": [
+       "List",
+       "Set",
+       "Map",
+       "Queue"
+      ],
+      "a": 2,
+      "w": "Map stores key→value pairs."
+     },
+     {
+      "t": "fill",
+      "q": "Keep only tickets with priority above 3:",
+      "code": "tickets.stream().___(t -> t.getPriority() > 3).toList();",
+      "o": [
+       "map",
+       "filter",
+       "reduce",
+       "sort"
+      ],
+      "a": 1,
+      "w": "filter keeps elements matching the predicate."
+     },
+     {
+      "t": "mc",
+      "q": "Average time for HashMap.get()?",
+      "o": [
+       "O(1)",
+       "O(n)",
+       "O(log n)",
+       "O(n²)"
+      ],
+      "a": 0,
+      "w": "Hashing gives constant-time average lookups."
+     },
+     {
+      "t": "mc",
+      "q": "Removing items from a list inside a for-each loop throws…",
+      "o": [
+       "NullPointerException",
+       "ConcurrentModificationException",
+       "ArithmeticException",
+       "Nothing"
+      ],
+      "a": 1,
+      "w": "Use removeIf or an Iterator instead."
+     },
+     {
+      "t": "fill",
+      "q": "Remove all closed tickets safely:",
+      "code": "tickets.___(t -> t.isClosed());",
+      "o": [
+       "filter",
+       "deleteAll",
+       "removeIf",
+       "clear"
+      ],
+      "a": 2,
+      "w": "removeIf deletes matching elements safely."
+     },
+     {
+      "t": "mc",
+      "q": "Optional<T> helps you…",
+      "o": [
+       "Represent a value that may be absent without returning null",
+       "Sort lists",
+       "Make fields private",
+       "Speed up loops"
+      ],
+      "a": 0,
+      "w": "It forces callers to handle the empty case."
+     },
+     {
+      "t": "mc",
+      "q": "Custom objects used as HashMap keys must correctly override…",
+      "o": [
+       "toString() only",
+       "main()",
+       "finalize()",
+       "equals() and hashCode()"
+      ],
+      "a": 3,
+      "w": "Otherwise lookups can't find equal keys."
+     },
+     {
+      "t": "mc",
+      "q": "Turn each ticket into its title with a stream:",
+      "o": [
+       "filter",
+       "map",
+       "reduce",
+       "peek"
+      ],
+      "a": 1,
+      "w": "map transforms each element: .map(Ticket::getTitle)."
+     },
+     {
+      "t": "mc",
+      "q": "ArrayList.get(i) runs in…",
+      "o": [
+       "O(1)",
+       "O(n)",
+       "O(log n)",
+       "O(n²)"
+      ],
+      "a": 0,
+      "w": "Arrays allow direct index access."
+     }
+    ]
+   },
+   {
+    "id": "u2b",
+    "title": "BUILD: Ticket CLI",
+    "build": true,
+    "mission": "Build a Java command-line app for <b>helpdesk-pro</b> that manages tickets in memory.",
+    "steps": [
+     "Create a Ticket class (id, title, priority 1–5, status) with private fields + getters",
+     "Store tickets in an ArrayList; give each an auto-increment id",
+     "Menu: 1) Add 2) List 3) Close by id 4) Show high priority (stream filter) 5) Exit",
+     "Handle bad input with try/catch (no crashes)",
+     "Commit to your repo on a feature branch and merge via PR"
+    ],
+    "submit": "Paste your Ticket class and main menu code for review."
+   }
+  ]
+ },
+ {
+  "id": "u3",
+  "phase": "Phase 1 · Foundations",
+  "title": "SQL & Databases",
+  "color": "#ff9600",
+  "goal": "Every client system stores data. Query it, join it, design it.",
+  "lessons": [
+   {
+    "id": "u3l1",
+    "title": "SELECT like a pro",
+    "cards": [
+     {
+      "h": "Tables, rows, columns",
+      "p": "A relational database stores data in <b>tables</b>. Each row is a record; each column a field. A <b>primary key</b> uniquely identifies each row."
+     },
+     {
+      "h": "Core query",
+      "p": "Read order of clauses: <code>SELECT</code> columns <code>FROM</code> table <code>WHERE</code> filter <code>ORDER BY</code> sort <code>LIMIT</code> count.",
+      "code": "SELECT id, title, priority\nFROM tickets\nWHERE status = 'OPEN'\nORDER BY priority DESC\nLIMIT 10;"
+     },
+     {
+      "h": "Write data",
+      "p": "<code>INSERT</code> adds, <code>UPDATE</code> changes, <code>DELETE</code> removes.",
+      "code": "UPDATE tickets SET status = 'CLOSED' WHERE id = 42;",
+      "tip": "NEVER run UPDATE or DELETE without WHERE on a client database. It hits every row."
+     },
+     {
+      "h": "Filtering tricks",
+      "p": "<code>LIKE '%vpn%'</code> matches text patterns, <code>IN (1, 2)</code> matches a list, <code>BETWEEN</code> a range, <code>DISTINCT</code> removes duplicates. Check missing values with <code>IS NULL</code> — never <code>= NULL</code>.",
+      "code": "SELECT DISTINCT status FROM tickets;\nSELECT * FROM tickets\nWHERE title LIKE '%vpn%' AND priority IN (1, 2)\n  AND assignee_id IS NULL;"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which clause filters rows?",
+      "o": [
+       "ORDER BY",
+       "WHERE",
+       "SELECT",
+       "FROM"
+      ],
+      "a": 1,
+      "w": "WHERE filters rows before they are returned."
+     },
+     {
+      "t": "order",
+      "q": "Arrange into a valid query:",
+      "items": [
+       "SELECT title",
+       "FROM tickets",
+       "WHERE status = 'OPEN'",
+       "ORDER BY priority DESC"
+      ],
+      "w": "SELECT → FROM → WHERE → ORDER BY."
+     },
+     {
+      "t": "mc",
+      "q": "What is dangerous here?",
+      "code": "DELETE FROM tickets;",
+      "o": [
+       "Nothing",
+       "It deletes every row",
+       "Syntax error",
+       "It drops the table structure"
+      ],
+      "a": 1,
+      "w": "No WHERE = all rows deleted."
+     },
+     {
+      "t": "fill",
+      "q": "Sort newest first:",
+      "code": "SELECT * FROM tickets ORDER BY created_at ___;",
+      "o": [
+       "ASC",
+       "DESC",
+       "UP",
+       "NEW"
+      ],
+      "a": 1,
+      "w": "DESC = descending (largest/newest first)."
+     },
+     {
+      "t": "mc",
+      "q": "Find tickets with no assignee:",
+      "o": [
+       "WHERE assignee_id = NULL",
+       "WHERE assignee_id IS NULL",
+       "WHERE assignee_id == NULL",
+       "WHERE NOT assignee_id"
+      ],
+      "a": 1,
+      "w": "NULL isn't equal to anything, not even NULL."
+     },
+     {
+      "t": "fill",
+      "q": "Titles containing 'vpn':",
+      "code": "SELECT * FROM tickets WHERE title ___ '%vpn%';",
+      "o": [
+       "IS",
+       "EQUALS",
+       "LIKE",
+       "HAS"
+      ],
+      "a": 2,
+      "w": "% matches any sequence of characters."
+     },
+     {
+      "t": "mc",
+      "q": "Return each status only once:",
+      "o": [
+       "SELECT DISTINCT status FROM tickets;",
+       "SELECT UNIQUE ALL status FROM tickets;",
+       "SELECT status ONCE FROM tickets;",
+       "SELECT ONE status FROM tickets;"
+      ],
+      "a": 0,
+      "w": "DISTINCT removes duplicate rows."
+     },
+     {
+      "t": "mc",
+      "q": "WHERE priority IN (1, 2) means…",
+      "o": [
+       "priority is 12",
+       "Syntax error",
+       "priority > 2",
+       "priority is 1 or 2"
+      ],
+      "a": 3,
+      "w": "IN matches any value in the list."
+     },
+     {
+      "t": "mc",
+      "q": "A primary key must be…",
+      "o": [
+       "Text only",
+       "Unique and not null",
+       "Optional",
+       "Duplicated"
+      ],
+      "a": 1,
+      "w": "It identifies exactly one row."
+     },
+     {
+      "t": "mc",
+      "q": "Insert a ticket:",
+      "o": [
+       "INSERT INTO tickets (title) VALUES ('VPN down');",
+       "ADD tickets 'VPN down';",
+       "PUT INTO tickets 'VPN down';",
+       "CREATE ROW tickets 'VPN down';"
+      ],
+      "a": 0,
+      "w": "INSERT INTO table (columns) VALUES (values)."
+     }
+    ]
+   },
+   {
+    "id": "u3l2",
+    "title": "JOINs & GROUP BY",
+    "cards": [
+     {
+      "h": "Relationships",
+      "p": "A <b>foreign key</b> links tables. <code>tickets.assignee_id</code> → <code>users.id</code>. This avoids duplicating user info in every ticket (normalization)."
+     },
+     {
+      "h": "INNER vs LEFT JOIN",
+      "p": "<b>INNER JOIN</b> returns only matching rows in both tables. <b>LEFT JOIN</b> returns all rows from the left table, with NULLs where no match.",
+      "code": "SELECT t.title, u.name\nFROM tickets t\nLEFT JOIN users u ON t.assignee_id = u.id;"
+     },
+     {
+      "h": "Aggregates",
+      "p": "<code>COUNT</code>, <code>SUM</code>, <code>AVG</code> with <code>GROUP BY</code>. Filter groups with <code>HAVING</code> (WHERE filters rows, HAVING filters groups).",
+      "code": "SELECT assignee_id, COUNT(*) AS open_count\nFROM tickets\nWHERE status = 'OPEN'\nGROUP BY assignee_id\nHAVING COUNT(*) > 5;"
+     },
+     {
+      "h": "Indexes, transactions & safety",
+      "p": "An <b>index</b> speeds up lookups on columns you filter or join on (writes get slightly slower). A <b>transaction</b> makes several changes all-or-nothing (ACID: Atomicity, Consistency, Isolation, Durability). Always use <b>parameterized queries</b> to prevent SQL injection.",
+      "code": "CREATE INDEX idx_tickets_status ON tickets(status);\n\nBEGIN;\nUPDATE accounts SET balance = balance - 500 WHERE id = 1;\nUPDATE accounts SET balance = balance + 500 WHERE id = 2;\nCOMMIT;"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Show ALL tickets, including unassigned ones, with the assignee name:",
+      "o": [
+       "INNER JOIN users",
+       "LEFT JOIN users",
+       "CROSS JOIN users",
+       "No join needed"
+      ],
+      "a": 1,
+      "w": "LEFT JOIN keeps unmatched left rows (unassigned tickets)."
+     },
+     {
+      "t": "mc",
+      "q": "Filter groups after aggregation with…",
+      "o": [
+       "WHERE",
+       "HAVING",
+       "ORDER BY",
+       "LIMIT"
+      ],
+      "a": 1,
+      "w": "HAVING filters aggregated groups."
+     },
+     {
+      "t": "fill",
+      "q": "Count tickets per status:",
+      "code": "SELECT status, COUNT(*) FROM tickets ___ status;",
+      "o": [
+       "ORDER BY",
+       "GROUP BY",
+       "JOIN",
+       "WHERE"
+      ],
+      "a": 1,
+      "w": "GROUP BY buckets rows by status."
+     },
+     {
+      "t": "mc",
+      "q": "A column that references another table's primary key is a…",
+      "o": [
+       "Index",
+       "Foreign key",
+       "View",
+       "Trigger"
+      ],
+      "a": 1,
+      "w": "Foreign keys enforce relationships between tables."
+     },
+     {
+      "t": "mc",
+      "q": "An index on tickets(status) mainly…",
+      "o": [
+       "Encrypts the status column",
+       "Deletes duplicates",
+       "Speeds up queries that filter by status",
+       "Permanently sorts the table"
+      ],
+      "a": 2,
+      "w": "Like a book index: jump straight to matching rows."
+     },
+     {
+      "t": "mc",
+      "q": "Debit one account and credit another — both or neither must happen. Use…",
+      "o": [
+       "A transaction",
+       "An index",
+       "A view",
+       "LIMIT"
+      ],
+      "a": 0,
+      "w": "COMMIT applies all; ROLLBACK undoes all."
+     },
+     {
+      "t": "mc",
+      "q": "Prevent SQL injection by…",
+      "o": [
+       "Hiding the database",
+       "Using parameterized queries / prepared statements",
+       "Using longer passwords",
+       "Writing SQL in uppercase"
+      ],
+      "a": 1,
+      "w": "User input is passed as data, never as SQL."
+     },
+     {
+      "t": "mc",
+      "q": "The 'A' in ACID stands for…",
+      "o": [
+       "Availability",
+       "Accuracy",
+       "Async",
+       "Atomicity"
+      ],
+      "a": 3,
+      "w": "All-or-nothing."
+     },
+     {
+      "t": "fill",
+      "q": "Undo everything in the current transaction:",
+      "code": "BEGIN;\nUPDATE accounts SET balance = 0;\n___;",
+      "o": [
+       "ROLLBACK",
+       "UNDO",
+       "CANCEL",
+       "REVERT"
+      ],
+      "a": 0,
+      "w": "ROLLBACK discards uncommitted changes."
+     },
+     {
+      "t": "mc",
+      "q": "COUNT(*) with GROUP BY assignee_id returns…",
+      "o": [
+       "The total of all columns",
+       "Only the first row",
+       "The number of rows per assignee",
+       "An error"
+      ],
+      "a": 2,
+      "w": "One row per group, with its count."
+     }
+    ]
+   },
+   {
+    "id": "u3b",
+    "title": "BUILD: Design the schema",
+    "build": true,
+    "mission": "Design the database for <b>helpdesk-pro</b> and run it in PostgreSQL (or the free online DB-Fiddle).",
+    "steps": [
+     "Tables: users, tickets, comments — with primary and foreign keys",
+     "Insert at least 5 users and 15 tickets of varied status/priority",
+     "Write queries: open tickets by priority, tickets per assignee, unassigned tickets (LEFT JOIN … IS NULL)",
+     "Save schema.sql + queries.sql to your repo"
+    ],
+    "submit": "Paste your CREATE TABLE statements and your 3 queries."
+   }
+  ]
+ },
+ {
+  "id": "u4",
+  "phase": "Phase 2 · Building",
+  "title": "Web Frontend",
+  "color": "#ce82ff",
+  "goal": "Clients see the UI first. Build responsive pages and React components.",
+  "lessons": [
+   {
+    "id": "u4l1",
+    "title": "HTML, CSS & the DOM",
+    "cards": [
+     {
+      "h": "Three layers",
+      "p": "<b>HTML</b> = structure, <b>CSS</b> = style, <b>JavaScript</b> = behavior. Use semantic tags (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;button&gt;</code>) — better accessibility, which enterprise clients require."
+     },
+     {
+      "h": "Flexbox layout",
+      "p": "<code>display:flex</code> lines children up in a row or column; <code>justify-content</code> spaces along the main axis, <code>align-items</code> along the cross axis.",
+      "code": ".toolbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}"
+     },
+     {
+      "h": "DOM + events",
+      "p": "JavaScript finds elements and reacts to events.",
+      "code": "const btn = document.querySelector(\"#save\");\nbtn.addEventListener(\"click\", () => {\n  console.log(\"Saved!\");\n});",
+      "tip": "Use const by default, let when reassigning, never var."
+     },
+     {
+      "h": "Responsive & accessible",
+      "p": "Design <b>mobile-first</b>, then add <b>media queries</b> for bigger screens. Use <b>CSS Grid</b> for 2-D layouts. Accessibility is a client requirement: <b>alt text</b> on images and <b>labels</b> linked to inputs. Stop a form's default reload with <code>event.preventDefault()</code>.",
+      "code": "@media (max-width: 600px) {\n  .grid { grid-template-columns: 1fr; }\n}\n\n<label for=\"email\">Email</label>\n<input id=\"email\" type=\"email\">"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which layer controls layout and colors?",
+      "o": [
+       "HTML",
+       "CSS",
+       "JavaScript",
+       "JSON"
+      ],
+      "a": 1,
+      "w": "CSS handles presentation."
+     },
+     {
+      "t": "fill",
+      "q": "Run code when a button is clicked:",
+      "code": "btn.___(\"click\", handleClick);",
+      "o": [
+       "onClick",
+       "addEventListener",
+       "listen",
+       "bind"
+      ],
+      "a": 1,
+      "w": "addEventListener attaches an event handler."
+     },
+     {
+      "t": "mc",
+      "q": "Center items vertically in a flex row:",
+      "o": [
+       "justify-content:center",
+       "align-items:center",
+       "text-align:center",
+       "float:center"
+      ],
+      "a": 1,
+      "w": "In a row, the cross axis is vertical → align-items."
+     },
+     {
+      "t": "mc",
+      "q": "Which declaration should you prefer for a value that never gets reassigned?",
+      "o": [
+       "var",
+       "let",
+       "const",
+       "static"
+      ],
+      "a": 2,
+      "w": "const prevents reassignment and signals intent."
+     },
+     {
+      "t": "mc",
+      "q": "Apply styles only on screens narrower than 600px:",
+      "o": [
+       "@screen small",
+       "@media (max-width: 600px)",
+       "if (width < 600)",
+       "@phone"
+      ],
+      "a": 1,
+      "w": "Media queries switch styles by viewport size."
+     },
+     {
+      "t": "mc",
+      "q": "Why add alt text to images?",
+      "o": [
+       "Screen readers describe the image to visually impaired users",
+       "Faster loading",
+       "Only for SEO",
+       "Required for PNG files"
+      ],
+      "a": 0,
+      "w": "Accessibility (and yes, it helps SEO too)."
+     },
+     {
+      "t": "fill",
+      "q": "Connect a label to the input with id=\"email\":",
+      "code": "<label ___=\"email\">Email</label>",
+      "o": [
+       "to",
+       "id",
+       "for",
+       "name"
+      ],
+      "a": 2,
+      "w": "for must match the input's id; in React it's htmlFor."
+     },
+     {
+      "t": "mc",
+      "q": "Two-dimensional layouts (rows AND columns) are easiest with…",
+      "o": [
+       "float",
+       "Tables only",
+       "position: absolute",
+       "CSS Grid"
+      ],
+      "a": 3,
+      "w": "Flexbox is 1-D; Grid is 2-D."
+     },
+     {
+      "t": "mc",
+      "q": "What does event.preventDefault() do on a form submit?",
+      "o": [
+       "Stops the browser's default page reload/submission",
+       "Deletes the form",
+       "Validates the email",
+       "Sends the data"
+      ],
+      "a": 0,
+      "w": "Then you handle the data with JavaScript."
+     },
+     {
+      "t": "mc",
+      "q": "Which CSS selector targets the element with id=\"save\"?",
+      "o": [
+       ".save",
+       "#save",
+       "save",
+       "*save"
+      ],
+      "a": 1,
+      "w": "# = id, . = class."
+     }
+    ]
+   },
+   {
+    "id": "u4l2",
+    "title": "React fundamentals",
+    "cards": [
+     {
+      "h": "Components",
+      "p": "React UIs are built from <b>components</b> — functions that return JSX (HTML-like syntax). <b>Props</b> pass data in; <b>state</b> holds data that changes.",
+      "code": "function TicketCard({ title, priority }) {\n  return <div className=\"card\">{title} — P{priority}</div>;\n}"
+     },
+     {
+      "h": "useState",
+      "p": "Calling the setter re-renders the component with the new value.",
+      "code": "const [count, setCount] = useState(0);\n<button onClick={() => setCount(count + 1)}>{count}</button>"
+     },
+     {
+      "h": "Fetching data",
+      "p": "<code>useEffect</code> runs side effects like API calls after render.",
+      "code": "useEffect(() => {\n  fetch(\"/api/tickets\")\n    .then(r => r.json())\n    .then(setTickets);\n}, []);",
+      "tip": "The [] means \"run once on mount.\" Forgetting it can cause infinite fetch loops."
+     },
+     {
+      "h": "Lists & conditional rendering",
+      "p": "Render arrays with <code>.map()</code> and give each item a stable <b>key</b>. Show things conditionally with <code>&amp;&amp;</code> or a ternary. If two components need the same data, <b>lift state up</b> to their parent. A <b>controlled input</b> takes its value from state.",
+      "code": "{tickets.length === 0 && <p>No tickets</p>}\n<ul>\n  {tickets.map(t => <TicketCard key={t.id} {...t} />)}\n</ul>\n<input value={title} onChange={e => setTitle(e.target.value)} />"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Data passed from parent to child component is called…",
+      "o": [
+       "state",
+       "props",
+       "hooks",
+       "context"
+      ],
+      "a": 1,
+      "w": "Props flow down from parent to child."
+     },
+     {
+      "t": "fill",
+      "q": "Declare state for a list of tickets:",
+      "code": "const [tickets, setTickets] = ___([]);",
+      "o": [
+       "useEffect",
+       "useState",
+       "useRef",
+       "useMemo"
+      ],
+      "a": 1,
+      "w": "useState returns [value, setter]."
+     },
+     {
+      "t": "mc",
+      "q": "What does the empty array in useEffect(fn, []) mean?",
+      "o": [
+       "Never run",
+       "Run once after first render",
+       "Run on every render",
+       "Run on unmount only"
+      ],
+      "a": 1,
+      "w": "No dependencies → runs once after mount."
+     },
+     {
+      "t": "mc",
+      "q": "Why must you call setTickets instead of tickets.push()?",
+      "o": [
+       "push is slower",
+       "React only re-renders when state is set via its setter",
+       "push is not valid JS",
+       "It saves memory"
+      ],
+      "a": 1,
+      "w": "Mutating directly doesn't trigger a re-render."
+     },
+     {
+      "t": "mc",
+      "q": "Why does React need a key on list items?",
+      "o": [
+       "For CSS",
+       "For security",
+       "To track items efficiently between renders",
+       "To sort them"
+      ],
+      "a": 2,
+      "w": "Use stable IDs, not array indexes, when items can move."
+     },
+     {
+      "t": "fill",
+      "q": "Render a TicketCard per ticket:",
+      "code": "{tickets.___(t => <TicketCard key={t.id} {...t} />)}",
+      "o": [
+       "map",
+       "forEach",
+       "filter",
+       "reduce"
+      ],
+      "a": 0,
+      "w": "map returns a new array of elements; forEach returns nothing."
+     },
+     {
+      "t": "mc",
+      "q": "Show 'No tickets' only when the list is empty:",
+      "o": [
+       "<if empty>No tickets</if>",
+       "{tickets.length === 0 && <p>No tickets</p>}",
+       "{if (tickets) No tickets}",
+       "<p hidden>No tickets</p>"
+      ],
+      "a": 1,
+      "w": "&& renders the right side only when the left is true."
+     },
+     {
+      "t": "mc",
+      "q": "Two sibling components need the same state. You should…",
+      "o": [
+       "Duplicate it in both",
+       "Use a global variable",
+       "Reload the page",
+       "Lift the state up to their common parent"
+      ],
+      "a": 3,
+      "w": "Then pass it down as props."
+     },
+     {
+      "t": "mc",
+      "q": "A controlled input…",
+      "o": [
+       "Gets its value from state and updates it via onChange",
+       "Can't be typed into",
+       "Uses jQuery",
+       "Is always disabled"
+      ],
+      "a": 0,
+      "w": "React state is the single source of truth."
+     },
+     {
+      "t": "mc",
+      "q": "JSX is…",
+      "o": [
+       "A database",
+       "A CSS framework",
+       "HTML-like syntax that compiles to JavaScript",
+       "A Java library"
+      ],
+      "a": 2,
+      "w": "<div/> becomes a function call under the hood."
+     }
+    ]
+   },
+   {
+    "id": "u4b",
+    "title": "BUILD: Ticket dashboard",
+    "build": true,
+    "mission": "Build the <b>helpdesk-pro</b> web dashboard with React (Vite: <code>npm create vite@latest</code>).",
+    "steps": [
+     "TicketCard and TicketList components using props",
+     "A form to add tickets (title + priority) using useState",
+     "Filter buttons: All / Open / Closed",
+     "Responsive layout with flexbox — test on your phone",
+     "Deploy free on Vercel or Netlify and put the link in your README"
+    ],
+    "submit": "Paste your main component code (and live link if deployed)."
+   }
+  ]
+ },
+ {
+  "id": "u5",
+  "phase": "Phase 2 · Building",
+  "title": "Backend & REST APIs",
+  "color": "#ff4b4b",
+  "goal": "Spring Boot REST APIs are core to IBM Java consulting work.",
+  "lessons": [
+   {
+    "id": "u5l1",
+    "title": "HTTP & REST",
+    "cards": [
+     {
+      "h": "Request/response",
+      "p": "Clients send HTTP <b>requests</b> (method + URL + headers + body); servers return <b>responses</b> with a status code and usually JSON."
+     },
+     {
+      "h": "REST verbs",
+      "p": "<code>GET</code> read · <code>POST</code> create · <code>PUT</code> replace · <code>PATCH</code> partial update · <code>DELETE</code> remove. Resources are nouns: <code>/api/tickets/42</code>, not <code>/getTicket?id=42</code>."
+     },
+     {
+      "h": "Status codes",
+      "p": "<b>200</b> OK · <b>201</b> Created · <b>400</b> Bad Request · <b>401</b> Unauthenticated · <b>403</b> Forbidden · <b>404</b> Not Found · <b>500</b> Server Error.",
+      "tip": "2xx = success, 4xx = client's fault, 5xx = server's fault."
+     },
+     {
+      "h": "Idempotency, headers & JSON",
+      "p": "GET, PUT and DELETE are <b>idempotent</b> (repeating them gives the same result); POST is not. Send JSON with <code>Content-Type: application/json</code>. Auth tokens go in the <code>Authorization: Bearer …</code> header. Filter with query parameters.",
+      "code": "GET /api/tickets?status=OPEN&priority=1\nAuthorization: Bearer eyJhbGciOi...\n\nPATCH /api/tickets/42\nContent-Type: application/json\n{ \"status\": \"CLOSED\" }"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Create a new ticket via REST:",
+      "o": [
+       "GET /api/tickets",
+       "POST /api/tickets",
+       "DELETE /api/tickets",
+       "GET /api/createTicket"
+      ],
+      "a": 1,
+      "w": "POST to the collection creates a resource."
+     },
+     {
+      "t": "mc",
+      "q": "Successful creation should return…",
+      "o": [
+       "200",
+       "201",
+       "204",
+       "302"
+      ],
+      "a": 1,
+      "w": "201 Created."
+     },
+     {
+      "t": "mc",
+      "q": "User is logged in but lacks permission:",
+      "o": [
+       "401",
+       "403",
+       "404",
+       "500"
+      ],
+      "a": 1,
+      "w": "403 Forbidden: authenticated but not allowed."
+     },
+     {
+      "t": "mc",
+      "q": "Which URL is most RESTful?",
+      "o": [
+       "/api/getAllTickets",
+       "/api/tickets",
+       "/api/ticket_list.php",
+       "/api/doTickets"
+      ],
+      "a": 1,
+      "w": "Plural nouns; the HTTP method gives the action."
+     },
+     {
+      "t": "mc",
+      "q": "Which HTTP method is NOT idempotent?",
+      "o": [
+       "GET",
+       "PUT",
+       "DELETE",
+       "POST"
+      ],
+      "a": 3,
+      "w": "Posting twice creates two resources."
+     },
+     {
+      "t": "mc",
+      "q": "Filter tickets by status, RESTfully:",
+      "o": [
+       "GET /api/getOpenTickets",
+       "GET /api/tickets?status=OPEN",
+       "POST /api/filter",
+       "GET /api/tickets/OPEN/get"
+      ],
+      "a": 1,
+      "w": "Query parameters filter a collection."
+     },
+     {
+      "t": "fill",
+      "q": "Tell the server you're sending JSON:",
+      "code": "Content-Type: ___",
+      "o": [
+       "application/json",
+       "text/json-data",
+       "json",
+       "app/js"
+      ],
+      "a": 0,
+      "w": "The server uses this header to parse the body."
+     },
+     {
+      "t": "mc",
+      "q": "Where does a login token usually go?",
+      "o": [
+       "The URL path",
+       "Inside every response body",
+       "The Authorization header (e.g. Bearer token)",
+       "The cookie name"
+      ],
+      "a": 2,
+      "w": "Never put tokens in URLs — they end up in logs."
+     },
+     {
+      "t": "mc",
+      "q": "PATCH vs PUT:",
+      "o": [
+       "PATCH updates some fields; PUT replaces the whole resource",
+       "They're the same",
+       "PUT is partial",
+       "PATCH deletes"
+      ],
+      "a": 0,
+      "w": "Use PATCH for status changes like closing a ticket."
+     },
+     {
+      "t": "mc",
+      "q": "404 means…",
+      "o": [
+       "Server crashed",
+       "Forbidden",
+       "Created",
+       "Resource not found"
+      ],
+      "a": 3,
+      "w": "The URL or ID doesn't exist."
+     }
+    ]
+   },
+   {
+    "id": "u5l2",
+    "title": "Spring Boot essentials",
+    "cards": [
+     {
+      "h": "Layered architecture",
+      "p": "<b>Controller</b> (HTTP endpoints) → <b>Service</b> (business logic) → <b>Repository</b> (database). Each layer has one job."
+     },
+     {
+      "h": "Annotations do the wiring",
+      "p": "Spring creates and injects objects for you (<b>dependency injection</b>).",
+      "code": "@RestController\n@RequestMapping(\"/api/tickets\")\nclass TicketController {\n  private final TicketService service;\n  TicketController(TicketService s) { this.service = s; }\n\n  @GetMapping\n  List<Ticket> all() { return service.findAll(); }\n\n  @PostMapping\n  @ResponseStatus(HttpStatus.CREATED)\n  Ticket create(@RequestBody Ticket t) { return service.save(t); }\n}"
+     },
+     {
+      "h": "Spring Data JPA",
+      "p": "Extend an interface and get CRUD for free.",
+      "code": "interface TicketRepository\n    extends JpaRepository<Ticket, Long> {\n  List<Ticket> findByStatus(String status);\n}",
+      "tip": "Constructor injection (shown above) is the recommended style — easier to test."
+     },
+     {
+      "h": "Validation & error handling",
+      "p": "Read URL parts with <code>@PathVariable</code> and query params with <code>@RequestParam</code>. Validate input with <code>@Valid</code> + annotations like <code>@NotBlank</code>. Map exceptions to proper HTTP codes in one place with <code>@ControllerAdvice</code>. Config such as the DB URL lives in <code>application.properties</code>.",
+      "code": "@GetMapping(\"/{id}\")\nTicket get(@PathVariable Long id) { return service.get(id); }\n\n@ControllerAdvice\nclass Errors {\n  @ExceptionHandler(TicketNotFoundException.class)\n  ResponseEntity<String> notFound() {\n    return ResponseEntity.status(404).body(\"Ticket not found\");\n  }\n}"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Where does business logic belong?",
+      "o": [
+       "Controller",
+       "Service",
+       "Repository",
+       "Entity"
+      ],
+      "a": 1,
+      "w": "Controllers stay thin; services hold logic."
+     },
+     {
+      "t": "fill",
+      "q": "Map an HTTP GET to this method:",
+      "code": "@___\nList<Ticket> all() { ... }",
+      "o": [
+       "GetMapping",
+       "PostMapping",
+       "Get",
+       "RequestBody"
+      ],
+      "a": 0,
+      "w": "@GetMapping handles GET requests."
+     },
+     {
+      "t": "mc",
+      "q": "@RequestBody does what?",
+      "o": [
+       "Sends JSON to client",
+       "Converts the JSON request body into a Java object",
+       "Validates the URL",
+       "Logs the request"
+      ],
+      "a": 1,
+      "w": "It deserializes the request JSON into the parameter."
+     },
+     {
+      "t": "mc",
+      "q": "Spring creating TicketService and passing it into the controller is called…",
+      "o": [
+       "Inheritance",
+       "Dependency injection",
+       "Reflection",
+       "Serialization"
+      ],
+      "a": 1,
+      "w": "DI: the framework supplies dependencies."
+     },
+     {
+      "t": "fill",
+      "q": "Read {id} from /api/tickets/{id}:",
+      "code": "Ticket get(@___ Long id)",
+      "o": [
+       "RequestParam",
+       "RequestBody",
+       "PathVariable",
+       "Param"
+      ],
+      "a": 2,
+      "w": "@PathVariable binds a URL segment."
+     },
+     {
+      "t": "mc",
+      "q": "Read ?status=OPEN from the URL:",
+      "o": [
+       "@RequestParam",
+       "@PathVariable",
+       "@RequestBody",
+       "@Header"
+      ],
+      "a": 0,
+      "w": "Query string values use @RequestParam."
+     },
+     {
+      "t": "mc",
+      "q": "Automatically reject a ticket with an empty title:",
+      "o": [
+       "A comment",
+       "@NotBlank on the field + @Valid on the parameter",
+       "@Override",
+       "@Autowired"
+      ],
+      "a": 1,
+      "w": "Spring returns 400 Bad Request when validation fails."
+     },
+     {
+      "t": "mc",
+      "q": "Handle exceptions globally and return proper status codes:",
+      "o": [
+       "try/catch in main",
+       "@Entity",
+       "@Repository",
+       "@ControllerAdvice with @ExceptionHandler"
+      ],
+      "a": 3,
+      "w": "One place for consistent error responses."
+     },
+     {
+      "t": "mc",
+      "q": "ResponseEntity lets you…",
+      "o": [
+       "Control the status code, headers and body",
+       "Connect to the database",
+       "Schedule jobs",
+       "Create tables"
+      ],
+      "a": 0,
+      "w": "e.g. ResponseEntity.status(201).body(ticket)."
+     },
+     {
+      "t": "mc",
+      "q": "Where do you configure the database URL?",
+      "o": [
+       "pom.xml dependencies",
+       "The controller",
+       "application.properties / application.yml",
+       "README.md"
+      ],
+      "a": 2,
+      "w": "Override per environment with env variables."
+     }
+    ]
+   },
+   {
+    "id": "u5b",
+    "title": "BUILD: Ticket REST API",
+    "build": true,
+    "mission": "Build the <b>helpdesk-pro</b> backend with Spring Boot (start.spring.io: Web, JPA, PostgreSQL or H2).",
+    "steps": [
+     "Ticket entity + TicketRepository",
+     "TicketService with create/list/close logic",
+     "Endpoints: GET /api/tickets, GET /api/tickets/{id}, POST, PATCH /{id}/close",
+     "Return 404 for missing tickets and 400 for invalid input",
+     "Connect your React dashboard to the API"
+    ],
+    "submit": "Paste your controller and service code."
+   }
+  ]
+ },
+ {
+  "id": "u6",
+  "phase": "Phase 2 · Building",
+  "title": "Testing & Clean Code",
+  "color": "#2ec4b6",
+  "goal": "IBM consulting interns do unit testing and QA. Professionals prove code works.",
+  "lessons": [
+   {
+    "id": "u6l1",
+    "title": "Unit testing with JUnit",
+    "cards": [
+     {
+      "h": "The test pyramid",
+      "p": "Many fast <b>unit tests</b> (one class), fewer <b>integration tests</b> (components together), few <b>end-to-end tests</b> (full user flows)."
+     },
+     {
+      "h": "Arrange · Act · Assert",
+      "p": "Every test: set up data, run the code, check the result.",
+      "code": "@Test\nvoid closeSetsStatusClosed() {\n  Ticket t = new Ticket(\"VPN down\");   // Arrange\n  t.close();                           // Act\n  assertEquals(\"CLOSED\", t.getStatus()); // Assert\n}"
+     },
+     {
+      "h": "Mocks",
+      "p": "Use <b>Mockito</b> to fake dependencies (like the repository) so a unit test doesn't need a real database.",
+      "code": "when(repo.findById(1L)).thenReturn(Optional.of(ticket));",
+      "tip": "Test edge cases: empty input, null, max values, wrong id."
+     },
+     {
+      "h": "Better tests",
+      "p": "Name tests by behavior: <code>closeTicket_whenMissing_throwsNotFound</code>. <code>@BeforeEach</code> sets up fresh data for every test. Test failures too, with <code>assertThrows</code>. Coverage shows what ran — not that it's correct. <b>TDD</b>: red (failing test) → green (make it pass) → refactor.",
+      "code": "@BeforeEach\nvoid setUp() { service = new TicketService(mockRepo); }\n\n@Test\nvoid close_whenMissing_throwsNotFound() {\n  assertThrows(TicketNotFoundException.class,\n      () -> service.close(99L));\n}"
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order the parts of a good unit test:",
+      "items": [
+       "Arrange",
+       "Act",
+       "Assert"
+      ],
+      "w": "AAA pattern."
+     },
+     {
+      "t": "mc",
+      "q": "Which tests should you have the MOST of?",
+      "o": [
+       "End-to-end",
+       "Unit",
+       "Manual",
+       "Load"
+      ],
+      "a": 1,
+      "w": "Unit tests are fast, cheap and pinpoint failures."
+     },
+     {
+      "t": "mc",
+      "q": "Why mock the repository in a service test?",
+      "o": [
+       "To make tests slower",
+       "To isolate the service from the database",
+       "Mocks are required by Java",
+       "To test the database"
+      ],
+      "a": 1,
+      "w": "Mocks isolate the unit under test."
+     },
+     {
+      "t": "fill",
+      "q": "Check two values are equal:",
+      "code": "___(5, cart.itemCount());",
+      "o": [
+       "assertTrue",
+       "assertEquals",
+       "expect",
+       "check"
+      ],
+      "a": 1,
+      "w": "assertEquals(expected, actual)."
+     },
+     {
+      "t": "fill",
+      "q": "Assert that an exception is thrown:",
+      "code": "___(TicketNotFoundException.class, () -> service.close(99L));",
+      "o": [
+       "expectError",
+       "assertFails",
+       "assertThrows",
+       "tryCatch"
+      ],
+      "a": 2,
+      "w": "assertThrows passes only if that exception is thrown."
+     },
+     {
+      "t": "mc",
+      "q": "@BeforeEach runs…",
+      "o": [
+       "Before every test method",
+       "Once before all tests",
+       "After every test",
+       "Never"
+      ],
+      "a": 0,
+      "w": "Each test gets fresh, independent setup."
+     },
+     {
+      "t": "order",
+      "q": "Order the TDD cycle:",
+      "items": [
+       "Write a failing test (red)",
+       "Write the minimal code to pass (green)",
+       "Refactor"
+      ],
+      "w": "Red → green → refactor, in small loops."
+     },
+     {
+      "t": "mc",
+      "q": "100% test coverage guarantees…",
+      "o": [
+       "No bugs",
+       "Every line ran during tests — not that behavior is correct",
+       "Fast code",
+       "Security"
+      ],
+      "a": 1,
+      "w": "Assertions matter more than coverage numbers."
+     },
+     {
+      "t": "mc",
+      "q": "Best test name?",
+      "o": [
+       "test1",
+       "myTest",
+       "abc",
+       "closeTicket_whenTicketMissing_throwsNotFound"
+      ],
+      "a": 3,
+      "w": "The name explains the behavior when it fails."
+     },
+     {
+      "t": "mc",
+      "q": "An integration test checks…",
+      "o": [
+       "Several components working together (e.g. API + database)",
+       "One method only",
+       "UI colors",
+       "Spelling"
+      ],
+      "a": 0,
+      "w": "Spring Boot uses @SpringBootTest for these."
+     }
+    ]
+   },
+   {
+    "id": "u6l2",
+    "title": "Clean code & debugging",
+    "cards": [
+     {
+      "h": "Readable > clever",
+      "p": "Clear names (<code>overdueTickets</code>, not <code>list2</code>), small functions that do one thing, no magic numbers (<code>MAX_PRIORITY = 5</code>)."
+     },
+     {
+      "h": "SOLID in one line each",
+      "p": "<b>S</b>ingle responsibility · <b>O</b>pen for extension, closed for modification · <b>L</b>iskov substitution · <b>I</b>nterface segregation · <b>D</b>ependency inversion (depend on interfaces)."
+     },
+     {
+      "h": "Debug like an engineer",
+      "p": "1) Reproduce reliably 2) Read the full stack trace — the top \"Caused by\" line in YOUR code is the clue 3) Form a hypothesis 4) Use breakpoints, not random prints 5) Fix + add a test so it never returns."
+     },
+     {
+      "h": "Logging & refactoring",
+      "p": "<b>DRY</b>: Don't Repeat Yourself — extract shared logic. Prefer <b>early returns</b> over deep nesting. Log at the right level — DEBUG, INFO, WARN, <b>ERROR</b> — and <b>never log passwords, tokens or personal data</b>. <b>Refactoring</b> improves structure without changing behavior (tests prove it)."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Best variable name for tickets past their deadline?",
+      "o": [
+       "t2",
+       "data",
+       "overdueTickets",
+       "x"
+      ],
+      "a": 2,
+      "w": "Names should reveal intent."
+     },
+     {
+      "t": "mc",
+      "q": "\"A class should have one reason to change\" is…",
+      "o": [
+       "Open/Closed",
+       "Single Responsibility",
+       "Liskov",
+       "DRY"
+      ],
+      "a": 1,
+      "w": "S in SOLID."
+     },
+     {
+      "t": "order",
+      "q": "Order a professional debugging process:",
+      "items": [
+       "Reproduce the bug",
+       "Read the stack trace",
+       "Form a hypothesis",
+       "Fix it",
+       "Add a regression test"
+      ],
+      "w": "Reproduce → read → hypothesize → fix → test."
+     },
+     {
+      "t": "mc",
+      "q": "Replace `if (priority > 5)` with…",
+      "o": [
+       "A comment",
+       "if (priority > MAX_PRIORITY)",
+       "if (priority > 4+1)",
+       "Nothing"
+      ],
+      "a": 1,
+      "w": "Named constants remove magic numbers."
+     },
+     {
+      "t": "mc",
+      "q": "DRY means…",
+      "o": [
+       "Do Run Yearly",
+       "Delete Redundant YAML",
+       "Don't Repeat Yourself",
+       "Debug Right Yesterday"
+      ],
+      "a": 2,
+      "w": "Duplicate logic means duplicate bugs."
+     },
+     {
+      "t": "mc",
+      "q": "A failed payment that needs attention should be logged at…",
+      "o": [
+       "ERROR",
+       "DEBUG",
+       "TRACE",
+       "Never logged"
+      ],
+      "a": 0,
+      "w": "ERROR = something failed and someone may need to act."
+     },
+     {
+      "t": "mc",
+      "q": "Never write to logs…",
+      "o": [
+       "Request IDs",
+       "Passwords, tokens or personal data",
+       "Timestamps",
+       "Error messages"
+      ],
+      "a": 1,
+      "w": "Logs are widely readable and kept a long time."
+     },
+     {
+      "t": "mc",
+      "q": "Replacing nested ifs with early returns mainly improves…",
+      "o": [
+       "Speed, always",
+       "Security",
+       "Memory usage",
+       "Readability"
+      ],
+      "a": 3,
+      "w": "Guard clauses flatten the happy path."
+     },
+     {
+      "t": "mc",
+      "q": "A breakpoint lets you…",
+      "o": [
+       "Pause execution and inspect variables",
+       "Delete code",
+       "Deploy",
+       "Compile faster"
+      ],
+      "a": 0,
+      "w": "Debuggers beat println guessing."
+     },
+     {
+      "t": "mc",
+      "q": "Refactoring means…",
+      "o": [
+       "Adding features",
+       "Rewriting from scratch",
+       "Improving code structure without changing behavior",
+       "Deleting tests"
+      ],
+      "a": 2,
+      "w": "Run the tests before and after."
+     }
+    ]
+   },
+   {
+    "id": "u6b",
+    "title": "BUILD: Test your API",
+    "build": true,
+    "mission": "Bring <b>helpdesk-pro</b> to professional quality.",
+    "steps": [
+     "Write at least 8 JUnit tests for TicketService (use Mockito for the repository)",
+     "Cover edge cases: closing a missing ticket, invalid priority",
+     "Refactor one messy method and name things clearly",
+     "Measure coverage (IntelliJ or JaCoCo) — aim for 70%+ on the service"
+    ],
+    "submit": "Paste your test class."
+   }
+  ]
+ },
+ {
+  "id": "u7",
+  "phase": "Phase 3 · Shipping",
+  "title": "Cloud, Linux & DevOps",
+  "color": "#1899d6",
+  "goal": "IBM = hybrid cloud + Red Hat. Containerize, automate and deploy.",
+  "lessons": [
+   {
+    "id": "u7l1",
+    "title": "Linux & Docker",
+    "cards": [
+     {
+      "h": "Linux daily drivers",
+      "p": "<code>ls</code> <code>cd</code> <code>pwd</code> <code>cat</code> <code>grep</code> <code>chmod</code> <code>ps</code> <code>systemctl</code>. You already have Red Hat Academy training — this is where it pays off.",
+      "code": "grep -i \"error\" app.log | tail -20\nchmod +x deploy.sh\nps aux | grep java"
+     },
+     {
+      "h": "Containers",
+      "p": "A <b>container</b> packages your app + its runtime so it runs the same everywhere. An <b>image</b> is the blueprint; a <b>container</b> is a running instance.",
+      "code": "FROM eclipse-temurin:21-jre\nCOPY target/app.jar app.jar\nEXPOSE 8080\nENTRYPOINT [\"java\",\"-jar\",\"app.jar\"]"
+     },
+     {
+      "h": "Core commands",
+      "p": "",
+      "code": "docker build -t helpdesk-api .\ndocker run -p 8080:8080 helpdesk-api\ndocker ps\ndocker logs <id>",
+      "tip": "IBM and Red Hat often use Podman — same commands, no daemon."
+     },
+     {
+      "h": "Ops basics you'll use daily",
+      "p": "<code>sudo</code> runs a command as admin, <code>chmod +x</code> makes a script executable, <code>tail -f</code> follows a growing log. In Docker, <b>volumes</b> keep data after a container is removed, and <code>docker ps</code> lists running containers.",
+      "code": "chmod +x deploy.sh && ./deploy.sh\ntail -f /var/log/app.log\ndocker run -d -v pgdata:/var/lib/postgresql/data postgres:16"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Image vs container:",
+      "o": [
+       "Same thing",
+       "Image = blueprint, container = running instance",
+       "Container = blueprint",
+       "Image runs, container stores"
+      ],
+      "a": 1,
+      "w": "You run containers from images."
+     },
+     {
+      "t": "fill",
+      "q": "Search a log file for errors (case-insensitive):",
+      "code": "___ -i \"error\" app.log",
+      "o": [
+       "find",
+       "grep",
+       "cat",
+       "ls"
+      ],
+      "a": 1,
+      "w": "grep searches text."
+     },
+     {
+      "t": "mc",
+      "q": "In docker run -p 8080:8080, what does -p do?",
+      "o": [
+       "Sets priority",
+       "Maps a host port to a container port",
+       "Sets password",
+       "Pulls the image"
+      ],
+      "a": 1,
+      "w": "host:container port mapping."
+     },
+     {
+      "t": "mc",
+      "q": "Main benefit of containers?",
+      "o": [
+       "Prettier code",
+       "Runs consistently across environments",
+       "No need for testing",
+       "Free hosting"
+      ],
+      "a": 1,
+      "w": "\"Works on my machine\" → works everywhere."
+     },
+     {
+      "t": "mc",
+      "q": "Run a single command as administrator:",
+      "o": [
+       "admin",
+       "root",
+       "sudo",
+       "su-do"
+      ],
+      "a": 2,
+      "w": "sudo also logs who ran what."
+     },
+     {
+      "t": "mc",
+      "q": "Make deploy.sh executable:",
+      "o": [
+       "chmod +x deploy.sh",
+       "run deploy.sh",
+       "exec deploy.sh",
+       "chown deploy.sh"
+      ],
+      "a": 0,
+      "w": "+x adds execute permission."
+     },
+     {
+      "t": "mc",
+      "q": "Keep a container's data after the container is removed:",
+      "o": [
+       "A bigger image",
+       "Use a volume",
+       "docker restart",
+       "A new tag"
+      ],
+      "a": 1,
+      "w": "Container filesystems are temporary."
+     },
+     {
+      "t": "fill",
+      "q": "List running containers:",
+      "code": "docker ___",
+      "o": [
+       "list",
+       "show",
+       "ps",
+       "top-all"
+      ],
+      "a": 2,
+      "w": "docker ps -a includes stopped ones."
+     },
+     {
+      "t": "mc",
+      "q": "Where do logs usually live on Linux?",
+      "o": [
+       "/etc",
+       "/bin",
+       "/home",
+       "/var/log"
+      ],
+      "a": 3,
+      "w": "/etc is configuration."
+     },
+     {
+      "t": "mc",
+      "q": "Follow the end of a log file as it grows:",
+      "o": [
+       "tail -f app.log",
+       "head app.log",
+       "cat -r app.log",
+       "ls app.log"
+      ],
+      "a": 0,
+      "w": "-f = follow."
+     }
+    ]
+   },
+   {
+    "id": "u7l2",
+    "title": "CI/CD & Kubernetes",
+    "cards": [
+     {
+      "h": "CI/CD",
+      "p": "<b>Continuous Integration</b>: every push builds + runs tests automatically. <b>Continuous Delivery/Deployment</b>: passing builds ship to staging/production automatically. Tools: GitHub Actions, Jenkins, Tekton.",
+      "code": "# .github/workflows/ci.yml\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: ./mvnw test"
+     },
+     {
+      "h": "Kubernetes & OpenShift",
+      "p": "<b>Kubernetes</b> runs and scales containers across many machines. <b>Pods</b> hold containers; <b>Deployments</b> keep N copies running; <b>Services</b> expose them. <b>Red Hat OpenShift</b> is IBM's enterprise Kubernetes platform."
+     },
+     {
+      "h": "Cloud models",
+      "p": "<b>IaaS</b> (you manage VMs) · <b>PaaS</b> (you deploy code/containers) · <b>SaaS</b> (you just use software). <b>Hybrid cloud</b> = on-prem + public cloud working together — IBM's core strategy."
+     },
+     {
+      "h": "Release safely",
+      "p": "<b>Canary</b>: send a small % of users to the new version first. <b>Blue-green</b>: switch traffic between two environments for instant rollback. Store pipeline credentials as <b>encrypted CI secrets</b>. If a pod is in <code>CrashLoopBackOff</code>, read <code>kubectl logs</code> and <code>kubectl describe</code> first. <b>Terraform</b> defines infrastructure as code."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Automatically running tests on every push is…",
+      "o": [
+       "Continuous Integration",
+       "Continuous Deployment",
+       "Code review",
+       "Monitoring"
+      ],
+      "a": 0,
+      "w": "CI = integrate + verify continuously."
+     },
+     {
+      "t": "mc",
+      "q": "IBM's enterprise Kubernetes platform:",
+      "o": [
+       "Docker Swarm",
+       "Red Hat OpenShift",
+       "Heroku",
+       "Ansible"
+      ],
+      "a": 1,
+      "w": "OpenShift, from Red Hat (owned by IBM)."
+     },
+     {
+      "t": "mc",
+      "q": "Which object keeps 3 replicas of your app running?",
+      "o": [
+       "Pod",
+       "Deployment",
+       "Service",
+       "Namespace"
+      ],
+      "a": 1,
+      "w": "A Deployment manages replica Pods."
+     },
+     {
+      "t": "mc",
+      "q": "Gmail is an example of…",
+      "o": [
+       "IaaS",
+       "PaaS",
+       "SaaS",
+       "Hybrid"
+      ],
+      "a": 2,
+      "w": "You use finished software → SaaS."
+     },
+     {
+      "t": "mc",
+      "q": "A canary release…",
+      "o": [
+       "Deploys to everyone at once",
+       "Sends a small % of users to the new version first",
+       "Only deploys at night",
+       "Skips tests"
+      ],
+      "a": 1,
+      "w": "Watch metrics, then expand or roll back."
+     },
+     {
+      "t": "mc",
+      "q": "A Kubernetes Service…",
+      "o": [
+       "Gives a set of pods a stable network address",
+       "Builds images",
+       "Stores code",
+       "Runs CI"
+      ],
+      "a": 0,
+      "w": "Pods come and go; the Service stays."
+     },
+     {
+      "t": "mc",
+      "q": "Where should secrets for a CI pipeline be stored?",
+      "o": [
+       "In the source code",
+       "The README",
+       "Encrypted CI secrets (e.g. GitHub Secrets)",
+       "Commit messages"
+      ],
+      "a": 2,
+      "w": "Never commit credentials."
+     },
+     {
+      "t": "mc",
+      "q": "Which is an Infrastructure as Code tool?",
+      "o": [
+       "Jira",
+       "Figma",
+       "Excel",
+       "Terraform"
+      ],
+      "a": 3,
+      "w": "Terraform describes cloud resources in code."
+     },
+     {
+      "t": "mc",
+      "q": "Continuous Deployment means…",
+      "o": [
+       "Every passing change goes to production automatically",
+       "Deploying once a year",
+       "Manual FTP uploads",
+       "Only running tests"
+      ],
+      "a": 0,
+      "w": "Continuous Delivery keeps a manual approval step."
+     },
+     {
+      "t": "mc",
+      "q": "A pod keeps restarting (CrashLoopBackOff). First check:",
+      "o": [
+       "Delete the cluster",
+       "Buy more servers",
+       "kubectl logs and kubectl describe",
+       "Rename the pod"
+      ],
+      "a": 2,
+      "w": "Logs and events usually name the cause."
+     }
+    ]
+   },
+   {
+    "id": "u7b",
+    "title": "BUILD: Ship it",
+    "build": true,
+    "mission": "Containerize and automate <b>helpdesk-pro</b>.",
+    "steps": [
+     "Write a Dockerfile for the API and run it locally",
+     "Add docker-compose.yml with the API + PostgreSQL",
+     "Add a GitHub Actions workflow that runs tests on every push",
+     "Deploy free (Render/Railway, or Red Hat OpenShift Developer Sandbox)",
+     "Add a CI status badge to README"
+    ],
+    "submit": "Paste your Dockerfile and CI workflow."
+   }
+  ]
+ },
+ {
+  "id": "u8",
+  "phase": "Phase 3 · Shipping",
+  "title": "AI Engineering",
+  "color": "#ffc800",
+  "goal": "Every client asks about AI now. Learn to build with LLMs responsibly.",
+  "lessons": [
+   {
+    "id": "u8l1",
+    "title": "LLMs & prompting",
+    "cards": [
+     {
+      "h": "What an LLM does",
+      "p": "A <b>large language model</b> predicts the next token based on patterns from training data. It's powerful but can <b>hallucinate</b> — produce confident, wrong answers."
+     },
+     {
+      "h": "Prompting that works",
+      "p": "Give <b>role + context + task + format + constraints</b>. Show examples (few-shot). Ask for structured output like JSON so code can parse it.",
+      "code": "Role: You are a support triage assistant.\nTask: Classify the ticket below.\nFormat: JSON {\"category\": \"...\", \"priority\": 1-5}\nTicket: \"VPN disconnects every 10 min\""
+     },
+     {
+      "h": "Calling an API",
+      "p": "Apps call models over HTTP with an API key (kept on the server, never in frontend code). IBM's platform is <b>watsonx.ai</b>; others include Anthropic, OpenAI, and open models.",
+      "tip": "Never paste client confidential data into public AI tools. Consultants are bound by client data agreements."
+     },
+     {
+      "h": "Tokens, context & temperature",
+      "p": "Models read and write <b>tokens</b> (pieces of words) and are usually billed per token. The <b>context window</b> limits how much text fits at once. <b>Temperature</b> controls randomness — keep it low for consistent, structured output. A <b>system prompt</b> sets the model's role and rules; <b>few-shot</b> examples show the format you want."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "An LLM states a fake statistic confidently. This is…",
+      "o": [
+       "Overfitting",
+       "Hallucination",
+       "Latency",
+       "Tokenization"
+      ],
+      "a": 1,
+      "w": "Hallucination = plausible but false output."
+     },
+     {
+      "t": "mc",
+      "q": "Where should an AI API key live?",
+      "o": [
+       "In React code",
+       "In a server-side environment variable",
+       "In the README",
+       "In the URL"
+      ],
+      "a": 1,
+      "w": "Secrets stay on the server."
+     },
+     {
+      "t": "mc",
+      "q": "Why ask the model for JSON?",
+      "o": [
+       "It's faster",
+       "Your code can parse it reliably",
+       "JSON is smarter",
+       "Required by law"
+      ],
+      "a": 1,
+      "w": "Structured output is machine-readable."
+     },
+     {
+      "t": "mc",
+      "q": "IBM's AI and data platform for building with foundation models:",
+      "o": [
+       "watsonx",
+       "Azure",
+       "Vertex",
+       "Bedrock"
+      ],
+      "a": 0,
+      "w": "watsonx (watsonx.ai, watsonx.data, watsonx.governance)."
+     },
+     {
+      "t": "mc",
+      "q": "For consistent JSON classification, set temperature…",
+      "o": [
+       "Very high",
+       "Low (around 0–0.2)",
+       "It doesn't exist",
+       "Negative"
+      ],
+      "a": 1,
+      "w": "Lower temperature = more deterministic answers."
+     },
+     {
+      "t": "mc",
+      "q": "A context window is…",
+      "o": [
+       "The maximum amount of text (tokens) a model can consider at once",
+       "A UI panel",
+       "A GPU",
+       "A database"
+      ],
+      "a": 0,
+      "w": "Long documents may need chunking (see RAG)."
+     },
+     {
+      "t": "mc",
+      "q": "Few-shot prompting means…",
+      "o": [
+       "Asking fewer questions",
+       "Using small models",
+       "Including a few input → output examples in the prompt",
+       "Retrying several times"
+      ],
+      "a": 2,
+      "w": "Examples teach format better than descriptions."
+     },
+     {
+      "t": "mc",
+      "q": "LLM API costs are usually billed by…",
+      "o": [
+       "Number of users",
+       "Lines of code",
+       "Minutes online",
+       "Tokens in and out"
+      ],
+      "a": 3,
+      "w": "Shorter prompts and outputs cost less."
+     },
+     {
+      "t": "mc",
+      "q": "Best way to reduce hallucinations in a support bot?",
+      "o": [
+       "Ground answers in provided documents and allow \"I don't know\"",
+       "Raise the temperature",
+       "Use long prompts with no data",
+       "Remove all instructions"
+      ],
+      "a": 0,
+      "w": "Give it facts and permission to admit uncertainty."
+     },
+     {
+      "t": "mc",
+      "q": "A system prompt sets…",
+      "o": [
+       "The user's password",
+       "The model's role, rules and behavior for the conversation",
+       "The server region",
+       "The model's weights"
+      ],
+      "a": 1,
+      "w": "e.g. \"You are a ticket triage assistant. Reply in JSON.\""
+     }
+    ]
+   },
+   {
+    "id": "u8l2",
+    "title": "RAG & AI in production",
+    "cards": [
+     {
+      "h": "RAG",
+      "p": "<b>Retrieval-Augmented Generation</b>: search your own documents first, put the relevant chunks into the prompt, then let the model answer. This grounds answers in real data and reduces hallucination."
+     },
+     {
+      "h": "Embeddings",
+      "p": "Text is turned into vectors (lists of numbers) where similar meanings are close together. A <b>vector database</b> finds the nearest chunks to a question."
+     },
+     {
+      "h": "Responsible AI",
+      "p": "Evaluate outputs, log them, keep a human in the loop for important decisions, protect personal data (Philippines Data Privacy Act), and watch for bias. Clients care about <b>governance</b> as much as features."
+     },
+     {
+      "h": "Chunking, evaluation & safety",
+      "p": "Split documents into <b>chunks</b> (often a few hundred tokens, with overlap) so retrieval returns focused pieces. Similarity is usually <b>cosine similarity</b> between embeddings. <b>Evaluate</b> with a test set of questions. Beware <b>prompt injection</b>: untrusted text trying to override your instructions. Show sources with every answer."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order the RAG flow:",
+      "items": [
+       "User asks a question",
+       "Retrieve relevant document chunks",
+       "Add chunks to the prompt",
+       "LLM generates a grounded answer"
+      ],
+      "w": "Retrieve → augment → generate."
+     },
+     {
+      "t": "mc",
+      "q": "Embeddings represent text as…",
+      "o": [
+       "Images",
+       "Vectors of numbers",
+       "SQL rows",
+       "Hashes"
+      ],
+      "a": 1,
+      "w": "Vectors capture semantic meaning."
+     },
+     {
+      "t": "mc",
+      "q": "Main benefit of RAG?",
+      "o": [
+       "Cheaper GPUs",
+       "Answers grounded in your own, current data",
+       "No need for prompts",
+       "Model retraining"
+      ],
+      "a": 1,
+      "w": "It injects relevant facts at query time."
+     },
+     {
+      "t": "mc",
+      "q": "A bank wants AI to auto-approve loans. Best advice?",
+      "o": [
+       "Fully automate it",
+       "Keep a human reviewer and audit for bias",
+       "Use the biggest model",
+       "Skip testing"
+      ],
+      "a": 1,
+      "w": "High-stakes decisions need oversight and governance."
+     },
+     {
+      "t": "mc",
+      "q": "Why split documents into chunks for RAG?",
+      "o": [
+       "To delete data",
+       "To encrypt it",
+       "So retrieval returns small, relevant pieces that fit in the prompt",
+       "For style"
+      ],
+      "a": 2,
+      "w": "Whole documents waste context and dilute relevance."
+     },
+     {
+      "t": "mc",
+      "q": "Similarity between embeddings is commonly measured with…",
+      "o": [
+       "Cosine similarity",
+       "Bubble sort",
+       "SHA-256",
+       "Regex"
+      ],
+      "a": 0,
+      "w": "It compares the angle between vectors."
+     },
+     {
+      "t": "mc",
+      "q": "Prompt injection is when…",
+      "o": [
+       "A prompt is too short",
+       "Untrusted text tries to override the model's instructions",
+       "The GPU fails",
+       "A user logs in"
+      ],
+      "a": 1,
+      "w": "Treat retrieved content as data, never as instructions."
+     },
+     {
+      "t": "mc",
+      "q": "How do you know your RAG bot is good?",
+      "o": [
+       "Trust it",
+       "Count lines of code",
+       "Ask it once",
+       "Evaluate it on test questions with expected answers"
+      ],
+      "a": 3,
+      "w": "Re-run the eval after every change."
+     },
+     {
+      "t": "mc",
+      "q": "Showing sources with each answer…",
+      "o": [
+       "Lets users verify answers and builds trust",
+       "Makes cost zero",
+       "Avoids indexing",
+       "Speeds up the GPU"
+      ],
+      "a": 0,
+      "w": "Citations make errors catchable."
+     },
+     {
+      "t": "mc",
+      "q": "For constantly changing company docs, prefer…",
+      "o": [
+       "Fine-tuning every week",
+       "Neither",
+       "RAG — update the documents without retraining",
+       "Both are impossible"
+      ],
+      "a": 2,
+      "w": "Fine-tuning teaches style; RAG supplies fresh facts."
+     }
+    ]
+   },
+   {
+    "id": "u8b",
+    "title": "BUILD: AI ticket triage",
+    "build": true,
+    "mission": "Add an AI feature to <b>helpdesk-pro</b>: auto-categorize and summarize new tickets.",
+    "steps": [
+     "Create a backend endpoint POST /api/tickets/{id}/triage",
+     "Call an LLM API (watsonx.ai free trial or another provider) with a structured prompt",
+     "Parse JSON output: category, suggested priority, one-line summary",
+     "Show the suggestion in the UI with an \"Accept\" button (human in the loop)",
+     "Handle API errors and timeouts gracefully"
+    ],
+    "submit": "Paste your prompt and the service method that calls the model."
+   }
+  ]
+ },
+ {
+  "id": "u9",
+  "phase": "Phase 4 · Consultant",
+  "title": "Agile & Consulting Skills",
+  "color": "#e056a0",
+  "goal": "IBM Consulting = tech + clients. Learn Scrum, tickets and requirements.",
+  "lessons": [
+   {
+    "id": "u9l1",
+    "title": "Agile & Scrum",
+    "cards": [
+     {
+      "h": "Scrum in 30 seconds",
+      "p": "Work happens in <b>sprints</b> (usually 2 weeks). <b>Product Owner</b> prioritizes the backlog; <b>Scrum Master</b> removes blockers; <b>Developers</b> build. Events: Sprint Planning, Daily Stand-up, Sprint Review, Retrospective."
+     },
+     {
+      "h": "User stories",
+      "p": "Format: <b>As a</b> &lt;user&gt;, <b>I want</b> &lt;goal&gt;, <b>so that</b> &lt;benefit&gt;. Add <b>acceptance criteria</b> so \"done\" is testable.",
+      "code": "As a support agent,\nI want to filter tickets by priority,\nso that I handle urgent issues first.\n\nAC: Given 10 tickets, when I pick P1,\nthen only P1 tickets are shown."
+     },
+     {
+      "h": "Stand-up format",
+      "p": "Yesterday I… · Today I will… · Blockers: … Keep it under a minute.",
+      "tip": "Raise blockers early. Interns who stay silent for 3 days look worse than ones who ask on day 1."
+     },
+     {
+      "h": "Estimation & ceremonies",
+      "p": "<b>Story points</b> estimate relative effort, not hours; <b>velocity</b> is points completed per sprint. The <b>Definition of Done</b> is the team's checklist for \"finished\". <b>Sprint Review</b> demos work to stakeholders; the <b>Retrospective</b> improves how the team works. Kanban limits <b>work in progress</b>."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Who prioritizes the product backlog?",
+      "o": [
+       "Scrum Master",
+       "Product Owner",
+       "Developers",
+       "Client CEO"
+      ],
+      "a": 1,
+      "w": "The Product Owner owns backlog priority."
+     },
+     {
+      "t": "order",
+      "q": "Build the user story:",
+      "items": [
+       "As a support agent,",
+       "I want to filter tickets by priority,",
+       "so that I handle urgent issues first."
+      ],
+      "w": "As a / I want / so that."
+     },
+     {
+      "t": "mc",
+      "q": "What makes a story \"testable\"?",
+      "o": [
+       "Long description",
+       "Acceptance criteria",
+       "Story points",
+       "A deadline"
+      ],
+      "a": 1,
+      "w": "AC define pass/fail conditions."
+     },
+     {
+      "t": "mc",
+      "q": "In stand-up you're stuck on a DB permission issue for 2 days. You should…",
+      "o": [
+       "Stay quiet and keep trying",
+       "Raise it as a blocker",
+       "Wait for the retro",
+       "Skip stand-up"
+      ],
+      "a": 1,
+      "w": "Blockers are exactly what stand-up is for."
+     },
+     {
+      "t": "mc",
+      "q": "Story points measure…",
+      "o": [
+       "Exact hours",
+       "Relative effort and complexity",
+       "Lines of code",
+       "Salary"
+      ],
+      "a": 1,
+      "w": "A 5 is bigger than a 2 — not 5 hours."
+     },
+     {
+      "t": "mc",
+      "q": "The Retrospective focuses on…",
+      "o": [
+       "Improving how the team works",
+       "Demoing features to stakeholders",
+       "Writing code",
+       "Hiring"
+      ],
+      "a": 0,
+      "w": "What went well, what to improve, action items."
+     },
+     {
+      "t": "mc",
+      "q": "The Sprint Review is for…",
+      "o": [
+       "Fixing bugs only",
+       "Planning holidays",
+       "Demoing completed work and gathering feedback",
+       "Code review"
+      ],
+      "a": 2,
+      "w": "Stakeholders see real, working software."
+     },
+     {
+      "t": "mc",
+      "q": "A Definition of Done is…",
+      "o": [
+       "The project deadline",
+       "A bug",
+       "A manager",
+       "A shared checklist a story must meet to count as complete"
+      ],
+      "a": 3,
+      "w": "e.g. code reviewed, tests pass, deployed to staging."
+     },
+     {
+      "t": "mc",
+      "q": "Kanban WIP limits…",
+      "o": [
+       "Cap how many items can be in progress at once to keep work flowing",
+       "Limit the team size",
+       "Limit commits",
+       "Limit meetings"
+      ],
+      "a": 0,
+      "w": "Finish before starting more."
+     },
+     {
+      "t": "order",
+      "q": "Order the Scrum sprint events:",
+      "items": [
+       "Sprint Planning",
+       "Daily Stand-ups",
+       "Sprint Review",
+       "Retrospective"
+      ],
+      "w": "Plan → daily sync → demo → improve."
+     }
+    ]
+   },
+   {
+    "id": "u9l2",
+    "title": "Tickets, ITSM & clients",
+    "cards": [
+     {
+      "h": "ITSM basics",
+      "p": "Consulting support work runs on tools like <b>ServiceNow</b> or Jira. <b>Incident</b> = something broke, restore service fast. <b>Service request</b> = user asks for something standard (access, install). <b>Problem</b> = root cause behind repeated incidents. <b>Change</b> = controlled modification to production."
+     },
+     {
+      "h": "SLAs",
+      "p": "A <b>Service Level Agreement</b> sets response/resolution times by priority (e.g., P1: respond in 15 min). Breaching SLAs costs clients money and IBM credibility."
+     },
+     {
+      "h": "Talking to clients",
+      "p": "Listen first, confirm understanding (\"So the issue is…\"), never blame, give realistic timelines, and follow up in writing. Requirements gathering = asking <b>why</b> until you find the real need.",
+      "tip": "Good ticket update: what you found, what you did, next step, ETA."
+     },
+     {
+      "h": "Priority, escalation & changes",
+      "p": "<b>Priority = impact × urgency</b>: many users blocked = P1; one user with a workaround = low. <b>Escalate</b> quickly when something is beyond you. Production <b>changes</b> need a change request with a rollback plan and approval. Turn solved recurring issues into <b>knowledge base</b> articles."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Production checkout page is down. This is a…",
+      "o": [
+       "Service request",
+       "Incident",
+       "Change",
+       "Problem"
+      ],
+      "a": 1,
+      "w": "Unplanned interruption = incident."
+     },
+     {
+      "t": "mc",
+      "q": "The same server crashes weekly. Investigating the root cause is…",
+      "o": [
+       "Incident management",
+       "Problem management",
+       "Change management",
+       "Request fulfillment"
+      ],
+      "a": 1,
+      "w": "Problem management finds root causes."
+     },
+     {
+      "t": "mc",
+      "q": "Best ticket update?",
+      "o": [
+       "\"Working on it\"",
+       "\"Fixed\"",
+       "\"Root cause: expired SSL cert. Renewed it, verified login works. Monitoring 24h; closing tomorrow 5PM.\"",
+       "\"Not my fault\""
+      ],
+      "a": 2,
+      "w": "Finding + action + next step + ETA."
+     },
+     {
+      "t": "mc",
+      "q": "Client says \"we need a dashboard.\" Your first move?",
+      "o": [
+       "Start coding",
+       "Ask what decisions the dashboard should help them make",
+       "Pick a chart library",
+       "Quote a price"
+      ],
+      "a": 1,
+      "w": "Find the real need before building."
+     },
+     {
+      "t": "mc",
+      "q": "Ticket priority is usually set by…",
+      "o": [
+       "Who complains loudest",
+       "Impact and urgency",
+       "Alphabetical order",
+       "Ticket age only"
+      ],
+      "a": 1,
+      "w": "Consistent rules keep SLAs fair."
+     },
+     {
+      "t": "mc",
+      "q": "A normal change to production usually needs…",
+      "o": [
+       "A change request with a rollback plan and approval",
+       "Nothing",
+       "Just a chat message",
+       "A new server"
+      ],
+      "a": 0,
+      "w": "Change management protects the client's systems."
+     },
+     {
+      "t": "mc",
+      "q": "A P1 is beyond your skill level. You should…",
+      "o": [
+       "Keep trying alone for hours",
+       "Close it",
+       "Escalate quickly to the right team",
+       "Lower the priority"
+      ],
+      "a": 2,
+      "w": "Escalating fast is a strength, not a weakness."
+     },
+     {
+      "t": "mc",
+      "q": "After solving a recurring issue, write a…",
+      "o": [
+       "Poem",
+       "New SLA",
+       "Resignation letter",
+       "Knowledge base article"
+      ],
+      "a": 3,
+      "w": "Next time it's solved in minutes."
+     },
+     {
+      "t": "mc",
+      "q": "One user can't open a shared folder; others are fine. Typical priority?",
+      "o": [
+       "Low or medium (single user, workaround possible)",
+       "P1 critical",
+       "SEV0",
+       "No priority"
+      ],
+      "a": 0,
+      "w": "Impact is limited to one person."
+     },
+     {
+      "t": "mc",
+      "q": "Best first question when gathering requirements from a client?",
+      "o": [
+       "What color should it be?",
+       "What problem are you trying to solve, and how do you handle it today?",
+       "Can I start coding now?",
+       "What's your budget for snacks?"
+      ],
+      "a": 1,
+      "w": "Understand the problem before the solution."
+     }
+    ]
+   },
+   {
+    "id": "u9b",
+    "title": "BUILD: Run a sprint",
+    "build": true,
+    "mission": "Run <b>helpdesk-pro</b> like a real client project.",
+    "steps": [
+     "Write 8 user stories with acceptance criteria in GitHub Issues",
+     "Create a GitHub Projects board (To Do / In Progress / Review / Done)",
+     "Plan a 1-week sprint, complete 3 stories, link each PR to its issue",
+     "Write a short sprint review + retrospective (what went well / improve)"
+    ],
+    "submit": "Paste 3 of your user stories and your retro notes."
+   }
+  ]
+ },
+ {
+  "id": "u10",
+  "phase": "Phase 4 · Consultant",
+  "title": "Interview & Launch",
+  "color": "#58cc02",
+  "goal": "Turn your skills into an offer: portfolio, resume, technical + behavioral interviews.",
+  "lessons": [
+   {
+    "id": "u10l1",
+    "title": "Behavioral: STAR method",
+    "cards": [
+     {
+      "h": "STAR",
+      "p": "<b>S</b>ituation (context) · <b>T</b>ask (your responsibility) · <b>A</b>ction (what YOU did — most detail here) · <b>R</b>esult (measurable outcome + what you learned)."
+     },
+     {
+      "h": "Your story bank",
+      "p": "Prepare 5 stories: a team conflict, a failure, a tough deadline, learning something fast, leading something. Your thesis project and helpdesk-pro are great sources."
+     },
+     {
+      "h": "IBM values",
+      "p": "IBM looks for <b>growth mindset</b>, client focus, and collaboration. Show curiosity: \"I didn't know Docker, so I…\"",
+      "tip": "Use \"I\", not \"we\", in the Action part. Interviewers are evaluating you."
+     },
+     {
+      "h": "Common interview questions",
+      "p": "\"<b>Tell me about yourself</b>\": present → past → future in 1–2 minutes. \"<b>Why IBM?</b>\": be specific — consulting exposure, hybrid cloud and AI work, learning culture — tied to your goals. Use school projects, your thesis, OJT and org work as STAR stories. Always prepare questions to ask them."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order the STAR method:",
+      "items": [
+       "Situation",
+       "Task",
+       "Action",
+       "Result"
+      ],
+      "w": "S-T-A-R."
+     },
+     {
+      "t": "mc",
+      "q": "Which part should get the most detail?",
+      "o": [
+       "Situation",
+       "Task",
+       "Action",
+       "Result"
+      ],
+      "a": 2,
+      "w": "Action shows your skills and decisions."
+     },
+     {
+      "t": "mc",
+      "q": "Best Result statement?",
+      "o": [
+       "\"It went well.\"",
+       "\"We finished.\"",
+       "\"Cut ticket response time 40% and the team adopted my script.\"",
+       "\"The client was happy, I think.\""
+      ],
+      "a": 2,
+      "w": "Specific and measurable."
+     },
+     {
+      "t": "mc",
+      "q": "\"Tell me about a failure.\" Best approach?",
+      "o": [
+       "Say you never fail",
+       "Blame a teammate",
+       "Own a real mistake, show what you changed afterward",
+       "Pick a fake weakness"
+      ],
+      "a": 2,
+      "w": "Ownership + learning = growth mindset."
+     },
+     {
+      "t": "mc",
+      "q": "Structure for \"Tell me about yourself\":",
+      "o": [
+       "Your full life story",
+       "Your hobbies only",
+       "Present → past → future, in 1–2 minutes",
+       "Your salary expectations"
+      ],
+      "a": 2,
+      "w": "Who you are now, how you got here, where you're going."
+     },
+     {
+      "t": "mc",
+      "q": "A strong answer to \"Why IBM?\"…",
+      "o": [
+       "Is specific: consulting exposure, hybrid cloud/AI work, learning culture — tied to your goals",
+       "\"It's famous\"",
+       "\"Any job is fine\"",
+       "\"My friend works there\""
+      ],
+      "a": 0,
+      "w": "Show you researched them."
+     },
+     {
+      "t": "mc",
+      "q": "Asking the interviewer questions at the end…",
+      "o": [
+       "Is rude",
+       "Shows interest — ask about the team, projects or learning",
+       "Should start with salary",
+       "Isn't allowed"
+      ],
+      "a": 1,
+      "w": "e.g. \"What does a great intern do in the first month?\""
+     },
+     {
+      "t": "mc",
+      "q": "Best story sources for a fresh graduate?",
+      "o": [
+       "Only sports",
+       "Nothing",
+       "Made-up jobs",
+       "Thesis, school projects, OJT tasks, org activities"
+      ],
+      "a": 3,
+      "w": "Real, specific stories beat impressive-sounding fake ones."
+     },
+     {
+      "t": "mc",
+      "q": "Good length for most behavioral answers:",
+      "o": [
+       "About 1–2 minutes",
+       "10 seconds",
+       "15 minutes",
+       "As long as possible"
+      ],
+      "a": 0,
+      "w": "Long enough for STAR, short enough to keep attention."
+     },
+     {
+      "t": "order",
+      "q": "Order a \"Tell me about yourself\" answer:",
+      "items": [
+       "Present: BSCpE student and key skills",
+       "Past: projects and experience that built them",
+       "Future: why this role fits your goals"
+      ],
+      "w": "Present → past → future."
+     }
+    ]
+   },
+   {
+    "id": "u10l2",
+    "title": "Technical interview patterns",
+    "cards": [
+     {
+      "h": "Big-O",
+      "p": "How runtime grows with input size. O(1) constant · O(log n) binary search · O(n) one loop · O(n log n) good sorts · O(n²) nested loops."
+     },
+     {
+      "h": "Hash map trick",
+      "p": "Many problems drop from O(n²) to O(n) by remembering what you've seen in a HashMap/Set.",
+      "code": "// Two Sum: indices of two nums adding to target\nMap<Integer,Integer> seen = new HashMap<>();\nfor (int i = 0; i < nums.length; i++) {\n  int need = target - nums[i];\n  if (seen.containsKey(need)) return new int[]{seen.get(need), i};\n  seen.put(nums[i], i);\n}"
+     },
+     {
+      "h": "Think out loud",
+      "p": "1) Clarify the question + edge cases 2) Say a brute-force idea 3) Optimize 4) Code 5) Test with an example. Interviewers grade your process, not just the answer."
+     },
+     {
+      "h": "Patterns that solve most problems",
+      "p": "<b>Stack</b>: matching brackets, undo. <b>Two pointers</b>: sorted arrays, pair sums. <b>Sliding window</b>: longest/shortest substring or subarray. <b>BFS</b>: shortest path in unweighted graphs. Good sorting is O(n log n); array access by index is O(1).",
+      "code": "// Balanced brackets with a stack\nDeque<Character> st = new ArrayDeque<>();\nfor (char c : s.toCharArray()) {\n  if (\"([{\".indexOf(c) >= 0) st.push(c);\n  else if (st.isEmpty() || !matches(st.pop(), c)) return false;\n}\nreturn st.isEmpty();"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Two nested loops over n items:",
+      "o": [
+       "O(n)",
+       "O(n²)",
+       "O(log n)",
+       "O(1)"
+      ],
+      "a": 1,
+      "w": "n × n."
+     },
+     {
+      "t": "mc",
+      "q": "Binary search on a sorted array:",
+      "o": [
+       "O(n)",
+       "O(log n)",
+       "O(n²)",
+       "O(1)"
+      ],
+      "a": 1,
+      "w": "Halves the search space each step."
+     },
+     {
+      "t": "mc",
+      "q": "Find if an array has duplicates fastest:",
+      "o": [
+       "Compare every pair",
+       "Add to a HashSet, check if already present",
+       "Print the array",
+       "Reverse it"
+      ],
+      "a": 1,
+      "w": "O(n) with a Set."
+     },
+     {
+      "t": "order",
+      "q": "Order your interview approach:",
+      "items": [
+       "Clarify the problem",
+       "State brute force",
+       "Optimize",
+       "Write code",
+       "Test with an example"
+      ],
+      "w": "Clarify → brute → optimize → code → test."
+     },
+     {
+      "t": "mc",
+      "q": "Check if brackets like \"([])\" are balanced. Use a…",
+      "o": [
+       "Queue only",
+       "HashMap of counts only",
+       "Stack",
+       "Binary search"
+      ],
+      "a": 2,
+      "w": "Last opened must be first closed — LIFO."
+     },
+     {
+      "t": "mc",
+      "q": "Longest substring without repeating characters — classic pattern:",
+      "o": [
+       "Bubble sort",
+       "Sliding window",
+       "Recursion only",
+       "Binary tree"
+      ],
+      "a": 1,
+      "w": "Expand right, shrink left when a repeat appears."
+     },
+     {
+      "t": "mc",
+      "q": "Shortest path in an unweighted graph:",
+      "o": [
+       "BFS",
+       "DFS",
+       "Binary search",
+       "Quick sort"
+      ],
+      "a": 0,
+      "w": "BFS explores level by level."
+     },
+     {
+      "t": "mc",
+      "q": "Sorting n items with a good algorithm costs…",
+      "o": [
+       "O(1)",
+       "O(log n)",
+       "O(n³)",
+       "O(n log n)"
+      ],
+      "a": 3,
+      "w": "Merge sort, heap sort, Timsort."
+     },
+     {
+      "t": "mc",
+      "q": "Accessing an array element by index is…",
+      "o": [
+       "O(1)",
+       "O(n)",
+       "O(n log n)",
+       "O(n²)"
+      ],
+      "a": 0,
+      "w": "Direct memory offset."
+     },
+     {
+      "t": "mc",
+      "q": "The two-pointers pattern is great for…",
+      "o": [
+       "Hashing passwords",
+       "Trees only",
+       "Sorted arrays (e.g. finding a pair with a target sum)",
+       "Networking"
+      ],
+      "a": 2,
+      "w": "Move left/right pointers inward based on the sum."
+     }
+    ]
+   },
+   {
+    "id": "u10b",
+    "title": "BUILD: Apply to IBM",
+    "build": true,
+    "mission": "Package everything and apply to the <b>IBM Philippines Consulting OJT</b>.",
+    "steps": [
+     "Polish helpdesk-pro README: screenshots, tech stack, live link, architecture diagram",
+     "Update resume: projects with impact bullets, certifications (Network+, Red Hat, AWS), GitHub + LinkedIn",
+     "Complete a free IBM SkillsBuild course and add the badge",
+     "Do 2 mock interviews with the Mentor tab (1 behavioral, 1 technical)",
+     "Submit your application via IBM Careers"
+    ],
+    "submit": "Paste your resume project section for a final review."
+   }
+  ]
+ }
 ];
 
 /*@@CONTENT_END@@*/
@@ -695,7 +3964,8 @@ function drawStep(){
       if(L.pool.every((p,k)=>p.i===k)&&L.pool.length>1)L.pool.reverse();
       body+=`<div class="answerrow" id="ans"></div><div class="tiles" id="pool"></div>`;
     } else {
-      body+=`<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`).join('')}</div>`;
+      L.perm=shuffle(q.o.map((_,i)=>i));
+      body+=`<div class="opts">${L.perm.map((oi,i)=>{const o=q.o[oi];return `<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`}).join('')}</div>`;
     }
     foot=`<button class="btn" id="chk" disabled onclick="check()">CHECK</button>`;
   }
@@ -714,7 +3984,7 @@ function unOrder(k){if(L.answered)return;L.order.splice(k,1);drawOrder()}
 function pick(i){
   if(L.answered)return; L.sel=i;
   document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',+b.dataset.i===i));
-  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[i];
+  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[L.perm[i]];
   document.getElementById('chk').disabled=false;
 }
 document.addEventListener('keydown',e=>{
@@ -726,8 +3996,8 @@ function check(){
   const st=L.steps[L.i],q=st.q; L.answered=true;
   let ok;
   if(q.t==='order') ok=L.order.every((p,k)=>p.i===k);
-  else{ ok=L.sel===q.a;
-    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===q.a)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
+  else{ ok=L.perm[L.sel]===q.a; const ci=L.perm.indexOf(q.a);
+    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===ci)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
   }
   const f=document.getElementById('lfoot');
   if(ok){ L.right++; if(!st.retry)L.firstTry++;
