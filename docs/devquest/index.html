@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>DevQuest — Software Engineer Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1720; --panel:#16212c; --panel2:#1d2b38; --line:#2a3b4b;
+  --text:#eef4f8; --mute:#8ea3b5;
+  --green:#58cc02; --green-d:#46a302; --blue:#1cb0f6; --blue-d:#1899d6;
+  --red:#ff4b4b; --red-d:#ea2b2b; --gold:#ffc800; --gold-d:#e5a500;
+  --purple:#ce82ff; --orange:#ff9600;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Nunito,system-ui,sans-serif;font-weight:700}
+button{font-family:inherit;cursor:pointer;border:none}
+code,pre,.mono{font-family:"JetBrains Mono",monospace}
+#app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;position:relative}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:2px solid var(--line)}
+.stat{display:flex;align-items:center;gap:6px;font-weight:900;font-size:16px}
+.stat svg{width:22px;height:22px}
+.stat.streak{color:var(--orange)} .stat.xp{color:var(--gold)} .stat.hearts{color:var(--red)} .stat.lvl{color:var(--blue)}
+.stat.off{color:#4b5d6c}
+
+main{flex:1;padding-bottom:90px}
+.view{display:none}.view.on{display:block}
+
+/* bottom nav */
+nav.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;background:var(--bg);border-top:2px solid var(--line);display:flex;z-index:30}
+nav.bottom button{flex:1;background:none;color:var(--mute);padding:10px 0 12px;font-size:11px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.3px}
+nav.bottom button svg{width:26px;height:26px}
+nav.bottom button.on{color:var(--blue)}
+nav.bottom button.on .navic{background:rgba(28,176,246,.15);border:2px solid var(--blue)}
+.navic{border-radius:12px;padding:3px 10px;border:2px solid transparent}
+
+/* daily card */
+.daily{margin:16px;background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:14px;align-items:center}
+.ring{width:58px;height:58px;flex:none}
+.daily h3{margin:0 0 2px;font-size:16px}
+.daily p{margin:0;color:var(--mute);font-size:13px}
+
+/* unit banner */
+.unit{margin:22px 16px 6px;border-radius:16px;padding:14px 16px;color:#fff;position:relative;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.unit .ph{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;opacity:.85;font-weight:900}
+.unit h2{margin:2px 0 4px;font-size:20px;font-weight:900}
+.unit p{margin:0;font-size:13px;opacity:.95;font-weight:700}
+.unit .guide{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);color:#fff;border-radius:12px;padding:6px 10px;font-size:12px;font-weight:900}
+
+/* path */
+.path{position:relative;padding:52px 0 26px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.node{position:relative;width:72px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.node:active{transform:translateY(4px)}
+.node svg{width:34px;height:34px}
+.node.done{background:var(--gold);box-shadow:0 7px 0 var(--gold-d)}
+.node.cur{background:var(--green);box-shadow:0 7px 0 var(--green-d)}
+.node.lock{background:#37464f;box-shadow:0 7px 0 #27333b}
+.node.build.cur{background:var(--purple);box-shadow:0 7px 0 #a568cc}
+.node.build{border-radius:20px}
+.node .lbl{position:absolute;top:76px;white-space:nowrap;font-size:12px;color:var(--mute);font-weight:800;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+.node.cur .lbl{color:var(--text)}
+.startbub{position:absolute;top:-44px;background:#fff;color:var(--green);font-weight:900;padding:7px 12px;border-radius:12px;border:2px solid var(--line);font-size:14px;animation:bob 1.2s ease-in-out infinite;white-space:nowrap}
+.startbub:after{content:"";position:absolute;bottom:-8px;left:50%;margin-left:-7px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}
+.node.build .startbub{color:#a568cc}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mascot-side{position:absolute;width:90px;opacity:.95}
+
+/* buttons */
+.btn{display:block;width:100%;padding:14px;border-radius:16px;font-size:16px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#fff;background:var(--green);box-shadow:0 5px 0 var(--green-d);transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--green-d)}
+.btn.blue{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
+.btn.red{background:var(--red);box-shadow:0 5px 0 var(--red-d)}
+.btn.purple{background:var(--purple);box-shadow:0 5px 0 #a568cc}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:none;border:2px solid var(--line)}
+.btn:disabled{background:#37464f;color:#6a7d8b;box-shadow:0 5px 0 #27333b;cursor:default}
+
+/* sheet / modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.overlay.on{display:flex}
+.sheet{background:var(--panel);width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:20px 18px 26px;max-height:88vh;overflow:auto;border-top:2px solid var(--line);animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{margin:0 0 6px;font-size:22px;font-weight:900}
+.sheet .sub{color:var(--mute);font-size:14px;margin-bottom:14px}
+.sheet ul{padding-left:20px;margin:8px 0 14px}
+.sheet li{margin:6px 0;font-size:14px;line-height:1.45}
+
+/* lesson screen */
+#lesson{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;flex-direction:column}
+#lesson.on{display:flex}
+.lwrap{max-width:560px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;min-height:0}
+.lhead{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.lhead .x{background:none;color:var(--mute);font-size:26px;line-height:1;padding:0 4px}
+.pbar{flex:1;height:16px;background:#37464f;border-radius:10px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--green);border-radius:10px;transition:width .3s;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
+.lbody{flex:1;overflow:auto;padding:8px 18px 20px}
+.lfoot{padding:14px 16px 20px;border-top:2px solid var(--line)}
+.lfoot.good{background:#1c3311;border-top-color:#2b5216}
+.lfoot.bad{background:#3a1717;border-top-color:#5c2323}
+.fbtitle{font-size:20px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.lfoot.good .fbtitle{color:var(--green)} .lfoot.bad .fbtitle{color:var(--red)}
+.fbtext{font-size:14px;color:#d6e2ea;margin-bottom:12px;line-height:1.45}
+
+.qtype{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--purple);font-weight:900;margin:6px 0 6px}
+.qtitle{font-size:21px;font-weight:900;margin:0 0 16px;line-height:1.3}
+pre.code{background:#0a1117;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;overflow:auto;color:#cfe3f1;margin:0 0 16px;white-space:pre}
+pre.code .bl{background:rgba(28,176,246,.2);border-bottom:2px dashed var(--blue);color:var(--blue);padding:0 4px;border-radius:4px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--panel);border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;padding:13px 14px;color:var(--text);font-size:15px;font-weight:800;text-align:left;display:flex;gap:12px;align-items:center}
+.opt .k{flex:none;width:28px;height:28px;border:2px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--mute)}
+.opt.sel{border-color:var(--blue);background:rgba(28,176,246,.12);color:#bfe9ff}
+.opt.sel .k{border-color:var(--blue);color:var(--blue)}
+.opt.right{border-color:var(--green);background:rgba(88,204,2,.14)}
+.opt.wrong{border-color:var(--red);background:rgba(255,75,75,.14)}
+.opt code{font-size:13px}
+.tiles{display:flex;flex-wrap:wrap;gap:8px}
+.tile{background:var(--panel);border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;padding:10px 12px;color:var(--text);font-size:14px;font-weight:800}
+.tile.used{visibility:hidden}
+.answerrow{min-height:62px;border-bottom:2px solid var(--line);border-top:2px solid var(--line);padding:10px 0;margin-bottom:18px;display:flex;flex-direction:column;gap:8px}
+.answerrow .tile{text-align:left}
+.answerrow .n{color:var(--blue);margin-right:6px}
+
+/* learn card */
+.card{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.card h3{margin:0 0 8px;font-size:20px;font-weight:900}
+.card p{margin:0 0 10px;font-size:15px;line-height:1.55;color:#d6e2ea;font-weight:600}
+.card p b{color:#fff}
+.card .tip{background:rgba(206,130,255,.1);border:2px solid rgba(206,130,255,.35);border-radius:12px;padding:10px 12px;font-size:13px;color:#ead4ff;margin-top:6px}
+.mentorrow{display:flex;gap:12px;align-items:flex-end;margin-bottom:12px}
+.mentorrow svg{width:64px;flex:none}
+.bubble{background:var(--panel2);border:2px solid var(--line);border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.4;position:relative}
+
+/* build */
+.mission{background:linear-gradient(135deg,#2d1d44,#1d2b38);border:2px solid #5b3d80;border-radius:18px;padding:16px;margin-bottom:14px}
+.mission h3{margin:0 0 6px;font-size:20px}
+.mission p{margin:0 0 8px;font-size:14px;line-height:1.5;color:#e3d6f3;font-weight:600}
+.check{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px;font-size:14px;line-height:1.4;font-weight:700}
+.check input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:1px}
+textarea{width:100%;min-height:150px;background:#0a1117;border:2px solid var(--line);border-radius:14px;color:#cfe3f1;padding:12px;font-family:"JetBrains Mono",monospace;font-size:13px;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--blue)}
+.review{background:var(--panel2);border:2px solid var(--line);border-radius:14px;padding:14px;font-size:14px;line-height:1.55;margin-top:12px;font-weight:600}
+.review pre{background:#0a1117;padding:10px;border-radius:10px;overflow:auto;font-size:12px}
+
+/* end screen */
+.endbox{text-align:center;padding:30px 10px}
+.endbox h1{font-size:28px;color:var(--gold);margin:10px 0 18px;font-weight:900}
+.endstats{display:flex;gap:12px;justify-content:center;margin-bottom:10px}
+.es{border:2px solid;border-radius:16px;overflow:hidden;min-width:100px}
+.es .t{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#0f1720;padding:5px;font-weight:900}
+.es .v{font-size:22px;padding:12px 6px;font-weight:900}
+
+/* roadmap */
+.sec{padding:16px}
+.sec h1{font-size:24px;margin:4px 0 4px;font-weight:900}
+.sec .lead{color:var(--mute);font-size:14px;margin:0 0 16px;line-height:1.45}
+.phase{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}
+.phase .bar{position:absolute;left:0;top:0;bottom:0;width:6px}
+.phase .wk{font-size:12px;color:var(--mute);font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.phase h3{margin:2px 0 8px;font-size:18px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.chip{font-size:12px;background:var(--panel2);border:2px solid var(--line);border-radius:999px;padding:4px 10px;font-weight:800}
+.phase p{font-size:13px;color:#c8d6e0;margin:0;line-height:1.5;font-weight:600}
+.mini{height:10px;background:#37464f;border-radius:6px;overflow:hidden;margin-top:10px}
+.mini i{display:block;height:100%;background:var(--green)}
+.res a{display:block;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;color:var(--text);text-decoration:none;font-size:14px}
+.res a span{display:block;color:var(--mute);font-size:12px;font-weight:600;margin-top:2px}
+
+/* mentor chat */
+.chat{display:flex;flex-direction:column;gap:10px;padding:0 16px 10px}
+.msg{max-width:88%;padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.5;font-weight:600;word-wrap:break-word}
+.msg.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--panel);border:2px solid var(--line);border-bottom-left-radius:4px}
+.msg.ai pre{background:#0a1117;padding:10px;border-radius:10px;overflow:auto;font-size:12px;white-space:pre}
+.msg code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:5px;font-size:12.5px}
+.quick{display:flex;gap:8px;overflow-x:auto;padding:4px 16px 10px;scrollbar-width:none}
+.quick button{flex:none;background:var(--panel);border:2px solid var(--line);color:var(--text);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:800}
+.composer{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);width:100%;max-width:560px;background:var(--bg);padding:10px 12px;display:flex;gap:8px;border-top:2px solid var(--line)}
+.composer input{flex:1;background:var(--panel);border:2px solid var(--line);border-radius:14px;color:var(--text);padding:12px;font-family:inherit;font-size:15px;font-weight:700}
+.composer button{background:var(--blue);color:#fff;border-radius:14px;padding:0 16px;font-weight:900;box-shadow:0 4px 0 var(--blue-d)}
+.notice{margin:12px 16px;background:var(--panel);border:2px dashed var(--line);border-radius:14px;padding:12px;font-size:13px;color:var(--mute)}
+
+/* profile */
+.pcard{display:flex;gap:14px;align-items:center;padding:18px 16px;border-bottom:2px solid var(--line)}
+.pcard svg{width:76px}
+.pcard h2{margin:0;font-size:22px}
+.pcard p{margin:2px 0 0;color:var(--mute);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px}
+.gcell{border:2px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center}
+.gcell svg{width:26px;height:26px;flex:none}
+.gcell b{display:block;font-size:18px}
+.gcell span{font-size:12px;color:var(--mute)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}
+.badge{border:2px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center;font-size:11px;color:var(--mute)}
+.badge .em{font-size:30px;display:block;filter:grayscale(1);opacity:.35}
+.badge.got{border-color:var(--gold);color:var(--text)}
+.badge.got .em{filter:none;opacity:1}
+.h2s{font-size:18px;padding:6px 16px 0;margin:0}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--panel2);border:2px solid var(--gold);color:var(--gold);padding:10px 16px;border-radius:14px;font-weight:900;z-index:90;display:none;font-size:14px;max-width:90%}
+canvas#conf{position:fixed;inset:0;pointer-events:none;z-index:95}
+.sync{font-size:11px;color:var(--mute);text-align:center;padding:4px 16px 16px}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f1720">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DevQuest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="stat lvl" title="Level"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg><span id="sLvl">1</span></div>
+    <div class="stat streak" id="streakStat" title="Day streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 6 5 11a5 5 0 01-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-7 1-9.5z"/></svg><span id="sStreak">0</span></div>
+    <div class="stat xp" title="Total XP"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg><span id="sXp">0</span></div>
+    <div class="stat hearts" title="Hearts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.2-8-11.2A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.8C20 15.8 12 21 12 21z"/></svg><span id="sHearts">5</span></div>
+  </div>
+
+  <main>
+    <section class="view on" id="v-learn"></section>
+    <section class="view" id="v-road"></section>
+    <section class="view" id="v-mentor"></section>
+    <section class="view" id="v-me"></section>
+  </main>
+
+  <nav class="bottom">
+    <button data-v="learn" class="on"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 7h-3v10h-4v-6h-4v6H6V10H3z"/></svg></span>LEARN</button>
+    <button data-v="road"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 20c4 0 4-6 8-6s4 6 8 6M12 14V4M12 4l5 3-5 3"/></svg></span>ROADMAP</button>
+    <button data-v="mentor"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v12H8l-4 4z"/></svg></span>MENTOR</button>
+    <button data-v="me"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span>PROFILE</button>
+  </nav>
+</div>
+
+<div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
+<div id="lesson"><div class="lwrap" id="lwrap"></div></div>
+<div class="toast" id="toast"></div>
+<canvas id="conf"></canvas>
+
+<script>
+/* ============ MASCOT (original robot "Bit") ============ */
+function bit(mood){
+  const mouth = mood==='sad' ? '<path d="M40 70q10-8 20 0" stroke="#0f1720" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    : '<path d="M38 66q12 12 24 0" stroke="#0f1720" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  return `<svg viewBox="0 0 100 110"><line x1="50" y1="6" x2="50" y2="20" stroke="#8ea3b5" stroke-width="4"/><circle cx="50" cy="6" r="6" fill="${mood==='sad'?'#ff4b4b':'#ffc800'}"/>
+  <rect x="14" y="20" width="72" height="62" rx="20" fill="#1cb0f6"/><rect x="14" y="20" width="72" height="62" rx="20" fill="none" stroke="#1899d6" stroke-width="4"/>
+  <rect x="24" y="32" width="52" height="30" rx="12" fill="#e9f7ff"/>
+  <circle cx="38" cy="46" r="6" fill="#0f1720"/><circle cx="62" cy="46" r="6" fill="#0f1720"/><circle cx="40" cy="44" r="2" fill="#fff"/><circle cx="64" cy="44" r="2" fill="#fff"/>
+  ${mouth}<rect x="6" y="42" width="10" height="20" rx="5" fill="#1899d6"/><rect x="84" y="42" width="10" height="20" rx="5" fill="#1899d6"/>
+  <rect x="30" y="84" width="40" height="18" rx="8" fill="#58cc02"/><text x="50" y="98" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="12" fill="#fff">${esc(CONFIG.glyph)}</text></svg>`;
+}
+
+/*@@CONTENT_START@@*/
+/* ============ CONFIG (topic-specific) ============ */
+const CONFIG = {
+  id:'devquest', appName:'DevQuest', mascot:'Bit', glyph:'</>', profileTitle:'Future IBMer',
+  learner:'a BS Computer Engineering student (Philippines) preparing for an IBM Philippines Consulting OJT as a software engineer. They hold CompTIA Network+, Red Hat Academy Linux and AWS cybersecurity training',
+  reviewerRole:'a senior software engineer at a consulting firm',
+  capstone:'helpdesk-pro',
+  roadTitle:'Your roadmap 🗺️',
+  roadIntro:'Target: <b>IBM Philippines Consulting OJT — Software Engineer</b>, plus skills most tech job postings ask for through 2028. ~20 weeks at 1–2 hours/day. One capstone project, <b>helpdesk-pro</b>, grows through every phase.',
+  phases:[
+   {n:'Phase 1 · Foundations',w:'Weeks 1–5',c:'#58cc02',u:['u1','u2','u3'],chips:['Git','GitHub','Java 21','OOP','Collections','SQL','PostgreSQL'],why:'IBM Consulting intern postings list Java, data and backend/frontend development among the skills interns are trained on. Strong Java + SQL basics make you useful from week one.'},
+   {n:'Phase 2 · Building',w:'Weeks 6–11',c:'#ce82ff',u:['u4','u5','u6'],chips:['HTML/CSS','JavaScript','React','REST','Spring Boot','JUnit','Mockito'],why:'Interns help design applications, write code, test, debug and maintain software. This phase turns you into a full-stack builder who tests their own work.'},
+   {n:'Phase 3 · Shipping',w:'Weeks 12–16',c:'#1899d6',u:['u7','u8'],chips:['Linux','Docker/Podman','CI/CD','Kubernetes','OpenShift','watsonx','RAG'],why:'IBM\'s strategy is hybrid cloud + AI. Red Hat, cloud and DevOps appear on IBM intern skill lists — and your Red Hat Academy + AWS certs give you a head start.'},
+   {n:'Phase 4 · Consultant',w:'Weeks 17–20',c:'#e056a0',u:['u9','u10'],chips:['Scrum','User stories','ServiceNow','SLAs','STAR','Big-O'],why:'Consulting intern work includes ticket handling, requirements gathering with clients and unit testing. Soft skills separate consultants from coders.'}
+  ],
+  rhythm:'📘 <b>Mon–Thu:</b> 1–2 lessons/day (learn + quiz)<br>🛠 <b>Fri–Sat:</b> build mission, push to GitHub<br>🤖 <b>Sun:</b> mentor review + 1 mock interview question<br>🔥 Keep the streak — 15 minutes beats zero.',
+  resources:[
+   ['IBM SkillsBuild','https://skillsbuild.org','Free IBM courses + digital badges recruiters recognize'],
+   ['IBM Careers','https://www.ibm.com/careers','Search "Philippines intern" for open OJT roles'],
+   ['dev.java','https://dev.java/learn/','Official Java learning path'],
+   ['Spring Guides','https://spring.io/guides','Short official Spring Boot tutorials'],
+   ['Red Hat Developer Sandbox','https://developers.redhat.com/developer-sandbox','Free OpenShift cluster to deploy your project'],
+   ['SQLBolt','https://sqlbolt.com','Interactive SQL practice'],
+   ['NeetCode Roadmap','https://neetcode.io/roadmap','Interview problem patterns']
+  ],
+  /* {unit} and {lesson} are replaced with the learner's current unit/lesson */
+  quick:[
+   ['🧠 Quiz me','Quiz me with 3 short questions on {unit}, one at a time. Wait for my answer before the next.'],
+   ['👶 Explain simply','Explain the key ideas of "{lesson}" simply with one real-world analogy and one short example.'],
+   ['🎤 Mock interview','Run a mock IBM Consulting intern interview. Ask me one question at a time (mix behavioral and technical), then give feedback on each answer.'],
+   ['🐞 Debug drill','Give me a short buggy code snippet related to {unit} and let me find the bug.'],
+   ['📄 Resume bullet','Help me write a strong resume bullet for my helpdesk-pro project so far.']
+  ],
+  /* badge rule: {lessons:n} | {streak:n} | {perfect:n} | {builds:n} | {unit:'uX'} | {lesson:'id'} | {all:true} */
+  badges:[
+   ['🚀','First lesson',{lessons:1}],['🔥','3-day streak',{streak:3}],['💯','Perfect lesson',{perfect:1}],
+   ['🛠','First build',{builds:1}],['☕','Java unit done',{unit:'u2'}],['🔌','API builder',{lesson:'u5b'}],
+   ['🐳','Shipped to cloud',{lesson:'u7b'}],['🤖','AI engineer',{lesson:'u8b'}],['🏆','IBM-ready',{all:true}]
+  ]
+};
+
+/* ============ CURRICULUM ============ */
+const UNITS = [
+{id:'u1',phase:'Phase 1 · Foundations',title:'Git & the Terminal',color:'#58cc02',goal:'Every IBM project lives in Git. Learn to save, branch and collaborate on code.',
+lessons:[
+ {id:'u1l1',title:'Why version control',cards:[
+  {h:'Git = save points for code',p:'<b>Git</b> tracks every change to your files as a <b>commit</b> — a snapshot with a message. If something breaks, you can go back. <b>GitHub</b> (or IBM\'s GitHub Enterprise) hosts the repo so a team can share it.'},
+  {h:'The 3 areas',p:'<b>Working directory</b> (your edits) → <b>staging area</b> (<code>git add</code>) → <b>repository</b> (<code>git commit</code>). Staging lets you choose exactly what goes in a commit.',code:'git init\ngit add README.md\ngit commit -m "Add README"\ngit status   # what changed?\ngit log --oneline'},
+  {h:'Remote repos',p:'<code>git push</code> sends your commits to the remote. <code>git pull</code> fetches teammates\' commits and merges them. <code>git clone &lt;url&gt;</code> copies a remote repo to your laptop.',tip:'Mentor tip: write commit messages in imperative mood — "Fix login bug", not "fixed stuff". Reviewers notice.'}],
+ qs:[
+  {t:'mc',q:'Which command moves a change into the staging area?',o:['git commit','git add','git push','git stage-all'],a:1,w:'git add stages changes; git commit then records the staged snapshot.'},
+  {t:'mc',q:'What does a commit represent?',o:['A backup of your whole PC','A snapshot of staged changes with a message','A copy of the remote server','A branch'],a:1,w:'A commit is a snapshot of the staged files plus metadata (author, message, parent).'},
+  {t:'order',q:'Put the steps to share a new file with your team in order.',items:['git add file.txt','git commit -m "Add file"','git push'],w:'Stage → commit → push.'},
+  {t:'fill',q:'Fill in the blank to copy a GitHub repo to your machine.',code:'git ___ https://github.com/ibm/sample.git',o:['pull','clone','init','fetch'],a:1,w:'clone creates a local copy of a remote repository.'},
+  {t:'mc',q:'Best commit message?',o:['"stuff"','"Fixed it lol"','"Add input validation to signup form"','"update"'],a:2,w:'Short, specific, imperative. It tells reviewers exactly what changed.'}]},
+ {id:'u1l2',title:'Branches & Pull Requests',cards:[
+  {h:'Branches keep main safe',p:'A <b>branch</b> is a parallel line of work. You build a feature on <code>feature/login</code> without touching <code>main</code>, which should always be deployable.',code:'git switch -c feature/login\n# ...edit, add, commit...\ngit push -u origin feature/login'},
+  {h:'Pull Request (PR)',p:'A <b>PR</b> asks the team to review and merge your branch into main. At IBM-style client projects, PRs need approvals and passing automated tests (CI) before merge.'},
+  {h:'Merge conflicts',p:'If two people change the same lines, Git can\'t decide — that\'s a <b>conflict</b>. Git marks it with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. You edit the file to the correct version, then add and commit.',tip:'Pull from main often. Small PRs = fewer conflicts and faster reviews.'}],
+ qs:[
+  {t:'mc',q:'Why work on a feature branch instead of main?',o:['It\'s faster to type','It keeps main stable while work is in progress','Git requires it','Branches use less storage'],a:1,w:'main should always be releasable; branches isolate unfinished work.'},
+  {t:'fill',q:'Create AND switch to a new branch:',code:'git ___ -c feature/cart',o:['branch','checkout','switch','merge'],a:2,w:'git switch -c creates and switches (git checkout -b does the same, older syntax).'},
+  {t:'mc',q:'A merge conflict happens when…',o:['The internet disconnects','Two branches changed the same lines differently','You forget a commit message','A branch has no commits'],a:1,w:'Git can\'t auto-choose between two different edits to the same lines.'},
+  {t:'mc',q:'What usually must pass before a PR is merged on a professional team?',o:['Nothing','Code review approval + automated tests (CI)','Manager\'s signature on paper','A meeting'],a:1,w:'Review + CI checks are the standard quality gate.'}]},
+ {id:'u1b',title:'BUILD: Your first repo',build:true,mission:'Create a public GitHub repo called <b>helpdesk-pro</b> — this is your capstone project for the whole path: a ticket management system, the kind of tool IBM consultants support for clients every day.',
+  steps:['Install Git and create a GitHub account (use a professional username)','Create repo helpdesk-pro with a README.md describing the project goal','Make at least 3 small commits with good messages','Create a branch docs/setup, add a SETUP.md, open a PR and merge it yourself'],
+  submit:'Paste your README text and the output of `git log --oneline` below for review.'}
+]},
+{id:'u2',phase:'Phase 1 · Foundations',title:'Java Core',color:'#1cb0f6',goal:'Java is IBM Consulting\'s workhorse language for enterprise apps. Master the basics + OOP.',
+lessons:[
+ {id:'u2l1',title:'Types, variables & flow',cards:[
+  {h:'Strongly typed',p:'In Java every variable has a type declared up front. Primitives: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>. Objects: <code>String</code>, arrays, your classes.',code:'int age = 21;\ndouble gpa = 1.75;\nboolean enrolled = true;\nString name = "Geo";'},
+  {h:'Control flow',p:'<code>if/else</code> for decisions, <code>for</code>/<code>while</code> for loops. Every Java program starts at <code>public static void main(String[] args)</code>.',code:'for (int i = 1; i <= 3; i++) {\n  if (i % 2 == 0) System.out.println(i + " even");\n  else System.out.println(i + " odd");\n}'},
+  {h:'== vs .equals()',p:'For objects like String, <code>==</code> compares <b>references</b> (same object in memory), <code>.equals()</code> compares <b>content</b>. This is a classic interview trap.',tip:'Always compare Strings with .equals(). Use "admin".equals(role) to avoid NullPointerException.'}],
+ qs:[
+  {t:'mc',q:'Which type stores true/false?',o:['int','boolean','String','char'],a:1,w:'boolean holds true or false.'},
+  {t:'mc',q:'How should you compare two Strings for equal text?',o:['a == b','a.equals(b)','a = b','compare(a,b)'],a:1,w:'.equals() compares content; == compares references.'},
+  {t:'fill',q:'Complete the entry point of a Java program:',code:'public static void ___(String[] args) { }',o:['start','run','main','init'],a:2,w:'The JVM looks for public static void main(String[] args).'},
+  {t:'mc',q:'What does this print?',code:'int x = 7;\nSystem.out.println(x % 3);',o:['2','1','0','2.33'],a:1,w:'% is remainder: 7 = 2×3 + 1.'},
+  {t:'mc',q:'Which loop runs exactly 5 times?',o:['for(int i=0;i<=5;i++)','for(int i=1;i<5;i++)','for(int i=0;i<5;i++)','for(int i=5;i<0;i++)'],a:2,w:'i = 0,1,2,3,4 → five iterations.'}]},
+ {id:'u2l2',title:'Object-Oriented Programming',cards:[
+  {h:'Class vs object',p:'A <b>class</b> is a blueprint; an <b>object</b> is an instance built from it with <code>new</code>.',code:'class Ticket {\n  private String title;\n  private String status = "OPEN";\n  Ticket(String title) { this.title = title; }\n  void close() { status = "CLOSED"; }\n  String getStatus() { return status; }\n}\nTicket t = new Ticket("VPN down");'},
+  {h:'The 4 pillars',p:'<b>Encapsulation</b> — hide data behind methods (private fields + getters). <b>Inheritance</b> — <code>class Incident extends Ticket</code>. <b>Polymorphism</b> — same method call, different behavior per subclass. <b>Abstraction</b> — expose what, hide how (interfaces, abstract classes).'},
+  {h:'Interfaces',p:'An <b>interface</b> is a contract: methods a class promises to implement. Spring Boot (Unit 5) is built on interfaces + dependency injection.',code:'interface Notifier { void send(String msg); }\nclass EmailNotifier implements Notifier {\n  public void send(String msg) { /* ... */ }\n}',tip:'Interviewers LOVE "explain the 4 pillars with an example." Use the Ticket example — it\'s relevant to consulting.'}],
+ qs:[
+  {t:'mc',q:'Making fields private and exposing getters is…',o:['Inheritance','Encapsulation','Polymorphism','Recursion'],a:1,w:'Encapsulation protects internal state.'},
+  {t:'fill',q:'Make Incident a subclass of Ticket:',code:'class Incident ___ Ticket { }',o:['implements','extends','inherits','super'],a:1,w:'Classes extend classes; classes implement interfaces.'},
+  {t:'mc',q:'Which keyword creates an object?',o:['class','new','this','static'],a:1,w:'new allocates and calls the constructor.'},
+  {t:'mc',q:'A Notifier variable holds an EmailNotifier or SmsNotifier, and notifier.send() behaves differently for each. This is…',o:['Encapsulation','Polymorphism','Abstraction only','Overloading'],a:1,w:'Polymorphism: one interface, many implementations.'},
+  {t:'order',q:'Order from most abstract to most concrete:',items:['interface Notifier','class EmailNotifier implements Notifier','new EmailNotifier()'],w:'Contract → implementation → instance.'}]},
+ {id:'u2l3',title:'Collections & Streams',cards:[
+  {h:'The big three',p:'<b>List</b> (ordered, duplicates OK — <code>ArrayList</code>), <b>Set</b> (unique — <code>HashSet</code>), <b>Map</b> (key→value — <code>HashMap</code>). HashMap lookups are O(1) on average.',code:'List<String> names = new ArrayList<>();\nnames.add("Ana");\nMap<String,Integer> stock = new HashMap<>();\nstock.put("soap", 12);\nint s = stock.get("soap");'},
+  {h:'Streams',p:'Streams process collections declaratively: <code>filter</code>, <code>map</code>, <code>collect</code>. Modern enterprise Java uses them everywhere.',code:'List<Ticket> open = tickets.stream()\n  .filter(t -> t.getStatus().equals("OPEN"))\n  .toList();'},
+  {h:'Exceptions',p:'Errors are thrown as exceptions. Handle what you can with <code>try/catch</code>; let the rest bubble up. Never swallow exceptions silently.',code:'try {\n  int n = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n  System.out.println("Not a number");\n}'}],
+ qs:[
+  {t:'mc',q:'You need unique employee IDs with no duplicates. Best collection?',o:['ArrayList','HashSet','LinkedList','Array'],a:1,w:'Sets reject duplicates.'},
+  {t:'mc',q:'Store product name → price lookups:',o:['List','Set','Map','Queue'],a:2,w:'Map stores key→value pairs.'},
+  {t:'fill',q:'Keep only tickets with priority above 3:',code:'tickets.stream().___(t -> t.getPriority() > 3).toList();',o:['map','filter','reduce','sort'],a:1,w:'filter keeps elements matching the predicate.'},
+  {t:'mc',q:'Average time for HashMap.get()?',o:['O(1)','O(n)','O(log n)','O(n²)'],a:0,w:'Hashing gives constant-time average lookups.'}]},
+ {id:'u2b',title:'BUILD: Ticket CLI',build:true,mission:'Build a Java command-line app for <b>helpdesk-pro</b> that manages tickets in memory.',
+  steps:['Create a Ticket class (id, title, priority 1–5, status) with private fields + getters','Store tickets in an ArrayList; give each an auto-increment id','Menu: 1) Add 2) List 3) Close by id 4) Show high priority (stream filter) 5) Exit','Handle bad input with try/catch (no crashes)','Commit to your repo on a feature branch and merge via PR'],
+  submit:'Paste your Ticket class and main menu code for review.'}
+]},
+{id:'u3',phase:'Phase 1 · Foundations',title:'SQL & Databases',color:'#ff9600',goal:'Every client system stores data. Query it, join it, design it.',
+lessons:[
+ {id:'u3l1',title:'SELECT like a pro',cards:[
+  {h:'Tables, rows, columns',p:'A relational database stores data in <b>tables</b>. Each row is a record; each column a field. A <b>primary key</b> uniquely identifies each row.'},
+  {h:'Core query',p:'Read order of clauses: <code>SELECT</code> columns <code>FROM</code> table <code>WHERE</code> filter <code>ORDER BY</code> sort <code>LIMIT</code> count.',code:"SELECT id, title, priority\nFROM tickets\nWHERE status = 'OPEN'\nORDER BY priority DESC\nLIMIT 10;"},
+  {h:'Write data',p:'<code>INSERT</code> adds, <code>UPDATE</code> changes, <code>DELETE</code> removes.',code:"UPDATE tickets SET status = 'CLOSED' WHERE id = 42;",tip:'NEVER run UPDATE or DELETE without WHERE on a client database. It hits every row.'}],
+ qs:[
+  {t:'mc',q:'Which clause filters rows?',o:['ORDER BY','WHERE','SELECT','FROM'],a:1,w:'WHERE filters rows before they are returned.'},
+  {t:'order',q:'Arrange into a valid query:',items:['SELECT title','FROM tickets',"WHERE status = 'OPEN'",'ORDER BY priority DESC'],w:'SELECT → FROM → WHERE → ORDER BY.'},
+  {t:'mc',q:'What is dangerous here?',code:"DELETE FROM tickets;",o:['Nothing','It deletes every row','Syntax error','It drops the table structure'],a:1,w:'No WHERE = all rows deleted.'},
+  {t:'fill',q:'Sort newest first:',code:'SELECT * FROM tickets ORDER BY created_at ___;',o:['ASC','DESC','UP','NEW'],a:1,w:'DESC = descending (largest/newest first).'}]},
+ {id:'u3l2',title:'JOINs & GROUP BY',cards:[
+  {h:'Relationships',p:'A <b>foreign key</b> links tables. <code>tickets.assignee_id</code> → <code>users.id</code>. This avoids duplicating user info in every ticket (normalization).'},
+  {h:'INNER vs LEFT JOIN',p:'<b>INNER JOIN</b> returns only matching rows in both tables. <b>LEFT JOIN</b> returns all rows from the left table, with NULLs where no match.',code:'SELECT t.title, u.name\nFROM tickets t\nLEFT JOIN users u ON t.assignee_id = u.id;'},
+  {h:'Aggregates',p:'<code>COUNT</code>, <code>SUM</code>, <code>AVG</code> with <code>GROUP BY</code>. Filter groups with <code>HAVING</code> (WHERE filters rows, HAVING filters groups).',code:'SELECT assignee_id, COUNT(*) AS open_count\nFROM tickets\nWHERE status = \'OPEN\'\nGROUP BY assignee_id\nHAVING COUNT(*) > 5;'}],
+ qs:[
+  {t:'mc',q:'Show ALL tickets, including unassigned ones, with the assignee name:',o:['INNER JOIN users','LEFT JOIN users','CROSS JOIN users','No join needed'],a:1,w:'LEFT JOIN keeps unmatched left rows (unassigned tickets).'},
+  {t:'mc',q:'Filter groups after aggregation with…',o:['WHERE','HAVING','ORDER BY','LIMIT'],a:1,w:'HAVING filters aggregated groups.'},
+  {t:'fill',q:'Count tickets per status:',code:'SELECT status, COUNT(*) FROM tickets ___ status;',o:['ORDER BY','GROUP BY','JOIN','WHERE'],a:1,w:'GROUP BY buckets rows by status.'},
+  {t:'mc',q:'A column that references another table\'s primary key is a…',o:['Index','Foreign key','View','Trigger'],a:1,w:'Foreign keys enforce relationships between tables.'}]},
+ {id:'u3b',title:'BUILD: Design the schema',build:true,mission:'Design the database for <b>helpdesk-pro</b> and run it in PostgreSQL (or the free online DB-Fiddle).',
+  steps:['Tables: users, tickets, comments — with primary and foreign keys','Insert at least 5 users and 15 tickets of varied status/priority','Write queries: open tickets by priority, tickets per assignee, unassigned tickets (LEFT JOIN … IS NULL)','Save schema.sql + queries.sql to your repo'],
+  submit:'Paste your CREATE TABLE statements and your 3 queries.'}
+]},
+{id:'u4',phase:'Phase 2 · Building',title:'Web Frontend',color:'#ce82ff',goal:'Clients see the UI first. Build responsive pages and React components.',
+lessons:[
+ {id:'u4l1',title:'HTML, CSS & the DOM',cards:[
+  {h:'Three layers',p:'<b>HTML</b> = structure, <b>CSS</b> = style, <b>JavaScript</b> = behavior. Use semantic tags (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;button&gt;</code>) — better accessibility, which enterprise clients require.'},
+  {h:'Flexbox layout',p:'<code>display:flex</code> lines children up in a row or column; <code>justify-content</code> spaces along the main axis, <code>align-items</code> along the cross axis.',code:'.toolbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}'},
+  {h:'DOM + events',p:'JavaScript finds elements and reacts to events.',code:'const btn = document.querySelector("#save");\nbtn.addEventListener("click", () => {\n  console.log("Saved!");\n});',tip:'Use const by default, let when reassigning, never var.'}],
+ qs:[
+  {t:'mc',q:'Which layer controls layout and colors?',o:['HTML','CSS','JavaScript','JSON'],a:1,w:'CSS handles presentation.'},
+  {t:'fill',q:'Run code when a button is clicked:',code:'btn.___("click", handleClick);',o:['onClick','addEventListener','listen','bind'],a:1,w:'addEventListener attaches an event handler.'},
+  {t:'mc',q:'Center items vertically in a flex row:',o:['justify-content:center','align-items:center','text-align:center','float:center'],a:1,w:'In a row, the cross axis is vertical → align-items.'},
+  {t:'mc',q:'Which declaration should you prefer for a value that never gets reassigned?',o:['var','let','const','static'],a:2,w:'const prevents reassignment and signals intent.'}]},
+ {id:'u4l2',title:'React fundamentals',cards:[
+  {h:'Components',p:'React UIs are built from <b>components</b> — functions that return JSX (HTML-like syntax). <b>Props</b> pass data in; <b>state</b> holds data that changes.',code:'function TicketCard({ title, priority }) {\n  return <div className="card">{title} — P{priority}</div>;\n}'},
+  {h:'useState',p:'Calling the setter re-renders the component with the new value.',code:'const [count, setCount] = useState(0);\n<button onClick={() => setCount(count + 1)}>{count}</button>'},
+  {h:'Fetching data',p:'<code>useEffect</code> runs side effects like API calls after render.',code:'useEffect(() => {\n  fetch("/api/tickets")\n    .then(r => r.json())\n    .then(setTickets);\n}, []);',tip:'The [] means "run once on mount." Forgetting it can cause infinite fetch loops.'}],
+ qs:[
+  {t:'mc',q:'Data passed from parent to child component is called…',o:['state','props','hooks','context'],a:1,w:'Props flow down from parent to child.'},
+  {t:'fill',q:'Declare state for a list of tickets:',code:'const [tickets, setTickets] = ___([]);',o:['useEffect','useState','useRef','useMemo'],a:1,w:'useState returns [value, setter].'},
+  {t:'mc',q:'What does the empty array in useEffect(fn, []) mean?',o:['Never run','Run once after first render','Run on every render','Run on unmount only'],a:1,w:'No dependencies → runs once after mount.'},
+  {t:'mc',q:'Why must you call setTickets instead of tickets.push()?',o:['push is slower','React only re-renders when state is set via its setter','push is not valid JS','It saves memory'],a:1,w:'Mutating directly doesn\'t trigger a re-render.'}]},
+ {id:'u4b',title:'BUILD: Ticket dashboard',build:true,mission:'Build the <b>helpdesk-pro</b> web dashboard with React (Vite: <code>npm create vite@latest</code>).',
+  steps:['TicketCard and TicketList components using props','A form to add tickets (title + priority) using useState','Filter buttons: All / Open / Closed','Responsive layout with flexbox — test on your phone','Deploy free on Vercel or Netlify and put the link in your README'],
+  submit:'Paste your main component code (and live link if deployed).'}
+]},
+{id:'u5',phase:'Phase 2 · Building',title:'Backend & REST APIs',color:'#ff4b4b',goal:'Spring Boot REST APIs are core to IBM Java consulting work.',
+lessons:[
+ {id:'u5l1',title:'HTTP & REST',cards:[
+  {h:'Request/response',p:'Clients send HTTP <b>requests</b> (method + URL + headers + body); servers return <b>responses</b> with a status code and usually JSON.'},
+  {h:'REST verbs',p:'<code>GET</code> read · <code>POST</code> create · <code>PUT</code> replace · <code>PATCH</code> partial update · <code>DELETE</code> remove. Resources are nouns: <code>/api/tickets/42</code>, not <code>/getTicket?id=42</code>.'},
+  {h:'Status codes',p:'<b>200</b> OK · <b>201</b> Created · <b>400</b> Bad Request · <b>401</b> Unauthenticated · <b>403</b> Forbidden · <b>404</b> Not Found · <b>500</b> Server Error.',tip:'2xx = success, 4xx = client\'s fault, 5xx = server\'s fault.'}],
+ qs:[
+  {t:'mc',q:'Create a new ticket via REST:',o:['GET /api/tickets','POST /api/tickets','DELETE /api/tickets','GET /api/createTicket'],a:1,w:'POST to the collection creates a resource.'},
+  {t:'mc',q:'Successful creation should return…',o:['200','201','204','302'],a:1,w:'201 Created.'},
+  {t:'mc',q:'User is logged in but lacks permission:',o:['401','403','404','500'],a:1,w:'403 Forbidden: authenticated but not allowed.'},
+  {t:'mc',q:'Which URL is most RESTful?',o:['/api/getAllTickets','/api/tickets','/api/ticket_list.php','/api/doTickets'],a:1,w:'Plural nouns; the HTTP method gives the action.'}]},
+ {id:'u5l2',title:'Spring Boot essentials',cards:[
+  {h:'Layered architecture',p:'<b>Controller</b> (HTTP endpoints) → <b>Service</b> (business logic) → <b>Repository</b> (database). Each layer has one job.'},
+  {h:'Annotations do the wiring',p:'Spring creates and injects objects for you (<b>dependency injection</b>).',code:'@RestController\n@RequestMapping("/api/tickets")\nclass TicketController {\n  private final TicketService service;\n  TicketController(TicketService s) { this.service = s; }\n\n  @GetMapping\n  List<Ticket> all() { return service.findAll(); }\n\n  @PostMapping\n  @ResponseStatus(HttpStatus.CREATED)\n  Ticket create(@RequestBody Ticket t) { return service.save(t); }\n}'},
+  {h:'Spring Data JPA',p:'Extend an interface and get CRUD for free.',code:'interface TicketRepository\n    extends JpaRepository<Ticket, Long> {\n  List<Ticket> findByStatus(String status);\n}',tip:'Constructor injection (shown above) is the recommended style — easier to test.'}],
+ qs:[
+  {t:'mc',q:'Where does business logic belong?',o:['Controller','Service','Repository','Entity'],a:1,w:'Controllers stay thin; services hold logic.'},
+  {t:'fill',q:'Map an HTTP GET to this method:',code:'@___\nList<Ticket> all() { ... }',o:['GetMapping','PostMapping','Get','RequestBody'],a:0,w:'@GetMapping handles GET requests.'},
+  {t:'mc',q:'@RequestBody does what?',o:['Sends JSON to client','Converts the JSON request body into a Java object','Validates the URL','Logs the request'],a:1,w:'It deserializes the request JSON into the parameter.'},
+  {t:'mc',q:'Spring creating TicketService and passing it into the controller is called…',o:['Inheritance','Dependency injection','Reflection','Serialization'],a:1,w:'DI: the framework supplies dependencies.'}]},
+ {id:'u5b',title:'BUILD: Ticket REST API',build:true,mission:'Build the <b>helpdesk-pro</b> backend with Spring Boot (start.spring.io: Web, JPA, PostgreSQL or H2).',
+  steps:['Ticket entity + TicketRepository','TicketService with create/list/close logic','Endpoints: GET /api/tickets, GET /api/tickets/{id}, POST, PATCH /{id}/close','Return 404 for missing tickets and 400 for invalid input','Connect your React dashboard to the API'],
+  submit:'Paste your controller and service code.'}
+]},
+{id:'u6',phase:'Phase 2 · Building',title:'Testing & Clean Code',color:'#2ec4b6',goal:'IBM consulting interns do unit testing and QA. Professionals prove code works.',
+lessons:[
+ {id:'u6l1',title:'Unit testing with JUnit',cards:[
+  {h:'The test pyramid',p:'Many fast <b>unit tests</b> (one class), fewer <b>integration tests</b> (components together), few <b>end-to-end tests</b> (full user flows).'},
+  {h:'Arrange · Act · Assert',p:'Every test: set up data, run the code, check the result.',code:'@Test\nvoid closeSetsStatusClosed() {\n  Ticket t = new Ticket("VPN down");   // Arrange\n  t.close();                           // Act\n  assertEquals("CLOSED", t.getStatus()); // Assert\n}'},
+  {h:'Mocks',p:'Use <b>Mockito</b> to fake dependencies (like the repository) so a unit test doesn\'t need a real database.',code:'when(repo.findById(1L)).thenReturn(Optional.of(ticket));',tip:'Test edge cases: empty input, null, max values, wrong id.'}],
+ qs:[
+  {t:'order',q:'Order the parts of a good unit test:',items:['Arrange','Act','Assert'],w:'AAA pattern.'},
+  {t:'mc',q:'Which tests should you have the MOST of?',o:['End-to-end','Unit','Manual','Load'],a:1,w:'Unit tests are fast, cheap and pinpoint failures.'},
+  {t:'mc',q:'Why mock the repository in a service test?',o:['To make tests slower','To isolate the service from the database','Mocks are required by Java','To test the database'],a:1,w:'Mocks isolate the unit under test.'},
+  {t:'fill',q:'Check two values are equal:',code:'___(5, cart.itemCount());',o:['assertTrue','assertEquals','expect','check'],a:1,w:'assertEquals(expected, actual).'}]},
+ {id:'u6l2',title:'Clean code & debugging',cards:[
+  {h:'Readable > clever',p:'Clear names (<code>overdueTickets</code>, not <code>list2</code>), small functions that do one thing, no magic numbers (<code>MAX_PRIORITY = 5</code>).'},
+  {h:'SOLID in one line each',p:'<b>S</b>ingle responsibility · <b>O</b>pen for extension, closed for modification · <b>L</b>iskov substitution · <b>I</b>nterface segregation · <b>D</b>ependency inversion (depend on interfaces).'},
+  {h:'Debug like an engineer',p:'1) Reproduce reliably 2) Read the full stack trace — the top "Caused by" line in YOUR code is the clue 3) Form a hypothesis 4) Use breakpoints, not random prints 5) Fix + add a test so it never returns.'}],
+ qs:[
+  {t:'mc',q:'Best variable name for tickets past their deadline?',o:['t2','data','overdueTickets','x'],a:2,w:'Names should reveal intent.'},
+  {t:'mc',q:'"A class should have one reason to change" is…',o:['Open/Closed','Single Responsibility','Liskov','DRY'],a:1,w:'S in SOLID.'},
+  {t:'order',q:'Order a professional debugging process:',items:['Reproduce the bug','Read the stack trace','Form a hypothesis','Fix it','Add a regression test'],w:'Reproduce → read → hypothesize → fix → test.'},
+  {t:'mc',q:'Replace `if (priority > 5)` with…',o:['A comment','if (priority > MAX_PRIORITY)','if (priority > 4+1)','Nothing'],a:1,w:'Named constants remove magic numbers.'}]},
+ {id:'u6b',title:'BUILD: Test your API',build:true,mission:'Bring <b>helpdesk-pro</b> to professional quality.',
+  steps:['Write at least 8 JUnit tests for TicketService (use Mockito for the repository)','Cover edge cases: closing a missing ticket, invalid priority','Refactor one messy method and name things clearly','Measure coverage (IntelliJ or JaCoCo) — aim for 70%+ on the service'],
+  submit:'Paste your test class.'}
+]},
+{id:'u7',phase:'Phase 3 · Shipping',title:'Cloud, Linux & DevOps',color:'#1899d6',goal:'IBM = hybrid cloud + Red Hat. Containerize, automate and deploy.',
+lessons:[
+ {id:'u7l1',title:'Linux & Docker',cards:[
+  {h:'Linux daily drivers',p:'<code>ls</code> <code>cd</code> <code>pwd</code> <code>cat</code> <code>grep</code> <code>chmod</code> <code>ps</code> <code>systemctl</code>. You already have Red Hat Academy training — this is where it pays off.',code:'grep -i "error" app.log | tail -20\nchmod +x deploy.sh\nps aux | grep java'},
+  {h:'Containers',p:'A <b>container</b> packages your app + its runtime so it runs the same everywhere. An <b>image</b> is the blueprint; a <b>container</b> is a running instance.',code:'FROM eclipse-temurin:21-jre\nCOPY target/app.jar app.jar\nEXPOSE 8080\nENTRYPOINT ["java","-jar","app.jar"]'},
+  {h:'Core commands',p:'',code:'docker build -t helpdesk-api .\ndocker run -p 8080:8080 helpdesk-api\ndocker ps\ndocker logs <id>',tip:'IBM and Red Hat often use Podman — same commands, no daemon.'}],
+ qs:[
+  {t:'mc',q:'Image vs container:',o:['Same thing','Image = blueprint, container = running instance','Container = blueprint','Image runs, container stores'],a:1,w:'You run containers from images.'},
+  {t:'fill',q:'Search a log file for errors (case-insensitive):',code:'___ -i "error" app.log',o:['find','grep','cat','ls'],a:1,w:'grep searches text.'},
+  {t:'mc',q:'In docker run -p 8080:8080, what does -p do?',o:['Sets priority','Maps a host port to a container port','Sets password','Pulls the image'],a:1,w:'host:container port mapping.'},
+  {t:'mc',q:'Main benefit of containers?',o:['Prettier code','Runs consistently across environments','No need for testing','Free hosting'],a:1,w:'"Works on my machine" → works everywhere.'}]},
+ {id:'u7l2',title:'CI/CD & Kubernetes',cards:[
+  {h:'CI/CD',p:'<b>Continuous Integration</b>: every push builds + runs tests automatically. <b>Continuous Delivery/Deployment</b>: passing builds ship to staging/production automatically. Tools: GitHub Actions, Jenkins, Tekton.',code:'# .github/workflows/ci.yml\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: ./mvnw test'},
+  {h:'Kubernetes & OpenShift',p:'<b>Kubernetes</b> runs and scales containers across many machines. <b>Pods</b> hold containers; <b>Deployments</b> keep N copies running; <b>Services</b> expose them. <b>Red Hat OpenShift</b> is IBM\'s enterprise Kubernetes platform.'},
+  {h:'Cloud models',p:'<b>IaaS</b> (you manage VMs) · <b>PaaS</b> (you deploy code/containers) · <b>SaaS</b> (you just use software). <b>Hybrid cloud</b> = on-prem + public cloud working together — IBM\'s core strategy.'}],
+ qs:[
+  {t:'mc',q:'Automatically running tests on every push is…',o:['Continuous Integration','Continuous Deployment','Code review','Monitoring'],a:0,w:'CI = integrate + verify continuously.'},
+  {t:'mc',q:'IBM\'s enterprise Kubernetes platform:',o:['Docker Swarm','Red Hat OpenShift','Heroku','Ansible'],a:1,w:'OpenShift, from Red Hat (owned by IBM).'},
+  {t:'mc',q:'Which object keeps 3 replicas of your app running?',o:['Pod','Deployment','Service','Namespace'],a:1,w:'A Deployment manages replica Pods.'},
+  {t:'mc',q:'Gmail is an example of…',o:['IaaS','PaaS','SaaS','Hybrid'],a:2,w:'You use finished software → SaaS.'}]},
+ {id:'u7b',title:'BUILD: Ship it',build:true,mission:'Containerize and automate <b>helpdesk-pro</b>.',
+  steps:['Write a Dockerfile for the API and run it locally','Add docker-compose.yml with the API + PostgreSQL','Add a GitHub Actions workflow that runs tests on every push','Deploy free (Render/Railway, or Red Hat OpenShift Developer Sandbox)','Add a CI status badge to README'],
+  submit:'Paste your Dockerfile and CI workflow.'}
+]},
+{id:'u8',phase:'Phase 3 · Shipping',title:'AI Engineering',color:'#ffc800',goal:'Every client asks about AI now. Learn to build with LLMs responsibly.',
+lessons:[
+ {id:'u8l1',title:'LLMs & prompting',cards:[
+  {h:'What an LLM does',p:'A <b>large language model</b> predicts the next token based on patterns from training data. It\'s powerful but can <b>hallucinate</b> — produce confident, wrong answers.'},
+  {h:'Prompting that works',p:'Give <b>role + context + task + format + constraints</b>. Show examples (few-shot). Ask for structured output like JSON so code can parse it.',code:'Role: You are a support triage assistant.\nTask: Classify the ticket below.\nFormat: JSON {"category": "...", "priority": 1-5}\nTicket: "VPN disconnects every 10 min"'},
+  {h:'Calling an API',p:'Apps call models over HTTP with an API key (kept on the server, never in frontend code). IBM\'s platform is <b>watsonx.ai</b>; others include Anthropic, OpenAI, and open models.',tip:'Never paste client confidential data into public AI tools. Consultants are bound by client data agreements.'}],
+ qs:[
+  {t:'mc',q:'An LLM states a fake statistic confidently. This is…',o:['Overfitting','Hallucination','Latency','Tokenization'],a:1,w:'Hallucination = plausible but false output.'},
+  {t:'mc',q:'Where should an AI API key live?',o:['In React code','In a server-side environment variable','In the README','In the URL'],a:1,w:'Secrets stay on the server.'},
+  {t:'mc',q:'Why ask the model for JSON?',o:['It\'s faster','Your code can parse it reliably','JSON is smarter','Required by law'],a:1,w:'Structured output is machine-readable.'},
+  {t:'mc',q:'IBM\'s AI and data platform for building with foundation models:',o:['watsonx','Azure','Vertex','Bedrock'],a:0,w:'watsonx (watsonx.ai, watsonx.data, watsonx.governance).'}]},
+ {id:'u8l2',title:'RAG & AI in production',cards:[
+  {h:'RAG',p:'<b>Retrieval-Augmented Generation</b>: search your own documents first, put the relevant chunks into the prompt, then let the model answer. This grounds answers in real data and reduces hallucination.'},
+  {h:'Embeddings',p:'Text is turned into vectors (lists of numbers) where similar meanings are close together. A <b>vector database</b> finds the nearest chunks to a question.'},
+  {h:'Responsible AI',p:'Evaluate outputs, log them, keep a human in the loop for important decisions, protect personal data (Philippines Data Privacy Act), and watch for bias. Clients care about <b>governance</b> as much as features.'}],
+ qs:[
+  {t:'order',q:'Order the RAG flow:',items:['User asks a question','Retrieve relevant document chunks','Add chunks to the prompt','LLM generates a grounded answer'],w:'Retrieve → augment → generate.'},
+  {t:'mc',q:'Embeddings represent text as…',o:['Images','Vectors of numbers','SQL rows','Hashes'],a:1,w:'Vectors capture semantic meaning.'},
+  {t:'mc',q:'Main benefit of RAG?',o:['Cheaper GPUs','Answers grounded in your own, current data','No need for prompts','Model retraining'],a:1,w:'It injects relevant facts at query time.'},
+  {t:'mc',q:'A bank wants AI to auto-approve loans. Best advice?',o:['Fully automate it','Keep a human reviewer and audit for bias','Use the biggest model','Skip testing'],a:1,w:'High-stakes decisions need oversight and governance.'}]},
+ {id:'u8b',title:'BUILD: AI ticket triage',build:true,mission:'Add an AI feature to <b>helpdesk-pro</b>: auto-categorize and summarize new tickets.',
+  steps:['Create a backend endpoint POST /api/tickets/{id}/triage','Call an LLM API (watsonx.ai free trial or another provider) with a structured prompt','Parse JSON output: category, suggested priority, one-line summary','Show the suggestion in the UI with an "Accept" button (human in the loop)','Handle API errors and timeouts gracefully'],
+  submit:'Paste your prompt and the service method that calls the model.'}
+]},
+{id:'u9',phase:'Phase 4 · Consultant',title:'Agile & Consulting Skills',color:'#e056a0',goal:'IBM Consulting = tech + clients. Learn Scrum, tickets and requirements.',
+lessons:[
+ {id:'u9l1',title:'Agile & Scrum',cards:[
+  {h:'Scrum in 30 seconds',p:'Work happens in <b>sprints</b> (usually 2 weeks). <b>Product Owner</b> prioritizes the backlog; <b>Scrum Master</b> removes blockers; <b>Developers</b> build. Events: Sprint Planning, Daily Stand-up, Sprint Review, Retrospective.'},
+  {h:'User stories',p:'Format: <b>As a</b> &lt;user&gt;, <b>I want</b> &lt;goal&gt;, <b>so that</b> &lt;benefit&gt;. Add <b>acceptance criteria</b> so "done" is testable.',code:'As a support agent,\nI want to filter tickets by priority,\nso that I handle urgent issues first.\n\nAC: Given 10 tickets, when I pick P1,\nthen only P1 tickets are shown.'},
+  {h:'Stand-up format',p:'Yesterday I… · Today I will… · Blockers: … Keep it under a minute.',tip:'Raise blockers early. Interns who stay silent for 3 days look worse than ones who ask on day 1.'}],
+ qs:[
+  {t:'mc',q:'Who prioritizes the product backlog?',o:['Scrum Master','Product Owner','Developers','Client CEO'],a:1,w:'The Product Owner owns backlog priority.'},
+  {t:'order',q:'Build the user story:',items:['As a support agent,','I want to filter tickets by priority,','so that I handle urgent issues first.'],w:'As a / I want / so that.'},
+  {t:'mc',q:'What makes a story "testable"?',o:['Long description','Acceptance criteria','Story points','A deadline'],a:1,w:'AC define pass/fail conditions.'},
+  {t:'mc',q:'In stand-up you\'re stuck on a DB permission issue for 2 days. You should…',o:['Stay quiet and keep trying','Raise it as a blocker','Wait for the retro','Skip stand-up'],a:1,w:'Blockers are exactly what stand-up is for.'}]},
+ {id:'u9l2',title:'Tickets, ITSM & clients',cards:[
+  {h:'ITSM basics',p:'Consulting support work runs on tools like <b>ServiceNow</b> or Jira. <b>Incident</b> = something broke, restore service fast. <b>Service request</b> = user asks for something standard (access, install). <b>Problem</b> = root cause behind repeated incidents. <b>Change</b> = controlled modification to production.'},
+  {h:'SLAs',p:'A <b>Service Level Agreement</b> sets response/resolution times by priority (e.g., P1: respond in 15 min). Breaching SLAs costs clients money and IBM credibility.'},
+  {h:'Talking to clients',p:'Listen first, confirm understanding ("So the issue is…"), never blame, give realistic timelines, and follow up in writing. Requirements gathering = asking <b>why</b> until you find the real need.',tip:'Good ticket update: what you found, what you did, next step, ETA.'}],
+ qs:[
+  {t:'mc',q:'Production checkout page is down. This is a…',o:['Service request','Incident','Change','Problem'],a:1,w:'Unplanned interruption = incident.'},
+  {t:'mc',q:'The same server crashes weekly. Investigating the root cause is…',o:['Incident management','Problem management','Change management','Request fulfillment'],a:1,w:'Problem management finds root causes.'},
+  {t:'mc',q:'Best ticket update?',o:['"Working on it"','"Fixed"','"Root cause: expired SSL cert. Renewed it, verified login works. Monitoring 24h; closing tomorrow 5PM."','"Not my fault"'],a:2,w:'Finding + action + next step + ETA.'},
+  {t:'mc',q:'Client says "we need a dashboard." Your first move?',o:['Start coding','Ask what decisions the dashboard should help them make','Pick a chart library','Quote a price'],a:1,w:'Find the real need before building.'}]},
+ {id:'u9b',title:'BUILD: Run a sprint',build:true,mission:'Run <b>helpdesk-pro</b> like a real client project.',
+  steps:['Write 8 user stories with acceptance criteria in GitHub Issues','Create a GitHub Projects board (To Do / In Progress / Review / Done)','Plan a 1-week sprint, complete 3 stories, link each PR to its issue','Write a short sprint review + retrospective (what went well / improve)'],
+  submit:'Paste 3 of your user stories and your retro notes.'}
+]},
+{id:'u10',phase:'Phase 4 · Consultant',title:'Interview & Launch',color:'#58cc02',goal:'Turn your skills into an offer: portfolio, resume, technical + behavioral interviews.',
+lessons:[
+ {id:'u10l1',title:'Behavioral: STAR method',cards:[
+  {h:'STAR',p:'<b>S</b>ituation (context) · <b>T</b>ask (your responsibility) · <b>A</b>ction (what YOU did — most detail here) · <b>R</b>esult (measurable outcome + what you learned).'},
+  {h:'Your story bank',p:'Prepare 5 stories: a team conflict, a failure, a tough deadline, learning something fast, leading something. Your thesis project and helpdesk-pro are great sources.'},
+  {h:'IBM values',p:'IBM looks for <b>growth mindset</b>, client focus, and collaboration. Show curiosity: "I didn\'t know Docker, so I…"',tip:'Use "I", not "we", in the Action part. Interviewers are evaluating you.'}],
+ qs:[
+  {t:'order',q:'Order the STAR method:',items:['Situation','Task','Action','Result'],w:'S-T-A-R.'},
+  {t:'mc',q:'Which part should get the most detail?',o:['Situation','Task','Action','Result'],a:2,w:'Action shows your skills and decisions.'},
+  {t:'mc',q:'Best Result statement?',o:['"It went well."','"We finished."','"Cut ticket response time 40% and the team adopted my script."','"The client was happy, I think."'],a:2,w:'Specific and measurable.'},
+  {t:'mc',q:'"Tell me about a failure." Best approach?',o:['Say you never fail','Blame a teammate','Own a real mistake, show what you changed afterward','Pick a fake weakness'],a:2,w:'Ownership + learning = growth mindset.'}]},
+ {id:'u10l2',title:'Technical interview patterns',cards:[
+  {h:'Big-O',p:'How runtime grows with input size. O(1) constant · O(log n) binary search · O(n) one loop · O(n log n) good sorts · O(n²) nested loops.'},
+  {h:'Hash map trick',p:'Many problems drop from O(n²) to O(n) by remembering what you\'ve seen in a HashMap/Set.',code:'// Two Sum: indices of two nums adding to target\nMap<Integer,Integer> seen = new HashMap<>();\nfor (int i = 0; i < nums.length; i++) {\n  int need = target - nums[i];\n  if (seen.containsKey(need)) return new int[]{seen.get(need), i};\n  seen.put(nums[i], i);\n}'},
+  {h:'Think out loud',p:'1) Clarify the question + edge cases 2) Say a brute-force idea 3) Optimize 4) Code 5) Test with an example. Interviewers grade your process, not just the answer.'}],
+ qs:[
+  {t:'mc',q:'Two nested loops over n items:',o:['O(n)','O(n²)','O(log n)','O(1)'],a:1,w:'n × n.'},
+  {t:'mc',q:'Binary search on a sorted array:',o:['O(n)','O(log n)','O(n²)','O(1)'],a:1,w:'Halves the search space each step.'},
+  {t:'mc',q:'Find if an array has duplicates fastest:',o:['Compare every pair','Add to a HashSet, check if already present','Print the array','Reverse it'],a:1,w:'O(n) with a Set.'},
+  {t:'order',q:'Order your interview approach:',items:['Clarify the problem','State brute force','Optimize','Write code','Test with an example'],w:'Clarify → brute → optimize → code → test.'}]},
+ {id:'u10b',title:'BUILD: Apply to IBM',build:true,mission:'Package everything and apply to the <b>IBM Philippines Consulting OJT</b>.',
+  steps:['Polish helpdesk-pro README: screenshots, tech stack, live link, architecture diagram','Update resume: projects with impact bullets, certifications (Network+, Red Hat, AWS), GitHub + LinkedIn','Complete a free IBM SkillsBuild course and add the badge','Do 2 mock interviews with the Mentor tab (1 behavioral, 1 technical)','Submit your application via IBM Careers'],
+  submit:'Paste your resume project section for a final review.'}
+]}
+];
+
+/*@@CONTENT_END@@*/
+const ALL = []; UNITS.forEach(u=>u.lessons.forEach(l=>{l.unit=u;ALL.push(l)}));
+
+/* ============ STATE ============ */
+const KEY=CONFIG.id+'_v1';
+document.title=CONFIG.appName;
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const dayDiff=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+let S={xp:0,streak:0,last:null,hearts:5,heartTs:Date.now(),done:{},daily:{d:today(),xp:0},goal:30,perfect:0,builds:{},checks:{},reviews:{}};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+
+let DB=null,UID=null,docRef=null,writing=false,pendingWrite=false,syncMsg='Progress saved on this device';
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  if(docRef){ if(writing){pendingWrite=true;return} writing=true;
+    docRef.set(JSON.parse(JSON.stringify(S))).catch(()=>{}).finally(()=>{writing=false;if(pendingWrite){pendingWrite=false;save()}});
+  }
+}
+async function initCloud(){
+  try{
+    if(!window.claude||!claude.use)return;
+    const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+    if(!db||!user)return;
+    const id=await user.id(); if(!id)return;
+    DB=db;UID=id;
+    const ref=db.doc('data/users/'+id+'/progress');
+    const snap=await ref.get();
+    if(snap.exists){
+      const c=snap.data()||{};
+      if((c.xp||0)>=S.xp){S=Object.assign({},S,JSON.parse(JSON.stringify(c)))}
+      else{S.done=Object.assign({},c.done||{},S.done)}
+    }
+    docRef=ref; syncMsg='Progress synced to your account ☁️'; save(); renderAll();
+  }catch(e){}
+}
+
+function regenHearts(){
+  const MS=20*60*1000;
+  if(S.hearts>=5){S.heartTs=Date.now();return}
+  const n=Math.floor((Date.now()-S.heartTs)/MS);
+  if(n>0){S.hearts=Math.min(5,S.hearts+n);S.heartTs+=n*MS}
+}
+function liveStreak(){ if(!S.last)return 0; const d=dayDiff(S.last,today()); return d<=1?S.streak:0 }
+function level(){return Math.floor(S.xp/120)+1}
+function addXp(n){
+  S.xp+=n; if(S.daily.d!==today())S.daily={d:today(),xp:0}; S.daily.xp+=n;
+  const t=today(); if(S.last!==t){ S.streak = (S.last && dayDiff(S.last,t)===1) ? S.streak+1 : 1; S.last=t }
+}
+const nextIdx=()=>{const i=ALL.findIndex(l=>!S.done[l.id]);return i<0?ALL.length:i};
+
+/* ============ RENDER: TOP ============ */
+function renderTop(){
+  regenHearts();
+  document.getElementById('sXp').textContent=S.xp;
+  document.getElementById('sLvl').textContent=level();
+  const st=liveStreak();document.getElementById('sStreak').textContent=st;
+  document.getElementById('streakStat').classList.toggle('off',!(S.last===today()));
+  document.getElementById('sHearts').textContent=S.hearts;
+}
+
+const ICON={
+ learn:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>',
+ done:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" fill="#6a7d8b"><path d="M7 10V7a5 5 0 0110 0v3h1a1 1 0 011 1v9a1 1 0 01-1 1H6a1 1 0 01-1-1v-9a1 1 0 011-1zm2 0h6V7a3 3 0 00-6 0z"/></svg>',
+ build:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>',
+ buildLock:'<svg viewBox="0 0 24 24" fill="#6a7d8b"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>'
+};
+
+function renderLearn(){
+  const v=document.getElementById('v-learn');
+  const ni=nextIdx();
+  const dx=S.daily.d===today()?S.daily.xp:0, pct=Math.min(1,dx/S.goal);
+  const C=2*Math.PI*24;
+  let h=`<div class="daily"><svg class="ring" viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" stroke="#37464f" stroke-width="7" fill="none"/><circle cx="29" cy="29" r="24" stroke="${pct>=1?'#ffc800':'#58cc02'}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 29 29)"/><text x="29" y="34" text-anchor="middle" fill="#eef4f8" font-size="14" font-weight="900" font-family="Nunito">${Math.round(pct*100)}%</text></svg>
+  <div><h3>${pct>=1?'Daily goal crushed! 🔥':'Daily goal: '+S.goal+' XP'}</h3><p>${dx} / ${S.goal} XP today · ${ni>=ALL.length?'Path complete!':'Next: '+ALL[Math.min(ni,ALL.length-1)].title}</p></div></div>`;
+  let gi=0;
+  UNITS.forEach((u,ui)=>{
+    h+=`<div class="unit" style="background:${u.color}"><div class="ph">${u.phase} · Unit ${ui+1}</div><h2>${u.title}</h2><p>${u.goal}</p><button class="guide" onclick="openGuide('${u.id}')">GUIDE</button></div><div class="path">`;
+    u.lessons.forEach((l,li)=>{
+      const idx=ALL.indexOf(l), done=!!S.done[l.id], cur=idx===ni, lock=idx>ni;
+      const off=Math.round(Math.sin((gi++)*0.95)*70);
+      const cls=(l.build?'build ':'')+(done?'done':cur?'cur':'lock');
+      const ic=done?ICON.done:lock?(l.build?ICON.buildLock:ICON.lock):(l.build?ICON.build:ICON.learn);
+      h+=`<button class="node ${cls}" style="transform:translateX(${off}px)" onclick="tapNode('${l.id}')">${cur?`<span class="startbub">${l.build?'BUILD':'START'}</span>`:''}${ic}<span class="lbl">${l.title}</span></button>`;
+    });
+    h+=`</div>`;
+  });
+  h+=`<div class="sync">${syncMsg}</div>`;
+  v.innerHTML=h;
+}
+
+function tapNode(id){
+  const l=ALL.find(x=>x.id===id), idx=ALL.indexOf(l), ni=nextIdx();
+  if(idx>ni){toast('🔒 Finish the lessons before this one first');return}
+  const done=!!S.done[id];
+  sheet(`<div class="mentorrow">${bit()}<div class="bubble">${l.build?'Time to build something real! This is portfolio material.':done?'Nice — replay to sharpen it. Replays give half XP.':'Ready? I\'ll teach, then quiz you. Wrong answers come back at the end.'}</div></div>
+  <h2>${l.title}</h2><div class="sub">${l.unit.title} · ${l.build?'Build mission · +50 XP':(l.qs.length+' questions · +'+(done?10:20)+' XP')}</div>
+  <button class="btn ${l.build?'purple':''}" onclick="closeSheet();${l.build?`openBuild('${id}')`:`startLesson('${id}')`}">${done?'PRACTICE AGAIN':l.build?'OPEN MISSION':'START LESSON'}</button>`);
+}
+
+function openGuide(uid){
+  const u=UNITS.find(x=>x.id===uid);
+  sheet(`<h2>${u.title}</h2><div class="sub">${u.goal}</div><b>You'll learn</b><ul>${u.lessons.filter(l=>!l.build).map(l=>'<li>'+l.title+' — '+l.cards.map(c=>c.h).join(', ')+'</li>').join('')}</ul><b>You'll build</b><ul>${u.lessons.filter(l=>l.build).map(l=>'<li>'+l.mission+'</li>').join('')}</ul><button class="btn blue" onclick="closeSheet()">GOT IT</button>`);
+}
+
+/* ============ LESSON ENGINE ============ */
+let L=null;
+function startLesson(id){
+  regenHearts();
+  if(S.hearts<=0){
+    const mins=Math.ceil((20*60*1000-(Date.now()-S.heartTs))/60000);
+    sheet(`<div class="mentorrow">${bit('sad')}<div class="bubble">Out of hearts! Take a breather — or review your notes.</div></div><h2>No hearts left</h2><div class="sub">Next heart in ~${mins} min. Or spend 30 XP to refill all.</div><button class="btn red" ${S.xp<30?'disabled':''} onclick="S.xp-=30;S.hearts=5;save();renderAll();closeSheet();startLesson('${id}')">REFILL FOR 30 XP</button><div style="height:10px"></div><button class="btn ghost" onclick="closeSheet()">LATER</button>`);
+    return;
+  }
+  const l=ALL.find(x=>x.id===id);
+  const steps=[...l.cards.map(c=>({k:'card',c})),...l.qs.map(q=>({k:'q',q}))];
+  L={l,steps,i:0,total:steps.length,right:0,wrong:0,firstTry:0,sel:null,answered:false,order:[],retry:new Set()};
+  document.getElementById('lesson').classList.add('on');
+  drawStep();
+}
+function quitLesson(){
+  sheet(`<div class="mentorrow">${bit('sad')}<div class="bubble">Wait, don't go! You'll lose this lesson's progress.</div></div><button class="btn blue" onclick="closeSheet()">KEEP LEARNING</button><div style="height:10px"></div><button class="btn ghost" style="color:var(--red)" onclick="closeSheet();endLessonUI()">END SESSION</button>`);
+}
+function endLessonUI(){document.getElementById('lesson').classList.remove('on');L=null;renderAll()}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function drawStep(){
+  const w=document.getElementById('lwrap');
+  const st=L.steps[L.i]; const prog=Math.min(100,(L.i/L.steps.length)*100);
+  let body='',foot='';
+  if(st.k==='card'){
+    const c=st.c;
+    body=`<div class="qtype">📘 Learn</div><div class="card"><h3>${c.h}</h3>${c.p?`<p>${c.p}</p>`:''}${c.code?`<pre class="code">${esc(c.code)}</pre>`:''}${c.tip?`<div class="tip">💡 ${c.tip}</div>`:''}</div>`;
+    foot=`<button class="btn" onclick="nextStep()">CONTINUE</button>`;
+  } else {
+    const q=st.q; L.sel=null; L.answered=false;
+    const label={mc:'Choose the answer',fill:'Fill in the blank',order:'Put in order',tf:'True or false'}[q.t];
+    body=`<div class="qtype">${st.retry?'🔁 Mistake review · ':''}${label}</div><h2 class="qtitle">${q.q}</h2>`;
+    if(q.code){ let c=esc(q.code); if(q.t==='fill')c=c.replace('___','<span class="bl" id="blank">____</span>'); body+=`<pre class="code">${c}</pre>`}
+    if(q.t==='order'){
+      L.order=[]; L.pool=shuffle(q.items.map((t,i)=>({t,i})));
+      if(L.pool.every((p,k)=>p.i===k)&&L.pool.length>1)L.pool.reverse();
+      body+=`<div class="answerrow" id="ans"></div><div class="tiles" id="pool"></div>`;
+    } else {
+      body+=`<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`).join('')}</div>`;
+    }
+    foot=`<button class="btn" id="chk" disabled onclick="check()">CHECK</button>`;
+  }
+  w.innerHTML=`<div class="lhead"><button class="x" onclick="quitLesson()">✕</button><div class="pbar"><i style="width:${prog}%"></i></div><div class="stat hearts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.2-8-11.2A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.8C20 15.8 12 21 12 21z"/></svg>${S.hearts}</div></div>
+  <div class="lbody" id="lbody">${body}</div><div class="lfoot" id="lfoot">${foot}</div>`;
+  if(st.k==='q'&&st.q.t==='order')drawOrder();
+}
+function drawOrder(){
+  const ans=document.getElementById('ans'),pool=document.getElementById('pool');
+  ans.innerHTML=L.order.map((p,k)=>`<button class="tile" onclick="unOrder(${k})"><span class="n">${k+1}.</span>${esc(p.t)}</button>`).join('')||'<span style="color:var(--mute);font-size:13px;padding:8px 0">Tap tiles below in the right order</span>';
+  pool.innerHTML=L.pool.map((p,k)=>`<button class="tile ${L.order.includes(p)?'used':''}" onclick="toOrder(${k})">${esc(p.t)}</button>`).join('');
+  const chk=document.getElementById('chk'); if(chk)chk.disabled=L.order.length!==L.pool.length;
+}
+function toOrder(k){if(L.answered)return;const p=L.pool[k];if(!L.order.includes(p)){L.order.push(p);drawOrder()}}
+function unOrder(k){if(L.answered)return;L.order.splice(k,1);drawOrder()}
+function pick(i){
+  if(L.answered)return; L.sel=i;
+  document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',+b.dataset.i===i));
+  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[i];
+  document.getElementById('chk').disabled=false;
+}
+document.addEventListener('keydown',e=>{
+  if(!L)return; const st=L.steps[L.i];
+  if(st&&st.k==='q'&&st.q.t!=='order'&&/^[1-4]$/.test(e.key)&&!L.answered){const i=+e.key-1;if(i<st.q.o.length)pick(i)}
+  if(e.key==='Enter'){const b=document.querySelector('#lfoot .btn');if(b&&!b.disabled)b.click()}
+});
+function check(){
+  const st=L.steps[L.i],q=st.q; L.answered=true;
+  let ok;
+  if(q.t==='order') ok=L.order.every((p,k)=>p.i===k);
+  else{ ok=L.sel===q.a;
+    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===q.a)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
+  }
+  const f=document.getElementById('lfoot');
+  if(ok){ L.right++; if(!st.retry)L.firstTry++;
+    f.className='lfoot good';
+    f.innerHTML=`<div class="fbtitle">✔ ${['Nice!','Excellent!','Correct!','You got it!','Sharp!'][Math.floor(Math.random()*5)]}</div><div class="fbtext">${q.w}</div><button class="btn" onclick="nextStep()">CONTINUE</button>`;
+  } else {
+    L.wrong++; if(S.hearts>=5)S.heartTs=Date.now(); S.hearts=Math.max(0,S.hearts-1); save();
+    const corr=q.t==='order'?q.items.map((t,k)=>(k+1)+'. '+t).join('<br>'):esc(q.o[q.a]);
+    L.steps.push({k:'q',q,retry:true});
+    f.className='lfoot bad';
+    f.innerHTML=`<div class="fbtitle">✖ Not quite</div><div class="fbtext"><b>Correct answer:</b><br>${corr}<br><br>${q.w}</div><button class="btn red" onclick="nextStep()">${S.hearts<=0?'OUT OF HEARTS':'GOT IT'}</button>`;
+    document.querySelector('.lhead .hearts').innerHTML=document.querySelector('.lhead .hearts').innerHTML.replace(/\d+$/,S.hearts);
+  }
+}
+function nextStep(){
+  if(S.hearts<=0&&L.steps[L.i].k==='q'&&L.answered&&L.wrong>0){
+    const id=L.l.id; endLessonUI(); startLesson(id); return;
+  }
+  L.i++;
+  if(L.i>=L.steps.length)finishLesson(); else drawStep();
+}
+function finishLesson(){
+  const l=L.l, replay=!!S.done[l.id];
+  const qn=l.qs.length, acc=Math.round(L.firstTry/qn*100);
+  let xp=replay?10:20; if(acc===100)xp+=5;
+  const prevLvl=level();
+  addXp(xp); S.done[l.id]=true; if(acc===100)S.perfect=(S.perfect||0)+1; save();
+  const lvlUp=level()>prevLvl;
+  document.getElementById('lwrap').innerHTML=`<div class="lbody"><div class="endbox"><div style="width:140px;margin:0 auto">${bit()}</div><h1>${acc===100?'Perfect lesson!':'Lesson complete!'}</h1>
+  <div class="endstats"><div class="es" style="border-color:var(--gold)"><div class="t" style="background:var(--gold)">Total XP</div><div class="v" style="color:var(--gold)">+${xp}</div></div><div class="es" style="border-color:var(--green)"><div class="t" style="background:var(--green)">Accuracy</div><div class="v" style="color:var(--green)">${acc}%</div></div><div class="es" style="border-color:var(--orange)"><div class="t" style="background:var(--orange)">Streak</div><div class="v" style="color:var(--orange)">🔥${liveStreak()}</div></div></div>
+  ${lvlUp?`<p style="color:var(--blue);font-size:18px;font-weight:900">⭐ Level up! You're now level ${level()}</p>`:''}</div></div>
+  <div class="lfoot"><button class="btn" onclick="endLessonUI()">CONTINUE</button></div>`;
+  confetti();
+}
+
+/* ============ BUILD MISSIONS ============ */
+let SAMPLE=null;
+function openBuild(id){
+  const l=ALL.find(x=>x.id===id); S.checks[id]=S.checks[id]||[];
+  const w=document.getElementById('lwrap'); document.getElementById('lesson').classList.add('on');
+  const rv=S.reviews[id];
+  w.innerHTML=`<div class="lhead"><button class="x" onclick="endLessonUI()">✕</button><div style="flex:1;font-weight:900">Build mission</div></div>
+  <div class="lbody"><div class="mission"><div class="qtype" style="color:#e3c4ff">🛠 ${l.unit.title}</div><h3>${l.title.replace('BUILD: ','')}</h3><p>${l.mission}</p></div>
+  <div class="qtype">Checklist</div>${l.steps.map((s,i)=>`<label class="check"><input type="checkbox" ${S.checks[id][i]?'checked':''} onchange="tick('${id}',${i},this.checked)"><span>${s}</span></label>`).join('')}
+  <div class="qtype" style="margin-top:16px">Mentor code review</div><p style="font-size:13px;color:var(--mute);margin:0 0 8px;font-weight:600">${l.submit}</p>
+  <textarea id="sub" placeholder="Paste here…">${esc(S.builds[id]||'')}</textarea>
+  <div style="height:10px"></div><button class="btn blue" id="revBtn" onclick="review('${id}')">${SAMPLE?'GET MENTOR REVIEW':'SAVE SUBMISSION'}</button>
+  <div id="revOut">${rv?`<div class="review">${md(rv)}</div>`:''}</div></div>
+  <div class="lfoot"><button class="btn purple" id="doneBtn" onclick="completeBuild('${id}')">${S.done[id]?'MISSION COMPLETE ✔':'MARK MISSION COMPLETE'}</button></div>`;
+  updDone(id);
+}
+function tick(id,i,v){S.checks[id][i]=v;save();updDone(id)}
+function updDone(id){const l=ALL.find(x=>x.id===id);const b=document.getElementById('doneBtn');if(!b)return;const all=l.steps.every((_,i)=>S.checks[id][i]);b.disabled=!all||!!S.done[id];if(!all&&!S.done[id])b.textContent='TICK ALL STEPS TO COMPLETE'}
+function completeBuild(id){
+  if(S.done[id])return; const p=level(); addXp(50); S.done[id]=true; save();
+  document.getElementById('doneBtn').textContent='MISSION COMPLETE ✔';document.getElementById('doneBtn').disabled=true;
+  confetti(); toast('+50 XP · Mission complete!'+(level()>p?' ⭐ Level '+level():''));
+}
+async function review(id){
+  const l=ALL.find(x=>x.id===id), txt=document.getElementById('sub').value.trim();
+  S.builds[id]=txt; save();
+  if(!SAMPLE){toast('Submission saved');return}
+  if(txt.length<20){toast('Paste a bit more for a useful review');return}
+  const out=document.getElementById('revOut'),btn=document.getElementById('revBtn');
+  btn.disabled=true;btn.textContent='MENTOR IS REVIEWING…';
+  out.innerHTML='<div class="review" id="rv">Thinking…</div>';
+  const prompt=`You are ${CONFIG.reviewerRole} mentoring ${CONFIG.learner}. Be concise, precise and encouraging, like a good reviewer.
+
+Mission: ${l.title} — ${l.mission.replace(/<[^>]+>/g,'')}
+Checklist: ${l.steps.join('; ')}
+
+Student submission:
+"""
+${txt.slice(0,12000)}
+"""
+
+Reply in this format (markdown, under 250 words):
+**Score: X/10**
+**What's good:** 2-3 bullets
+**Fix next:** 2-4 specific bullets, with a short code snippet if it helps
+**Interview angle:** one sentence on how to talk about this in an interview.`;
+  try{
+    const r=await SAMPLE(prompt,{cache:false,onText:({text})=>{const e=document.getElementById('rv');if(e)e.innerHTML=md(text)}});
+    S.reviews[id]=r.text; save(); document.getElementById('rv').innerHTML=md(r.text);
+  }catch(e){ out.innerHTML=`<div class="review">${e&&e.code==='rate_limited'?'Mentor is busy — try again in a minute.':'Couldn\'t reach the mentor right now. Your submission is saved.'}</div>` }
+  btn.disabled=false;btn.textContent='GET MENTOR REVIEW';
+}
+
+/* ============ ROADMAP ============ */
+function renderRoad(){
+  const ph=CONFIG.phases;
+  let h=`<div class="sec"><h1>${CONFIG.roadTitle}</h1><p class="lead">${CONFIG.roadIntro}</p>`;
+  ph.forEach(p=>{
+    const ls=ALL.filter(l=>p.u.includes(l.unit.id)), d=ls.filter(l=>S.done[l.id]).length;
+    h+=`<div class="phase"><div class="bar" style="background:${p.c}"></div><div class="wk">${p.w}</div><h3>${p.n}</h3><div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div><p>${p.why}</p><div class="mini"><i style="width:${d/ls.length*100}%;background:${p.c}"></i></div><p style="margin-top:6px;color:var(--mute);font-size:12px">${d}/${ls.length} complete</p></div>`;
+  });
+  h+=`<h3 style="margin:22px 0 10px">Your weekly rhythm</h3><div class="phase"><div class="bar" style="background:var(--gold)"></div><p>${CONFIG.rhythm}</p></div>
+  <h3 style="margin:22px 0 10px">Free resources</h3><div class="res">${CONFIG.resources.map(r=>`<a href="${r[1]}" target="_blank">${r[0]}<span>${r[2]}</span></a>`).join('')}</div></div>`;
+  document.getElementById('v-road').innerHTML=h;
+}
+
+/* ============ MENTOR CHAT ============ */
+let CHAT=[];
+function md(t){
+  let s=esc(t);
+  s=s.replace(/```(\w*)\n?([\s\S]*?)```/g,(m,l,c)=>'<pre>'+c+'</pre>');
+  s=s.replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  s=s.replace(/^### (.*)$/gm,'<b>$1</b>').replace(/^## (.*)$/gm,'<b>$1</b>').replace(/^[-*] (.*)$/gm,'• $1');
+  return s.split(/(<pre>[\s\S]*?<\/pre>)/).map(p=>p.startsWith('<pre>')?p:p.replace(/\n/g,'<br>')).join('');
+}
+function renderMentor(){
+  const v=document.getElementById('v-mentor');
+  const ni=nextIdx(), cur=ALL[Math.min(ni,ALL.length-1)];
+  if(!SAMPLE){
+    v.innerHTML=`<div class="sec"><div class="mentorrow">${bit()}<div class="bubble">Hi! I'm ${CONFIG.mascot}, your mentor. I can answer questions, quiz you and run practice drills.</div></div></div><div class="notice">The live mentor needs this page opened on claude.ai while signed in. You can also ask me anything in your Claude chat — I'll pick up right where your path is: <b>${cur.unit.title} → ${cur.title}</b>.</div>`;
+    return;
+  }
+  if(!document.getElementById('chatbox')){
+    v.innerHTML=`<div class="sec" style="padding-bottom:6px"><div class="mentorrow">${bit()}<div class="bubble">I'm ${CONFIG.mascot}, your mentor. Ask me anything, or pick a drill. You're on <b id="curTopic"></b>.</div></div></div>
+    <div class="quick" id="quick"></div><div class="chat" id="chatbox"></div><div style="height:80px"></div>
+    <form class="composer" id="cform"><input id="cin" placeholder="Ask your mentor…" autocomplete="off"><button>SEND</button></form>`;
+    document.getElementById('cform').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('cin');if(i.value.trim()){ask(i.value.trim());i.value=''}});
+  }
+  document.getElementById('curTopic').textContent=cur.unit.title+' → '+cur.title;
+  const qs=CONFIG.quick.map(q=>[q[0],q[1].replace(/\{unit\}/g,cur.unit.title).replace(/\{lesson\}/g,cur.title)]);
+  document.getElementById('quick').innerHTML=qs.map((q,i)=>`<button data-i="${i}">${q[0]}</button>`).join('');
+  document.querySelectorAll('#quick button').forEach(b=>b.onclick=()=>ask(qs[+b.dataset.i][1]));
+  drawChat();
+}
+function drawChat(){
+  const box=document.getElementById('chatbox'); if(!box)return;
+  box.innerHTML=CHAT.map(m=>`<div class="msg ${m.role==='user'?'me':'ai'}">${m.role==='user'?esc(m.content):md(m.content||'…')}</div>`).join('');
+  window.scrollTo(0,document.body.scrollHeight);
+}
+let asking=false;
+async function ask(text){
+  if(asking||!SAMPLE)return; asking=true;
+  CHAT.push({role:'user',content:text}); CHAT.push({role:'assistant',content:'Thinking…'}); drawChat();
+  const ni=nextIdx(), cur=ALL[Math.min(ni,ALL.length-1)];
+  const sys=`[Mentor instructions] You are "${CONFIG.mascot}", a concise, precise and friendly mentor inside the Duolingo-style learning app ${CONFIG.appName}. The learner is ${CONFIG.learner}. Current unit: ${cur.unit.title}; next lesson: ${cur.title}. Completed lessons: ${Object.keys(S.done).length}/${ALL.length}. Keep replies short (under 180 words unless asked), use small concrete examples, check understanding with a question when teaching, and say so when you are unsure instead of inventing facts.\n\n`;
+  const msgs=CHAT.slice(0,-1).slice(-12).map((m,i)=>({role:m.role,content:m.content}));
+  msgs[0]={role:msgs[0].role,content:(msgs[0].role==='user'?sys:'')+msgs[0].content};
+  if(msgs[0].role!=='user')msgs.unshift({role:'user',content:sys+'Hi'});
+  try{
+    const r=await SAMPLE(msgs,{cache:false,onText:({text})=>{CHAT[CHAT.length-1].content=text;drawChat()}});
+    CHAT[CHAT.length-1].content=r.text;
+  }catch(e){CHAT[CHAT.length-1].content=e&&e.code==='rate_limited'?'I\'m getting a lot of questions — try again in a minute.':'I couldn\'t answer just now. Try again.'}
+  asking=false; drawChat();
+}
+
+/* ============ PROFILE ============ */
+function renderMe(){
+  const nd=Object.keys(S.done).length, builds=ALL.filter(l=>l.build&&S.done[l.id]).length;
+  const units=UNITS.filter(u=>u.lessons.every(l=>S.done[l.id])).length;
+  const totalBuilds=ALL.filter(l=>l.build).length;
+  const ok=r=>r.lessons?nd>=r.lessons:r.streak?Math.max(S.streak,liveStreak())>=r.streak:r.perfect?(S.perfect||0)>=r.perfect:r.builds?builds>=r.builds:r.unit?(UNITS.find(u=>u.id===r.unit)||{lessons:[{id:'_'}]}).lessons.every(l=>S.done[l.id]):r.lesson?!!S.done[r.lesson]:r.all?nd>=ALL.length:false;
+  const B=CONFIG.badges.map(b=>[b[0],b[1],ok(b[2])]);
+  document.getElementById('v-me').innerHTML=`<div class="pcard">${bit()}<div><h2>${CONFIG.profileTitle}</h2><p>Level ${level()} · ${S.xp} XP · ${Math.round(nd/ALL.length*100)}% of path</p></div></div>
+  <h3 class="h2s" style="margin-top:14px">Statistics</h3><div class="grid">
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ff9600"><path d="M12 2c1 4 5 6 5 11a5 5 0 01-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-7 1-9.5z"/></svg><div><b>${liveStreak()}</b><span>Day streak</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ffc800"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg><div><b>${S.xp}</b><span>Total XP</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#58cc02"><path d="M5 12l5 5 9-10" stroke="#58cc02" stroke-width="3" fill="none"/></svg><div><b>${nd}/${ALL.length}</b><span>Lessons</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ce82ff"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg><div><b>${builds}/${totalBuilds}</b><span>Builds shipped</span></div></div>
+  </div>
+  <h3 class="h2s">Daily goal</h3><div style="display:flex;gap:8px;padding:12px 16px">${[10,20,30,50].map(g=>`<button class="tile" style="flex:1;${S.goal===g?'border-color:var(--blue);color:var(--blue)':''}" onclick="S.goal=${g};save();renderAll()">${g} XP</button>`).join('')}</div>
+  <h3 class="h2s">Achievements</h3><div class="badges" style="padding-top:12px">${B.map(b=>`<div class="badge ${b[2]?'got':''}"><span class="em">${b[0]}</span>${b[1]}</div>`).join('')}</div>
+  <div class="sync">${syncMsg}</div>`;
+}
+
+/* ============ UI UTILS ============ */
+function sheet(html){document.getElementById('sheet').innerHTML=html;document.getElementById('ov').classList.add('on')}
+function closeSheet(){document.getElementById('ov').classList.remove('on')}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',2400)}
+function confetti(){
+  const c=document.getElementById('conf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+  const cols=['#58cc02','#1cb0f6','#ffc800','#ff4b4b','#ce82ff','#ff9600'];
+  const P=Array.from({length:120},()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-4,s:Math.random()*7+4,c:cols[Math.floor(Math.random()*6)],r:Math.random()*6}));
+  let f=0;(function tick(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(tick);else x.clearRect(0,0,c.width,c.height)})();
+}
+let VIEW='learn';
+document.querySelectorAll('nav.bottom button').forEach(b=>b.onclick=()=>{
+  VIEW=b.dataset.v;document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+VIEW));
+  renderAll();window.scrollTo(0,0);
+});
+function renderAll(){renderTop();if(VIEW==='learn')renderLearn();if(VIEW==='road')renderRoad();if(VIEW==='mentor')renderMentor();if(VIEW==='me')renderMe()}
+renderAll();
+setInterval(renderTop,60000);
+function waitClaude(){return new Promise(res=>{let n=0;(function p(){if(window.claude&&window.claude.use)return res(true);if(++n>40)return res(false);setTimeout(p,150)})()})}
+(async()=>{
+  if(!(await waitClaude()))return;
+  initCloud();
+  try{const s=await claude.use('sample');if(s){SAMPLE=s;if(VIEW==='mentor')renderMentor()}}catch(e){}
+})();
+</script>
+<script>
+/* PWA: offline support when hosted outside claude.ai (GitHub Pages / APK). Harmless elsewhere. */
+try{ if('serviceWorker' in navigator && location.protocol==='https:' && !/claude\.(ai|site)|claudeusercontent/.test(location.hostname)){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})) } }catch(e){}
+</script>
+</body>
+</html>

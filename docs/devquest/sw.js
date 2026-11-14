@@ -1,0 +1,9 @@
+const CACHE='devquest-v1';
+const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));self.skipWaiting()});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(x=>x!==CACHE).map(x=>caches.delete(x)))));self.clients.claim()});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  // network-first so updates arrive; fall back to cache offline
+  e.respondWith(fetch(e.request).then(r=>{const cp=r.clone();if(r.ok&&(new URL(e.request.url).origin===location.origin||/fonts\.(googleapis|gstatic)/.test(e.request.url)))caches.open(CACHE).then(c=>c.put(e.request,cp));return r}).catch(()=>caches.match(e.request).then(m=>m||caches.match('index.html'))));
+});

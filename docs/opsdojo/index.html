@@ -1,0 +1,2581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>OpsDojo — DevOps Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1720; --panel:#16212c; --panel2:#1d2b38; --line:#2a3b4b;
+  --text:#eef4f8; --mute:#8ea3b5;
+  --green:#58cc02; --green-d:#46a302; --blue:#1cb0f6; --blue-d:#1899d6;
+  --red:#ff4b4b; --red-d:#ea2b2b; --gold:#ffc800; --gold-d:#e5a500;
+  --purple:#ce82ff; --orange:#ff9600;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Nunito,system-ui,sans-serif;font-weight:700}
+button{font-family:inherit;cursor:pointer;border:none}
+code,pre,.mono{font-family:"JetBrains Mono",monospace}
+#app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;position:relative}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:2px solid var(--line)}
+.stat{display:flex;align-items:center;gap:6px;font-weight:900;font-size:16px}
+.stat svg{width:22px;height:22px}
+.stat.streak{color:var(--orange)} .stat.xp{color:var(--gold)} .stat.hearts{color:var(--red)} .stat.lvl{color:var(--blue)}
+.stat.off{color:#4b5d6c}
+
+main{flex:1;padding-bottom:90px}
+.view{display:none}.view.on{display:block}
+
+/* bottom nav */
+nav.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;background:var(--bg);border-top:2px solid var(--line);display:flex;z-index:30}
+nav.bottom button{flex:1;background:none;color:var(--mute);padding:10px 0 12px;font-size:11px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.3px}
+nav.bottom button svg{width:26px;height:26px}
+nav.bottom button.on{color:var(--blue)}
+nav.bottom button.on .navic{background:rgba(28,176,246,.15);border:2px solid var(--blue)}
+.navic{border-radius:12px;padding:3px 10px;border:2px solid transparent}
+
+/* daily card */
+.daily{margin:16px;background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:14px;align-items:center}
+.ring{width:58px;height:58px;flex:none}
+.daily h3{margin:0 0 2px;font-size:16px}
+.daily p{margin:0;color:var(--mute);font-size:13px}
+
+/* unit banner */
+.unit{margin:22px 16px 6px;border-radius:16px;padding:14px 16px;color:#fff;position:relative;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.unit .ph{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;opacity:.85;font-weight:900}
+.unit h2{margin:2px 0 4px;font-size:20px;font-weight:900}
+.unit p{margin:0;font-size:13px;opacity:.95;font-weight:700}
+.unit .guide{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);color:#fff;border-radius:12px;padding:6px 10px;font-size:12px;font-weight:900}
+
+/* path */
+.path{position:relative;padding:52px 0 26px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.node{position:relative;width:72px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.node:active{transform:translateY(4px)}
+.node svg{width:34px;height:34px}
+.node.done{background:var(--gold);box-shadow:0 7px 0 var(--gold-d)}
+.node.cur{background:var(--green);box-shadow:0 7px 0 var(--green-d)}
+.node.lock{background:#37464f;box-shadow:0 7px 0 #27333b}
+.node.build.cur{background:var(--purple);box-shadow:0 7px 0 #a568cc}
+.node.build{border-radius:20px}
+.node .lbl{position:absolute;top:76px;white-space:nowrap;font-size:12px;color:var(--mute);font-weight:800;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+.node.cur .lbl{color:var(--text)}
+.startbub{position:absolute;top:-44px;background:#fff;color:var(--green);font-weight:900;padding:7px 12px;border-radius:12px;border:2px solid var(--line);font-size:14px;animation:bob 1.2s ease-in-out infinite;white-space:nowrap}
+.startbub:after{content:"";position:absolute;bottom:-8px;left:50%;margin-left:-7px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}
+.node.build .startbub{color:#a568cc}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mascot-side{position:absolute;width:90px;opacity:.95}
+
+/* buttons */
+.btn{display:block;width:100%;padding:14px;border-radius:16px;font-size:16px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#fff;background:var(--green);box-shadow:0 5px 0 var(--green-d);transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--green-d)}
+.btn.blue{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
+.btn.red{background:var(--red);box-shadow:0 5px 0 var(--red-d)}
+.btn.purple{background:var(--purple);box-shadow:0 5px 0 #a568cc}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:none;border:2px solid var(--line)}
+.btn:disabled{background:#37464f;color:#6a7d8b;box-shadow:0 5px 0 #27333b;cursor:default}
+
+/* sheet / modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.overlay.on{display:flex}
+.sheet{background:var(--panel);width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:20px 18px 26px;max-height:88vh;overflow:auto;border-top:2px solid var(--line);animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h2{margin:0 0 6px;font-size:22px;font-weight:900}
+.sheet .sub{color:var(--mute);font-size:14px;margin-bottom:14px}
+.sheet ul{padding-left:20px;margin:8px 0 14px}
+.sheet li{margin:6px 0;font-size:14px;line-height:1.45}
+
+/* lesson screen */
+#lesson{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;flex-direction:column}
+#lesson.on{display:flex}
+.lwrap{max-width:560px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;min-height:0}
+.lhead{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.lhead .x{background:none;color:var(--mute);font-size:26px;line-height:1;padding:0 4px}
+.pbar{flex:1;height:16px;background:#37464f;border-radius:10px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--green);border-radius:10px;transition:width .3s;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
+.lbody{flex:1;overflow:auto;padding:8px 18px 20px}
+.lfoot{padding:14px 16px 20px;border-top:2px solid var(--line)}
+.lfoot.good{background:#1c3311;border-top-color:#2b5216}
+.lfoot.bad{background:#3a1717;border-top-color:#5c2323}
+.fbtitle{font-size:20px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.lfoot.good .fbtitle{color:var(--green)} .lfoot.bad .fbtitle{color:var(--red)}
+.fbtext{font-size:14px;color:#d6e2ea;margin-bottom:12px;line-height:1.45}
+
+.qtype{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--purple);font-weight:900;margin:6px 0 6px}
+.qtitle{font-size:21px;font-weight:900;margin:0 0 16px;line-height:1.3}
+pre.code{background:#0a1117;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;overflow:auto;color:#cfe3f1;margin:0 0 16px;white-space:pre}
+pre.code .bl{background:rgba(28,176,246,.2);border-bottom:2px dashed var(--blue);color:var(--blue);padding:0 4px;border-radius:4px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--panel);border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;padding:13px 14px;color:var(--text);font-size:15px;font-weight:800;text-align:left;display:flex;gap:12px;align-items:center}
+.opt .k{flex:none;width:28px;height:28px;border:2px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--mute)}
+.opt.sel{border-color:var(--blue);background:rgba(28,176,246,.12);color:#bfe9ff}
+.opt.sel .k{border-color:var(--blue);color:var(--blue)}
+.opt.right{border-color:var(--green);background:rgba(88,204,2,.14)}
+.opt.wrong{border-color:var(--red);background:rgba(255,75,75,.14)}
+.opt code{font-size:13px}
+.tiles{display:flex;flex-wrap:wrap;gap:8px}
+.tile{background:var(--panel);border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;padding:10px 12px;color:var(--text);font-size:14px;font-weight:800}
+.tile.used{visibility:hidden}
+.answerrow{min-height:62px;border-bottom:2px solid var(--line);border-top:2px solid var(--line);padding:10px 0;margin-bottom:18px;display:flex;flex-direction:column;gap:8px}
+.answerrow .tile{text-align:left}
+.answerrow .n{color:var(--blue);margin-right:6px}
+
+/* learn card */
+.card{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.card h3{margin:0 0 8px;font-size:20px;font-weight:900}
+.card p{margin:0 0 10px;font-size:15px;line-height:1.55;color:#d6e2ea;font-weight:600}
+.card p b{color:#fff}
+.card .tip{background:rgba(206,130,255,.1);border:2px solid rgba(206,130,255,.35);border-radius:12px;padding:10px 12px;font-size:13px;color:#ead4ff;margin-top:6px}
+.mentorrow{display:flex;gap:12px;align-items:flex-end;margin-bottom:12px}
+.mentorrow svg{width:64px;flex:none}
+.bubble{background:var(--panel2);border:2px solid var(--line);border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.4;position:relative}
+
+/* build */
+.mission{background:linear-gradient(135deg,#2d1d44,#1d2b38);border:2px solid #5b3d80;border-radius:18px;padding:16px;margin-bottom:14px}
+.mission h3{margin:0 0 6px;font-size:20px}
+.mission p{margin:0 0 8px;font-size:14px;line-height:1.5;color:#e3d6f3;font-weight:600}
+.check{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px;font-size:14px;line-height:1.4;font-weight:700}
+.check input{width:20px;height:20px;accent-color:var(--green);flex:none;margin-top:1px}
+textarea{width:100%;min-height:150px;background:#0a1117;border:2px solid var(--line);border-radius:14px;color:#cfe3f1;padding:12px;font-family:"JetBrains Mono",monospace;font-size:13px;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--blue)}
+.review{background:var(--panel2);border:2px solid var(--line);border-radius:14px;padding:14px;font-size:14px;line-height:1.55;margin-top:12px;font-weight:600}
+.review pre{background:#0a1117;padding:10px;border-radius:10px;overflow:auto;font-size:12px}
+
+/* end screen */
+.endbox{text-align:center;padding:30px 10px}
+.endbox h1{font-size:28px;color:var(--gold);margin:10px 0 18px;font-weight:900}
+.endstats{display:flex;gap:12px;justify-content:center;margin-bottom:10px}
+.es{border:2px solid;border-radius:16px;overflow:hidden;min-width:100px}
+.es .t{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#0f1720;padding:5px;font-weight:900}
+.es .v{font-size:22px;padding:12px 6px;font-weight:900}
+
+/* roadmap */
+.sec{padding:16px}
+.sec h1{font-size:24px;margin:4px 0 4px;font-weight:900}
+.sec .lead{color:var(--mute);font-size:14px;margin:0 0 16px;line-height:1.45}
+.phase{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}
+.phase .bar{position:absolute;left:0;top:0;bottom:0;width:6px}
+.phase .wk{font-size:12px;color:var(--mute);font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.phase h3{margin:2px 0 8px;font-size:18px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.chip{font-size:12px;background:var(--panel2);border:2px solid var(--line);border-radius:999px;padding:4px 10px;font-weight:800}
+.phase p{font-size:13px;color:#c8d6e0;margin:0;line-height:1.5;font-weight:600}
+.mini{height:10px;background:#37464f;border-radius:6px;overflow:hidden;margin-top:10px}
+.mini i{display:block;height:100%;background:var(--green)}
+.res a{display:block;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;color:var(--text);text-decoration:none;font-size:14px}
+.res a span{display:block;color:var(--mute);font-size:12px;font-weight:600;margin-top:2px}
+
+/* mentor chat */
+.chat{display:flex;flex-direction:column;gap:10px;padding:0 16px 10px}
+.msg{max-width:88%;padding:11px 13px;border-radius:16px;font-size:14px;line-height:1.5;font-weight:600;word-wrap:break-word}
+.msg.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--panel);border:2px solid var(--line);border-bottom-left-radius:4px}
+.msg.ai pre{background:#0a1117;padding:10px;border-radius:10px;overflow:auto;font-size:12px;white-space:pre}
+.msg code{background:rgba(255,255,255,.08);padding:1px 5px;border-radius:5px;font-size:12.5px}
+.quick{display:flex;gap:8px;overflow-x:auto;padding:4px 16px 10px;scrollbar-width:none}
+.quick button{flex:none;background:var(--panel);border:2px solid var(--line);color:var(--text);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:800}
+.composer{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);width:100%;max-width:560px;background:var(--bg);padding:10px 12px;display:flex;gap:8px;border-top:2px solid var(--line)}
+.composer input{flex:1;background:var(--panel);border:2px solid var(--line);border-radius:14px;color:var(--text);padding:12px;font-family:inherit;font-size:15px;font-weight:700}
+.composer button{background:var(--blue);color:#fff;border-radius:14px;padding:0 16px;font-weight:900;box-shadow:0 4px 0 var(--blue-d)}
+.notice{margin:12px 16px;background:var(--panel);border:2px dashed var(--line);border-radius:14px;padding:12px;font-size:13px;color:var(--mute)}
+
+/* profile */
+.pcard{display:flex;gap:14px;align-items:center;padding:18px 16px;border-bottom:2px solid var(--line)}
+.pcard svg{width:76px}
+.pcard h2{margin:0;font-size:22px}
+.pcard p{margin:2px 0 0;color:var(--mute);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px}
+.gcell{border:2px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center}
+.gcell svg{width:26px;height:26px;flex:none}
+.gcell b{display:block;font-size:18px}
+.gcell span{font-size:12px;color:var(--mute)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}
+.badge{border:2px solid var(--line);border-radius:14px;padding:12px 6px;text-align:center;font-size:11px;color:var(--mute)}
+.badge .em{font-size:30px;display:block;filter:grayscale(1);opacity:.35}
+.badge.got{border-color:var(--gold);color:var(--text)}
+.badge.got .em{filter:none;opacity:1}
+.h2s{font-size:18px;padding:6px 16px 0;margin:0}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--panel2);border:2px solid var(--gold);color:var(--gold);padding:10px 16px;border-radius:14px;font-weight:900;z-index:90;display:none;font-size:14px;max-width:90%}
+canvas#conf{position:fixed;inset:0;pointer-events:none;z-index:95}
+.sync{font-size:11px;color:var(--mute);text-align:center;padding:4px 16px 16px}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f1720">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OpsDojo">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="stat lvl" title="Level"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg><span id="sLvl">1</span></div>
+    <div class="stat streak" id="streakStat" title="Day streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 6 5 11a5 5 0 01-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-7 1-9.5z"/></svg><span id="sStreak">0</span></div>
+    <div class="stat xp" title="Total XP"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg><span id="sXp">0</span></div>
+    <div class="stat hearts" title="Hearts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.2-8-11.2A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.8C20 15.8 12 21 12 21z"/></svg><span id="sHearts">5</span></div>
+  </div>
+
+  <main>
+    <section class="view on" id="v-learn"></section>
+    <section class="view" id="v-road"></section>
+    <section class="view" id="v-mentor"></section>
+    <section class="view" id="v-me"></section>
+  </main>
+
+  <nav class="bottom">
+    <button data-v="learn" class="on"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 7h-3v10h-4v-6h-4v6H6V10H3z"/></svg></span>LEARN</button>
+    <button data-v="road"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 20c4 0 4-6 8-6s4 6 8 6M12 14V4M12 4l5 3-5 3"/></svg></span>ROADMAP</button>
+    <button data-v="mentor"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v12H8l-4 4z"/></svg></span>MENTOR</button>
+    <button data-v="me"><span class="navic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span>PROFILE</button>
+  </nav>
+</div>
+
+<div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
+<div id="lesson"><div class="lwrap" id="lwrap"></div></div>
+<div class="toast" id="toast"></div>
+<canvas id="conf"></canvas>
+
+<script>
+/* ============ MASCOT (original robot "Bit") ============ */
+function bit(mood){
+  const mouth = mood==='sad' ? '<path d="M40 70q10-8 20 0" stroke="#0f1720" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    : '<path d="M38 66q12 12 24 0" stroke="#0f1720" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  return `<svg viewBox="0 0 100 110"><line x1="50" y1="6" x2="50" y2="20" stroke="#8ea3b5" stroke-width="4"/><circle cx="50" cy="6" r="6" fill="${mood==='sad'?'#ff4b4b':'#ffc800'}"/>
+  <rect x="14" y="20" width="72" height="62" rx="20" fill="#1cb0f6"/><rect x="14" y="20" width="72" height="62" rx="20" fill="none" stroke="#1899d6" stroke-width="4"/>
+  <rect x="24" y="32" width="52" height="30" rx="12" fill="#e9f7ff"/>
+  <circle cx="38" cy="46" r="6" fill="#0f1720"/><circle cx="62" cy="46" r="6" fill="#0f1720"/><circle cx="40" cy="44" r="2" fill="#fff"/><circle cx="64" cy="44" r="2" fill="#fff"/>
+  ${mouth}<rect x="6" y="42" width="10" height="20" rx="5" fill="#1899d6"/><rect x="84" y="42" width="10" height="20" rx="5" fill="#1899d6"/>
+  <rect x="30" y="84" width="40" height="18" rx="8" fill="#58cc02"/><text x="50" y="98" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="12" fill="#fff">${esc(CONFIG.glyph)}</text></svg>`;
+}
+
+/*@@CONTENT_START@@*/
+/* ============ CONFIG (topic-specific) ============ */
+const CONFIG = {
+ "id": "opsdojo",
+ "appName": "OpsDojo",
+ "mascot": "Kubo",
+ "glyph": "$_",
+ "profileTitle": "Future DevOps Engineer",
+ "learner": "a BS Computer Engineering student in the Philippines starting DevOps from scratch, aiming to be a job-ready junior DevOps engineer in 12 weeks at about 1.5 hours a day. They already have CompTIA Network+, Red Hat Academy Linux and AWS cybersecurity training. Their capstone is 'shipyard', a small Python web app they take from laptop to a monitored, auto-deployed cloud service",
+ "reviewerRole": "a senior DevOps / Site Reliability Engineer",
+ "capstone": "shipyard",
+ "roadTitle": "Your DevOps roadmap 🚢",
+ "roadIntro": "Target: <b>job-ready junior DevOps engineer in 12 weeks</b> (~1.5 h/day). Honest mentor note: real mastery takes years of production experience — these 12 weeks give you hireable foundations and a portfolio that proves them. Capstone: <b>shipyard</b>, a Python web app you'll containerize, pipeline, provision with Terraform, run on Kubernetes and monitor.",
+ "phases": [
+  {
+   "n": "Phase 1 · Foundations",
+   "w": "Weeks 1–3",
+   "c": "#58cc02",
+   "u": [
+    "u1",
+    "u2",
+    "u3"
+   ],
+   "chips": [
+    "DevOps culture",
+    "DORA",
+    "Git",
+    "Linux",
+    "Bash",
+    "DNS/HTTP/TLS",
+    "Nginx"
+   ],
+   "why": "Every junior DevOps posting assumes Linux, scripting and Git. Your Red Hat and Network+ background means you can move fast here — spend the saved time on Bash."
+  },
+  {
+   "n": "Phase 2 · Containers & Delivery",
+   "w": "Weeks 4–6",
+   "c": "#1cb0f6",
+   "u": [
+    "u4",
+    "u5"
+   ],
+   "chips": [
+    "Docker",
+    "Compose",
+    "Registries",
+    "GitHub Actions",
+    "Blue-green",
+    "Canary"
+   ],
+   "why": "Docker and CI/CD show up in almost every Philippine junior DevOps listing — some ask specifically for strong GitHub Actions experience."
+  },
+  {
+   "n": "Phase 3 · Cloud & Orchestration",
+   "w": "Weeks 7–9",
+   "c": "#ff9600",
+   "u": [
+    "u6",
+    "u7",
+    "u8"
+   ],
+   "chips": [
+    "AWS IAM/VPC/EC2",
+    "Terraform",
+    "Ansible",
+    "Kubernetes",
+    "Helm",
+    "OpenShift"
+   ],
+   "why": "Local listings ask for AWS, Docker and Kubernetes/OpenShift, plus infrastructure-as-code. This phase is where you become hireable."
+  },
+  {
+   "n": "Phase 4 · Operate & Launch",
+   "w": "Weeks 10–12",
+   "c": "#e056a0",
+   "u": [
+    "u9",
+    "u10"
+   ],
+   "chips": [
+    "Prometheus",
+    "Grafana",
+    "SLOs",
+    "Incidents",
+    "DevSecOps",
+    "Interviews"
+   ],
+   "why": "Juniors monitor production, join on-call and debug incidents. Observability, security and a polished portfolio turn your skills into an offer."
+  }
+ ],
+ "rhythm": "📘 <b>Mon–Thu:</b> 1 lesson + 30 min hands-on in your terminal<br>🛠 <b>Fri–Sat:</b> build mission on shipyard, push to GitHub<br>🤖 <b>Sun:</b> mentor review + 1 troubleshooting drill<br>💸 <b>Cloud rule:</b> set an AWS budget alert before Unit 6, destroy what you don't use<br>🔥 15 minutes beats zero — protect the streak.",
+ "resources": [
+  [
+   "roadmap.sh — DevOps",
+   "https://roadmap.sh/devops",
+   "Community DevOps roadmap with guides per topic"
+  ],
+  [
+   "Docker Get Started",
+   "https://docs.docker.com/get-started/",
+   "Official Docker docs and walkthroughs"
+  ],
+  [
+   "GitHub Actions docs",
+   "https://docs.github.com/en/actions",
+   "Workflows, runners, secrets, environments"
+  ],
+  [
+   "AWS Skill Builder",
+   "https://skillbuilder.aws",
+   "Free AWS training, Cloud Practitioner prep"
+  ],
+  [
+   "Terraform tutorials",
+   "https://developer.hashicorp.com/terraform/tutorials",
+   "Official hands-on Terraform tutorials (AWS track)"
+  ],
+  [
+   "Kubernetes tutorials",
+   "https://kubernetes.io/docs/tutorials/",
+   "Official interactive K8s basics"
+  ],
+  [
+   "Google SRE books",
+   "https://sre.google/books/",
+   "Free SRE book: SLOs, monitoring, incidents"
+  ]
+ ],
+ "quick": [
+  [
+   "🧠 Quiz me",
+   "Quiz me with 3 short questions on {unit}, one at a time. Wait for my answer before the next."
+  ],
+  [
+   "👶 Explain simply",
+   "Explain the key ideas of \"{lesson}\" simply, with one real-world analogy and one short command or config example."
+  ],
+  [
+   "🔥 Prod is down",
+   "Give me a realistic broken-production scenario related to {unit}. Show me symptoms only, let me ask for logs/commands step by step, then grade my troubleshooting."
+  ],
+  [
+   "🎤 Mock interview",
+   "Run a mock junior DevOps engineer interview. Ask one question at a time (mix of conceptual, hands-on and behavioral) and give feedback on each answer."
+  ],
+  [
+   "🧾 Review my YAML",
+   "I'll paste a Dockerfile / workflow / Kubernetes manifest / Terraform file. Review it for bugs, security and best practices."
+  ]
+ ],
+ "badges": [
+  [
+   "🚀",
+   "First lesson",
+   {
+    "lessons": 1
+   }
+  ],
+  [
+   "🔥",
+   "3-day streak",
+   {
+    "streak": 3
+   }
+  ],
+  [
+   "💯",
+   "Perfect lesson",
+   {
+    "perfect": 1
+   }
+  ],
+  [
+   "🛠",
+   "First build",
+   {
+    "builds": 1
+   }
+  ],
+  [
+   "🐧",
+   "Linux unit done",
+   {
+    "unit": "u2"
+   }
+  ],
+  [
+   "🐳",
+   "Containerized",
+   {
+    "lesson": "u4b"
+   }
+  ],
+  [
+   "⚙️",
+   "Pipeline live",
+   {
+    "lesson": "u5b"
+   }
+  ],
+  [
+   "☸️",
+   "Kubernetes captain",
+   {
+    "lesson": "u8b"
+   }
+  ],
+  [
+   "🏆",
+   "DevOps-ready",
+   {
+    "all": true
+   }
+  ]
+ ]
+};
+
+/* ============ CURRICULUM ============ */
+const UNITS = [
+ {
+  "id": "u1",
+  "phase": "Phase 1 · Foundations",
+  "title": "DevOps Mindset & Git",
+  "color": "#58cc02",
+  "goal": "DevOps is a way of working before it's a toolset. Learn what teams measure and how ops work flows through Git.",
+  "lessons": [
+   {
+    "id": "u1l1",
+    "title": "What DevOps really is",
+    "cards": [
+     {
+      "h": "Culture + automation",
+      "p": "<b>DevOps</b> joins development and operations so software ships <b>faster and more reliably</b>. Instead of devs \"throwing code over the wall\" to ops, one team owns building, shipping and running it."
+     },
+     {
+      "h": "The infinite loop",
+      "p": "Work flows in a loop: <b>plan → code → build → test → release → deploy → operate → monitor</b> → back to plan. DevOps engineers automate as much of this loop as possible."
+     },
+     {
+      "h": "How teams measure it",
+      "p": "Google's DORA research found four key metrics: <b>deployment frequency</b>, <b>lead time for changes</b> (commit → production), <b>change failure rate</b>, and <b>time to restore</b> service after a failure.",
+      "tip": "In interviews, mentioning DORA metrics shows you understand WHY we automate, not just HOW."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which is NOT one of the four DORA metrics?",
+      "o": [
+       "Deployment frequency",
+       "Lines of code written per week",
+       "Change failure rate",
+       "Time to restore service"
+      ],
+      "a": 1,
+      "w": "DORA measures delivery speed and stability, never code volume."
+     },
+     {
+      "t": "order",
+      "q": "Put this part of the DevOps loop in order:",
+      "items": [
+       "Code",
+       "Build",
+       "Test",
+       "Deploy",
+       "Monitor"
+      ],
+      "w": "You write it, build an artifact, test it, deploy it, then watch it in production."
+     },
+     {
+      "t": "mc",
+      "q": "\"Lead time for changes\" measures…",
+      "o": [
+       "Time from a commit to that code running in production",
+       "How long a sprint lasts",
+       "Time to hire a new engineer",
+       "How long builds take to compile"
+      ],
+      "a": 0,
+      "w": "Commit time to deploy time — shorter means a faster delivery pipeline."
+     },
+     {
+      "t": "mc",
+      "q": "A team deploys once a quarter with a big manual checklist. What would DevOps change first?",
+      "o": [
+       "Hire more testers",
+       "Deploy less often to be safe",
+       "Automate build, test and deploy so small changes ship often",
+       "Buy bigger servers"
+      ],
+      "a": 2,
+      "w": "Small, frequent, automated changes are lower risk than big, rare manual ones."
+     }
+    ]
+   },
+   {
+    "id": "u1l2",
+    "title": "Git for operators",
+    "cards": [
+     {
+      "h": "Everything as code",
+      "p": "In DevOps, not just app code lives in Git — <b>scripts, Dockerfiles, pipelines, Terraform, Kubernetes manifests</b> too. Git history becomes the audit log of every infrastructure change."
+     },
+     {
+      "h": "Trunk-based development",
+      "p": "Use <b>short-lived branches</b> merged into <code>main</code> often (hours or days, not weeks). Protect <code>main</code> with <b>branch protection</b>: required reviews and passing CI before merge.",
+      "code": "git switch -c fix/healthcheck\ngit commit -am \"Fix health endpoint timeout\"\ngit push -u origin fix/healthcheck\n# open PR -> CI passes -> review -> merge"
+     },
+     {
+      "h": "Releases & secrets",
+      "p": "Mark releases with <b>tags</b> like <code>v1.2.0</code>. Never commit secrets: put <code>.env</code> in <code>.gitignore</code>. A leaked key in history stays leaked even after you delete the file.",
+      "code": "git tag -a v1.2.0 -m \"Release 1.2.0\"\ngit push origin v1.2.0",
+      "tip": "Bots scan public GitHub for leaked cloud keys within minutes. Treat any committed secret as compromised."
+     }
+    ],
+    "qs": [
+     {
+      "t": "fill",
+      "q": "Create an annotated release tag:",
+      "code": "git ___ -a v1.2.0 -m \"Release 1.2.0\"",
+      "o": [
+       "commit",
+       "tag",
+       "branch",
+       "stash"
+      ],
+      "a": 1,
+      "w": "git tag -a creates an annotated tag marking a release point."
+     },
+     {
+      "t": "mc",
+      "q": "Trunk-based development means…",
+      "o": [
+       "One long-lived branch per developer",
+       "Never using branches",
+       "Short-lived branches merged to main frequently",
+       "Merging only at the end of the month"
+      ],
+      "a": 2,
+      "w": "Small, frequent merges keep main releasable and avoid painful conflicts."
+     },
+     {
+      "t": "mc",
+      "q": "Your .env file holds a database password. Where does it belong?",
+      "o": [
+       "Committed, so teammates have it",
+       "In the README",
+       "In a public gist",
+       "Listed in .gitignore and never committed"
+      ],
+      "a": 3,
+      "w": "Secrets stay out of Git; share them through a secrets manager."
+     },
+     {
+      "t": "mc",
+      "q": "What does branch protection on main typically enforce?",
+      "o": [
+       "Required reviews and passing CI checks before merge",
+       "Faster git push",
+       "Automatic deletion of old commits",
+       "Encryption of the repo"
+      ],
+      "a": 0,
+      "w": "It blocks unreviewed or failing changes from reaching main."
+     }
+    ]
+   },
+   {
+    "id": "u1b",
+    "title": "BUILD: Launch shipyard",
+    "build": true,
+    "mission": "Create the <b>shipyard</b> repo — a tiny Python web app you'll ship all the way to production over the next 12 weeks.",
+    "steps": [
+     "Create a GitHub repo shipyard with a Flask or FastAPI app that has / and /health endpoints",
+     "Add README.md (goal + how to run), requirements.txt and a .gitignore that excludes .env and venv/",
+     "Turn on branch protection for main (require a PR)",
+     "Make a change on a branch, open a PR, merge it, then tag v0.1.0"
+    ],
+    "submit": "Paste your app code, .gitignore and the output of `git log --oneline --decorate`."
+   }
+  ]
+ },
+ {
+  "id": "u2",
+  "phase": "Phase 1 · Foundations",
+  "title": "Linux & Bash Automation",
+  "color": "#2ec4b6",
+  "goal": "Servers, containers and CI runners are almost all Linux. Your Red Hat training gets a DevOps upgrade: operate services and automate with Bash.",
+  "lessons": [
+   {
+    "id": "u2l1",
+    "title": "Linux for operators",
+    "cards": [
+     {
+      "h": "Where things live",
+      "p": "<code>/etc</code> = configuration, <code>/var/log</code> = logs, <code>/home</code> = user files, <code>/usr/bin</code> = programs, <code>/tmp</code> = temporary files. Knowing this makes debugging fast."
+     },
+     {
+      "h": "Permissions",
+      "p": "<code>rwx</code> = read/write/execute for <b>owner, group, others</b>. Numeric: r=4, w=2, x=1. So <code>chmod 755</code> = owner rwx (7), group r-x (5), others r-x (5).",
+      "code": "ls -l deploy.sh\n-rwxr-xr-x 1 geo devops 512 deploy.sh\nchmod 755 deploy.sh\nchown geo:devops deploy.sh"
+     },
+     {
+      "h": "Services with systemd",
+      "p": "Long-running apps run as <b>systemd services</b>. Check, restart and read their logs:",
+      "code": "systemctl status nginx\nsudo systemctl restart nginx\nsudo systemctl enable nginx   # start on boot\njournalctl -u nginx --since \"10 min ago\"",
+      "tip": "When a service fails, read status THEN journalctl before changing anything."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Where do most system and service logs live?",
+      "o": [
+       "/etc",
+       "/usr/bin",
+       "/var/log",
+       "/home"
+      ],
+      "a": 2,
+      "w": "/var/log holds logs; journald also keeps systemd service logs."
+     },
+     {
+      "t": "fill",
+      "q": "Restart the nginx service:",
+      "code": "sudo systemctl ___ nginx",
+      "o": [
+       "reload-all",
+       "restart",
+       "boot",
+       "run"
+      ],
+      "a": 1,
+      "w": "systemctl restart stops and starts the service."
+     },
+     {
+      "t": "mc",
+      "q": "What does chmod 755 give?",
+      "o": [
+       "Everyone full access",
+       "Owner rwx, group r-x, others r-x",
+       "Owner read-only",
+       "Group rwx, others none"
+      ],
+      "a": 1,
+      "w": "7=rwx, 5=r-x, 5=r-x."
+     },
+     {
+      "t": "mc",
+      "q": "How do you read the logs of a systemd service named api?",
+      "o": [
+       "cat /etc/api",
+       "ps aux api",
+       "ls /var/api",
+       "journalctl -u api"
+      ],
+      "a": 3,
+      "w": "journalctl -u <unit> shows that service's logs."
+     },
+     {
+      "t": "order",
+      "q": "Order a calm fix for a crashed service:",
+      "items": [
+       "systemctl status app",
+       "journalctl -u app",
+       "Fix the config or code",
+       "systemctl restart app",
+       "curl the endpoint to verify"
+      ],
+      "w": "Look, read, fix, restart, verify."
+     }
+    ]
+   },
+   {
+    "id": "u2l2",
+    "title": "Bash scripting",
+    "cards": [
+     {
+      "h": "Script basics",
+      "p": "Start with a <b>shebang</b>, use variables and arguments (<code>$1</code>, <code>$2</code>). Every command returns an <b>exit code</b>: 0 = success, anything else = failure (<code>$?</code> holds the last one).",
+      "code": "#!/bin/bash\nAPP_URL=\"${1:-http://localhost:8000}\"\nif curl -fsS \"$APP_URL/health\" > /dev/null; then\n  echo \"UP\"\nelse\n  echo \"DOWN\"; exit 1\nfi"
+     },
+     {
+      "h": "Safe scripts",
+      "p": "Put <code>set -euo pipefail</code> at the top: <b>-e</b> exits on any failing command, <b>-u</b> errors on unset variables, <b>pipefail</b> catches failures inside pipes. Write <b>idempotent</b> scripts: running twice gives the same result.",
+      "code": "#!/bin/bash\nset -euo pipefail\nmkdir -p /backups          # -p: no error if it exists\ntar -czf \"/backups/app-$(date +%F).tar.gz\" /srv/app"
+     },
+     {
+      "h": "Schedule with cron",
+      "p": "Cron fields: <b>minute hour day-of-month month day-of-week</b>.",
+      "code": "crontab -e\n0 2 * * *  /opt/scripts/backup.sh   # every day 02:00\n*/5 * * * * /opt/scripts/health.sh  # every 5 minutes",
+      "tip": "Pipes + grep/awk solve 80% of log questions: grep \" 500 \" access.log | wc -l"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which exit code means success?",
+      "o": [
+       "0",
+       "1",
+       "127",
+       "255"
+      ],
+      "a": 0,
+      "w": "By convention 0 is success; non-zero signals an error."
+     },
+     {
+      "t": "fill",
+      "q": "Complete the shebang for a Bash script:",
+      "code": "#!/bin/___",
+      "o": [
+       "sh-run",
+       "bash",
+       "python",
+       "exec"
+      ],
+      "a": 1,
+      "w": "#!/bin/bash tells the OS to run the file with Bash."
+     },
+     {
+      "t": "mc",
+      "q": "What does set -e do?",
+      "o": [
+       "Enables debug output",
+       "Exports all variables",
+       "Exits the script as soon as a command fails",
+       "Encrypts the script"
+      ],
+      "a": 2,
+      "w": "Without it, a script keeps going after errors and can do damage."
+     },
+     {
+      "t": "mc",
+      "q": "The cron line 0 2 * * * runs…",
+      "o": [
+       "Every 2 minutes",
+       "Every day at 02:00",
+       "On the 2nd of each month",
+       "Every 2 hours"
+      ],
+      "a": 1,
+      "w": "minute=0, hour=2, every day."
+     },
+     {
+      "t": "mc",
+      "q": "A script is idempotent when…",
+      "o": [
+       "It runs fast",
+       "It has no comments",
+       "It only runs once ever",
+       "Running it again gives the same end result with no errors"
+      ],
+      "a": 3,
+      "w": "Idempotence makes automation safe to retry."
+     }
+    ]
+   },
+   {
+    "id": "u2b",
+    "title": "BUILD: Ops scripts for shipyard",
+    "build": true,
+    "mission": "Add a <code>scripts/</code> folder to <b>shipyard</b> with real operational automation.",
+    "steps": [
+     "healthcheck.sh: curls /health, logs timestamp + status to a file, exits 1 if down",
+     "backup.sh with set -euo pipefail that archives the app folder with a dated filename",
+     "Make both executable and idempotent; test running them twice",
+     "Schedule healthcheck.sh every 5 minutes with cron on a Linux VM or WSL",
+     "Commit and merge via PR"
+    ],
+    "submit": "Paste both scripts and your crontab line."
+   }
+  ]
+ },
+ {
+  "id": "u3",
+  "phase": "Phase 1 · Foundations",
+  "title": "Networking for DevOps",
+  "color": "#1899d6",
+  "goal": "Half of production bugs are network bugs. Turn your Network+ knowledge into DevOps troubleshooting moves.",
+  "lessons": [
+   {
+    "id": "u3l1",
+    "title": "Networking essentials",
+    "cards": [
+     {
+      "h": "DNS",
+      "p": "DNS turns names into IPs. An <b>A record</b> maps a name to an IPv4 address; a <b>CNAME</b> points a name to another name. Check with <code>dig</code>.",
+      "code": "dig +short shipyard.example.com\nnslookup shipyard.example.com"
+     },
+     {
+      "h": "Ports you must know",
+      "p": "<b>22</b> SSH · <b>80</b> HTTP · <b>443</b> HTTPS · <b>53</b> DNS · <b>5432</b> PostgreSQL · <b>3306</b> MySQL · <b>6443</b> Kubernetes API. TCP is reliable and connection-based; UDP is connectionless (DNS queries usually use UDP)."
+     },
+     {
+      "h": "CIDR & private ranges",
+      "p": "Private ranges: <b>10.0.0.0/8</b>, <b>172.16.0.0/12</b>, <b>192.168.0.0/16</b>. A <b>/24</b> holds 256 addresses. You'll design these for cloud VPCs in Unit 6.",
+      "code": "sudo ss -tulpn | grep 8000   # who listens on 8000?\ncurl -v http://localhost:8000/health",
+      "tip": "Debug outside-in: DNS → reachable (port open?) → app responding?"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which port does HTTPS use by default?",
+      "o": [
+       "80",
+       "22",
+       "443",
+       "8080"
+      ],
+      "a": 2,
+      "w": "HTTPS defaults to 443; HTTP to 80."
+     },
+     {
+      "t": "mc",
+      "q": "An A record maps…",
+      "o": [
+       "A name to an IPv4 address",
+       "A name to another name",
+       "Mail to a server",
+       "IPv6 to IPv4"
+      ],
+      "a": 0,
+      "w": "A = address (IPv4). AAAA is IPv6; CNAME is an alias."
+     },
+     {
+      "t": "mc",
+      "q": "How many IP addresses are in a /24 block?",
+      "o": [
+       "24",
+       "128",
+       "512",
+       "256"
+      ],
+      "a": 3,
+      "w": "32 − 24 = 8 host bits → 2^8 = 256."
+     },
+     {
+      "t": "fill",
+      "q": "Show listening TCP/UDP ports with their processes:",
+      "code": "sudo ss -___ | grep 8000",
+      "o": [
+       "tulpn",
+       "rfx",
+       "ah",
+       "dz"
+      ],
+      "a": 0,
+      "w": "-t TCP, -u UDP, -l listening, -p process, -n numeric."
+     },
+     {
+      "t": "mc",
+      "q": "Which is a private IPv4 range?",
+      "o": [
+       "8.8.8.0/24",
+       "10.0.0.0/8",
+       "1.1.1.0/24",
+       "100.0.0.0/8"
+      ],
+      "a": 1,
+      "w": "10.0.0.0/8 is RFC 1918 private space."
+     }
+    ]
+   },
+   {
+    "id": "u3l2",
+    "title": "How web traffic flows",
+    "cards": [
+     {
+      "h": "Request journey",
+      "p": "A browser request goes: <b>DNS lookup → TCP + TLS handshake → load balancer → reverse proxy → app</b>. Each hop can fail differently."
+     },
+     {
+      "h": "Reverse proxy & load balancer",
+      "p": "<b>Nginx</b> as a reverse proxy terminates TLS and forwards to your app. A <b>Layer 4</b> load balancer routes by IP/port; a <b>Layer 7</b> one understands HTTP and can route by path or host (<code>/api</code> → API service).",
+      "code": "server {\n  listen 80;\n  server_name shipyard.example.com;\n  location / {\n    proxy_pass http://127.0.0.1:8000;\n  }\n}"
+     },
+     {
+      "h": "Errors that point somewhere",
+      "p": "<b>502 Bad Gateway</b>: the proxy got a bad/no response from the app (app down or crashed). <b>504 Gateway Timeout</b>: the app was too slow. Free TLS certificates come from <b>Let's Encrypt</b> (certbot).",
+      "tip": "Seeing 502? Check that the upstream app is running and on the port proxy_pass expects."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order a request's path to your app:",
+      "items": [
+       "DNS lookup",
+       "TCP + TLS handshake",
+       "Load balancer",
+       "Nginx reverse proxy",
+       "App container"
+      ],
+      "w": "Name → connection → distribution → proxy → app."
+     },
+     {
+      "t": "mc",
+      "q": "Nginx returns 502 Bad Gateway. Most likely cause?",
+      "o": [
+       "The client's DNS is wrong",
+       "The backend app is down or not on the expected port",
+       "The SSL cert is valid",
+       "Too many users are logged in"
+      ],
+      "a": 1,
+      "w": "502 = the proxy couldn't get a valid upstream response."
+     },
+     {
+      "t": "mc",
+      "q": "Route /api to one service and / to another. You need a…",
+      "o": [
+       "Layer 4 load balancer",
+       "DNS A record",
+       "Layer 7 load balancer",
+       "Firewall rule"
+      ],
+      "a": 2,
+      "w": "Only L7 understands HTTP paths."
+     },
+     {
+      "t": "mc",
+      "q": "Where can you get free TLS certificates?",
+      "o": [
+       "Let's Encrypt",
+       "Any DNS server",
+       "Docker Hub",
+       "/etc/ssl by default"
+      ],
+      "a": 0,
+      "w": "Let's Encrypt issues free, automated certificates via ACME (certbot)."
+     }
+    ]
+   },
+   {
+    "id": "u3b",
+    "title": "BUILD: Put shipyard behind Nginx",
+    "build": true,
+    "mission": "Run <b>shipyard</b> on a Linux VM the way a real server is set up.",
+    "steps": [
+     "Run the app on port 8000 as a systemd service",
+     "Install Nginx as a reverse proxy on port 80 forwarding to 8000",
+     "Firewall: allow only 22, 80, 443 (ufw or firewalld)",
+     "Stop the app on purpose, observe the 502, start it again",
+     "Draw the request flow (DNS → Nginx → app) in your README"
+    ],
+    "submit": "Paste your Nginx server block, systemd unit file and firewall rules."
+   }
+  ]
+ },
+ {
+  "id": "u4",
+  "phase": "Phase 2 · Containers & Delivery",
+  "title": "Docker & Containers",
+  "color": "#1cb0f6",
+  "goal": "Containers are the unit of delivery in modern DevOps. Package shipyard so it runs identically everywhere.",
+  "lessons": [
+   {
+    "id": "u4l1",
+    "title": "Images & containers",
+    "cards": [
+     {
+      "h": "Why containers",
+      "p": "A <b>container</b> packages an app with its dependencies and shares the host's kernel — lighter and faster to start than a VM. An <b>image</b> is the read-only template; a <b>container</b> is a running instance of it."
+     },
+     {
+      "h": "Dockerfile",
+      "p": "Each instruction creates a <b>layer</b>. Docker caches layers, so copy dependency files <b>before</b> your source code — changing code then won't reinstall packages.",
+      "code": "FROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nEXPOSE 8000\nCMD [\"gunicorn\", \"-b\", \"0.0.0.0:8000\", \"app:app\"]"
+     },
+     {
+      "h": "Daily commands",
+      "p": "",
+      "code": "docker build -t shipyard:0.1 .\ndocker run -d -p 8080:8000 --name web shipyard:0.1\ndocker ps\ndocker logs -f web\ndocker exec -it web sh",
+      "tip": "-p 8080:8000 means host port 8080 → container port 8000."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "How does a container differ from a VM?",
+      "o": [
+       "It includes a full guest OS",
+       "It shares the host kernel, so it's lighter",
+       "It can't run Linux apps",
+       "It needs a hypervisor per container"
+      ],
+      "a": 1,
+      "w": "Containers isolate processes but share the host kernel."
+     },
+     {
+      "t": "fill",
+      "q": "Open a shell inside the running container named web:",
+      "code": "docker ___ -it web sh",
+      "o": [
+       "run",
+       "attach-all",
+       "exec",
+       "start"
+      ],
+      "a": 2,
+      "w": "docker exec runs a command inside an existing container."
+     },
+     {
+      "t": "mc",
+      "q": "Why COPY requirements.txt and install BEFORE copying the source?",
+      "o": [
+       "Layer caching: code changes won't trigger reinstalling packages",
+       "It's required syntax",
+       "It makes the image public",
+       "It encrypts dependencies"
+      ],
+      "a": 0,
+      "w": "Unchanged layers come from cache, making builds much faster."
+     },
+     {
+      "t": "order",
+      "q": "Order a typical Python Dockerfile:",
+      "items": [
+       "FROM python:3.12-slim",
+       "WORKDIR /app",
+       "COPY requirements.txt .",
+       "RUN pip install -r requirements.txt",
+       "CMD [\"python\", \"app.py\"]"
+      ],
+      "w": "Base → workdir → deps file → install → start command."
+     }
+    ]
+   },
+   {
+    "id": "u4l2",
+    "title": "Production images & Compose",
+    "cards": [
+     {
+      "h": "Smaller, safer images",
+      "p": "Use <b>slim</b> base images and <b>multi-stage builds</b> (build in one stage, copy only the result into a small final stage). Run as a <b>non-root USER</b>. Add a <code>.dockerignore</code> for .git, venv, .env.",
+      "code": "FROM python:3.12-slim AS build\nRUN pip install --prefix=/install -r requirements.txt\n\nFROM python:3.12-slim\nCOPY --from=build /install /usr/local\nRUN useradd -m app\nUSER app"
+     },
+     {
+      "h": "Tags & registries",
+      "p": "Push images to a registry (Docker Hub, GHCR, AWS ECR). Use explicit version tags like <code>shipyard:1.4.2</code> or the git SHA — <b>avoid :latest in production</b>, because you can't tell which code is running or roll back reliably."
+     },
+     {
+      "h": "Docker Compose",
+      "p": "Compose runs multi-container apps from one YAML file. <b>Volumes</b> persist data beyond a container's life.",
+      "code": "services:\n  web:\n    build: .\n    ports: [\"8080:8000\"]\n    depends_on: [db]\n  db:\n    image: postgres:16\n    environment:\n      POSTGRES_PASSWORD: ${DB_PASSWORD}\n    volumes: [\"dbdata:/var/lib/postgresql/data\"]\nvolumes:\n  dbdata:"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Main benefit of a multi-stage build?",
+      "o": [
+       "Faster internet",
+       "More layers",
+       "Automatic scaling",
+       "Smaller final image without build tools"
+      ],
+      "a": 3,
+      "w": "Only runtime artifacts reach the final stage."
+     },
+     {
+      "t": "mc",
+      "q": "Why avoid the :latest tag in production?",
+      "o": [
+       "It's slower to pull",
+       "You can't tell which version is running or roll back reliably",
+       "Registries reject it",
+       "It only works on Linux"
+      ],
+      "a": 1,
+      "w": "Immutable version tags give traceability and safe rollbacks."
+     },
+     {
+      "t": "mc",
+      "q": "Postgres data must survive container restarts. Use a…",
+      "o": [
+       "Volume",
+       "Larger image",
+       "Second container",
+       "Bigger CPU"
+      ],
+      "a": 0,
+      "w": "Container filesystems are ephemeral; volumes persist."
+     },
+     {
+      "t": "fill",
+      "q": "Make web start after db in Compose:",
+      "code": "services:\n  web:\n    build: .\n    ___: [db]",
+      "o": [
+       "requires",
+       "after",
+       "depends_on",
+       "links_to"
+      ],
+      "a": 2,
+      "w": "depends_on controls start order (not readiness — use healthchecks for that)."
+     },
+     {
+      "t": "mc",
+      "q": "Why run the container as a non-root user?",
+      "o": [
+       "It's faster",
+       "Docker requires it",
+       "It limits damage if the app is compromised",
+       "It saves disk space"
+      ],
+      "a": 2,
+      "w": "Least privilege applies inside containers too."
+     }
+    ]
+   },
+   {
+    "id": "u4b",
+    "title": "BUILD: Containerize shipyard",
+    "build": true,
+    "mission": "Make <b>shipyard</b> a production-quality container.",
+    "steps": [
+     "Multi-stage Dockerfile on a slim base, running as a non-root user, plus .dockerignore",
+     "docker-compose.yml with web + Postgres (named volume) + Nginx",
+     "Secrets come from a .env file that is NOT committed",
+     "Push the image to GHCR or Docker Hub with a version tag (no :latest)",
+     "Image size under 200 MB — note the size in README"
+    ],
+    "submit": "Paste your Dockerfile and docker-compose.yml."
+   }
+  ]
+ },
+ {
+  "id": "u5",
+  "phase": "Phase 2 · Containers & Delivery",
+  "title": "CI/CD Pipelines",
+  "color": "#ce82ff",
+  "goal": "Pipelines are the heart of DevOps. Make every push automatically tested, built and shipped.",
+  "lessons": [
+   {
+    "id": "u5l1",
+    "title": "Continuous Integration",
+    "cards": [
+     {
+      "h": "CI in one line",
+      "p": "<b>Continuous Integration</b>: every push and pull request is automatically linted, tested and built, so broken code never reaches main. Fail fast — cheapest checks first."
+     },
+     {
+      "h": "GitHub Actions anatomy",
+      "p": "Workflows live in <code>.github/workflows/*.yml</code>. A workflow has <b>triggers</b> (<code>on</code>), <b>jobs</b> that run on a <b>runner</b>, and <b>steps</b> that <code>uses</code> an action or <code>run</code> a command.",
+      "code": "name: ci\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with: { python-version: \"3.12\" }\n      - run: pip install -r requirements.txt\n      - run: pytest"
+     },
+     {
+      "h": "Typical stages",
+      "p": "<b>lint → unit test → build image → security scan → push to registry → deploy</b>. Mark CI as a required check in branch protection so a red pipeline blocks the merge.",
+      "tip": "Keep the main pipeline under ~10 minutes. Slow pipelines get ignored."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order a typical CI/CD pipeline:",
+      "items": [
+       "Lint",
+       "Unit tests",
+       "Build image",
+       "Push to registry",
+       "Deploy"
+      ],
+      "w": "Cheapest checks first; ship only what passed."
+     },
+     {
+      "t": "fill",
+      "q": "Choose the machine a job runs on:",
+      "code": "jobs:\n  test:\n    ___: ubuntu-latest",
+      "o": [
+       "runs-on",
+       "machine",
+       "image",
+       "host"
+      ],
+      "a": 0,
+      "w": "runs-on selects the runner."
+     },
+     {
+      "t": "mc",
+      "q": "Where do GitHub Actions workflow files live?",
+      "o": [
+       "/workflows",
+       "ci/actions.yml",
+       ".github/workflows/",
+       "Inside the Dockerfile"
+      ],
+      "a": 2,
+      "w": "GitHub only reads workflows from .github/workflows/."
+     },
+     {
+      "t": "mc",
+      "q": "A PR's tests fail in CI. What should happen?",
+      "o": [
+       "Merge anyway, fix later",
+       "The merge is blocked until CI is green",
+       "CI is skipped",
+       "The repo is deleted"
+      ],
+      "a": 1,
+      "w": "Required status checks protect main."
+     }
+    ]
+   },
+   {
+    "id": "u5l2",
+    "title": "Delivery & release strategies",
+    "cards": [
+     {
+      "h": "CD",
+      "p": "<b>Continuous Delivery</b>: every green build is deployable, with a human approving production. <b>Continuous Deployment</b>: it goes to production automatically. Use GitHub <b>environments</b> for approvals."
+     },
+     {
+      "h": "Secrets in pipelines",
+      "p": "Store credentials in <b>GitHub encrypted secrets</b> and reference <code>${{ secrets.NAME }}</code> — never hardcode them in YAML. Better: <b>OIDC</b> lets the workflow get short-lived cloud credentials with no stored keys. Tag images with the <b>git SHA</b> to trace every deploy to a commit."
+     },
+     {
+      "h": "Release strategies",
+      "p": "<b>Rolling</b>: replace instances gradually. <b>Blue-green</b>: run two identical environments and switch traffic at once (instant rollback). <b>Canary</b>: send a small % of users to the new version first and watch metrics. Always have a <b>rollback</b> plan.",
+      "tip": "Interview favorite: \"How would you deploy with zero downtime?\" — answer with blue-green or rolling + health checks."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Canary deployment means…",
+      "o": [
+       "Deploying at night",
+       "Releasing to a small % of users first, then expanding",
+       "Two environments switched at once",
+       "Deploying without tests"
+      ],
+      "a": 1,
+      "w": "A canary limits blast radius while you watch metrics."
+     },
+     {
+      "t": "mc",
+      "q": "Blue-green deployment gives you…",
+      "o": [
+       "Free hosting",
+       "Smaller images",
+       "Faster builds",
+       "Instant rollback by switching traffic back"
+      ],
+      "a": 3,
+      "w": "The old (blue) environment stays ready."
+     },
+     {
+      "t": "mc",
+      "q": "Where should your AWS credentials for a workflow live?",
+      "o": [
+       "GitHub encrypted secrets or OIDC short-lived credentials",
+       "Hardcoded in the YAML",
+       "In the README",
+       "In the Docker image"
+      ],
+      "a": 0,
+      "w": "Secrets never go in code; OIDC removes long-lived keys entirely."
+     },
+     {
+      "t": "mc",
+      "q": "Why tag images with the git commit SHA?",
+      "o": [
+       "SHAs are shorter",
+       "Registries require it",
+       "Each running version traces back to exact code",
+       "It encrypts the image"
+      ],
+      "a": 2,
+      "w": "Traceability makes debugging and rollback precise."
+     }
+    ]
+   },
+   {
+    "id": "u5b",
+    "title": "BUILD: Pipeline for shipyard",
+    "build": true,
+    "mission": "Give <b>shipyard</b> a real CI/CD pipeline with GitHub Actions.",
+    "steps": [
+     "On pull requests: lint (ruff/flake8) + pytest",
+     "On main: build the image, tag it with the git SHA, push to GHCR",
+     "Make CI a required check in branch protection",
+     "Add a deploy job behind a production environment with required approval (deploy to your VM via SSH or just docker pull/run)",
+     "CI status badge in the README"
+    ],
+    "submit": "Paste your workflow YAML."
+   }
+  ]
+ },
+ {
+  "id": "u6",
+  "phase": "Phase 3 · Cloud & Orchestration",
+  "title": "AWS Cloud Core",
+  "color": "#ff9600",
+  "goal": "AWS is the most-requested cloud in local DevOps listings. Build on your AWS security training with IAM, networking and compute.",
+  "lessons": [
+   {
+    "id": "u6l1",
+    "title": "AWS fundamentals",
+    "cards": [
+     {
+      "h": "Global layout",
+      "p": "A <b>Region</b> (e.g. ap-southeast-1, Singapore) contains multiple <b>Availability Zones</b> — isolated data centers. Spread resources across AZs for high availability."
+     },
+     {
+      "h": "IAM first",
+      "p": "<b>IAM</b> controls who can do what. Rules: never use the root account day to day, enable <b>MFA</b>, grant <b>least privilege</b>, and give apps <b>IAM roles</b> (temporary credentials) instead of access keys.",
+      "code": "{\n  \"Effect\": \"Allow\",\n  \"Action\": [\"s3:GetObject\"],\n  \"Resource\": \"arn:aws:s3:::shipyard-assets/*\"\n}"
+     },
+     {
+      "h": "Core services & responsibility",
+      "p": "<b>EC2</b> = virtual servers, <b>S3</b> = object storage, <b>RDS</b> = managed databases. <b>Shared responsibility model</b>: AWS secures the cloud itself; you secure what you put in it (OS patches on EC2, IAM, data, security groups).",
+      "tip": "Before anything else: create an AWS Budget alert (e.g. $5). Forgotten resources are how students get surprise bills."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "\"Grant only the permissions needed for the task\" is called…",
+      "o": [
+       "Defense in depth",
+       "Least privilege",
+       "Zero trust networking",
+       "Root access"
+      ],
+      "a": 1,
+      "w": "Least privilege limits damage from mistakes or leaks."
+     },
+     {
+      "t": "mc",
+      "q": "An app on EC2 needs to read from S3. Best practice?",
+      "o": [
+       "Hardcode access keys in the app",
+       "Use the root account keys",
+       "Make the bucket public",
+       "Attach an IAM role to the instance"
+      ],
+      "a": 3,
+      "w": "Roles provide auto-rotating temporary credentials."
+     },
+     {
+      "t": "mc",
+      "q": "An Availability Zone is…",
+      "o": [
+       "One or more isolated data centers within a region",
+       "A pricing tier",
+       "A whole continent",
+       "A type of EC2 instance"
+      ],
+      "a": 0,
+      "w": "Regions contain multiple isolated AZs."
+     },
+     {
+      "t": "mc",
+      "q": "On EC2, who patches the guest operating system?",
+      "o": [
+       "AWS",
+       "Nobody",
+       "You, the customer",
+       "The ISP"
+      ],
+      "a": 2,
+      "w": "Under shared responsibility, the OS on EC2 is yours."
+     }
+    ]
+   },
+   {
+    "id": "u6l2",
+    "title": "VPC networking & scaling",
+    "cards": [
+     {
+      "h": "VPC building blocks",
+      "p": "A <b>VPC</b> is your private network. <b>Public subnets</b> route to an <b>Internet Gateway</b>; <b>private subnets</b> don't. Private instances reach the internet outbound (for updates) through a <b>NAT Gateway</b>. Databases belong in private subnets."
+     },
+     {
+      "h": "Firewalls",
+      "p": "<b>Security groups</b> attach to instances and are <b>stateful</b> (return traffic is allowed automatically). <b>Network ACLs</b> attach to subnets and are <b>stateless</b> (you must allow both directions)."
+     },
+     {
+      "h": "Scale & spread",
+      "p": "An <b>Application Load Balancer</b> (Layer 7) spreads traffic across instances in multiple AZs. An <b>Auto Scaling Group</b> adds or removes instances based on load and replaces unhealthy ones.",
+      "code": "Internet → ALB (public subnets, 2 AZs)\n         → EC2 in Auto Scaling Group (private subnets)\n         → RDS PostgreSQL (private subnets)"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Where should the database go?",
+      "o": [
+       "Public subnet",
+       "Private subnet",
+       "Outside the VPC",
+       "On your laptop"
+      ],
+      "a": 1,
+      "w": "Databases shouldn't be reachable from the internet."
+     },
+     {
+      "t": "mc",
+      "q": "Security groups are…",
+      "o": [
+       "Stateful, attached to instances",
+       "Stateless, attached to subnets",
+       "Only for S3",
+       "DNS records"
+      ],
+      "a": 0,
+      "w": "Return traffic is automatically allowed."
+     },
+     {
+      "t": "mc",
+      "q": "A private-subnet server needs to download OS updates. It uses a…",
+      "o": [
+       "Internet Gateway attached to it directly",
+       "Public IP",
+       "Route 53",
+       "NAT Gateway"
+      ],
+      "a": 3,
+      "w": "NAT allows outbound-only internet for private subnets."
+     },
+     {
+      "t": "order",
+      "q": "Order building a basic web setup:",
+      "items": [
+       "Create the VPC",
+       "Create subnets",
+       "Attach Internet Gateway + route tables",
+       "Create security groups",
+       "Launch EC2 instances"
+      ],
+      "w": "Network → subnets → routing → firewall → compute."
+     }
+    ]
+   },
+   {
+    "id": "u6b",
+    "title": "BUILD: shipyard on AWS (by hand)",
+    "build": true,
+    "mission": "Deploy <b>shipyard</b> to AWS manually once, so you understand every piece before automating it.",
+    "steps": [
+     "Create a Budget alert and an IAM admin user with MFA (stop using root)",
+     "Custom VPC with public + private subnets in 2 AZs",
+     "EC2 running your shipyard container; security group allows only what's needed",
+     "Put an ALB in front and reach the app via the ALB DNS name",
+     "Screenshot everything for README, then DELETE all resources"
+    ],
+    "submit": "Paste your architecture description (VPC CIDRs, subnets, security group rules)."
+   }
+  ]
+ },
+ {
+  "id": "u7",
+  "phase": "Phase 3 · Cloud & Orchestration",
+  "title": "Infrastructure as Code",
+  "color": "#ffc800",
+  "goal": "Clicking in consoles doesn't scale. Define infrastructure in code with Terraform, configure servers with Ansible.",
+  "lessons": [
+   {
+    "id": "u7l1",
+    "title": "Terraform basics",
+    "cards": [
+     {
+      "h": "Declarative IaC",
+      "p": "Terraform is <b>declarative</b>: you describe the <b>desired end state</b>, Terraform works out the steps. Code is written in HCL with <b>providers</b> (AWS, Azure…), <b>resources</b>, <b>variables</b> and <b>outputs</b>.",
+      "code": "provider \"aws\" {\n  region = \"ap-southeast-1\"\n}\n\nresource \"aws_s3_bucket\" \"assets\" {\n  bucket = \"shipyard-assets-geo\"\n}\n\noutput \"bucket_name\" {\n  value = aws_s3_bucket.assets.bucket\n}"
+     },
+     {
+      "h": "The workflow",
+      "p": "<code>terraform init</code> downloads providers → <code>terraform plan</code> previews changes → <code>terraform apply</code> makes them → <code>terraform destroy</code> removes everything. Always read the plan."
+     },
+     {
+      "h": "State",
+      "p": "Terraform keeps a <b>state file</b> mapping your code to real resources. Teams store it <b>remotely</b> (e.g. S3 with locking) so two people can't apply at once. Never commit state to Git — it can contain secrets.",
+      "tip": "\"Plan says it will destroy something you didn't expect\" = stop and investigate."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order the Terraform workflow:",
+      "items": [
+       "Write .tf files",
+       "terraform init",
+       "terraform plan",
+       "terraform apply"
+      ],
+      "w": "Write → initialize → preview → apply."
+     },
+     {
+      "t": "fill",
+      "q": "Preview changes without applying them:",
+      "code": "terraform ___",
+      "o": [
+       "show-all",
+       "plan",
+       "dry",
+       "check"
+      ],
+      "a": 1,
+      "w": "plan shows what apply would do."
+     },
+     {
+      "t": "mc",
+      "q": "The Terraform state file…",
+      "o": [
+       "Maps your code to the real resources it manages",
+       "Stores your AWS password",
+       "Is optional decoration",
+       "Holds Docker images"
+      ],
+      "a": 0,
+      "w": "State is how Terraform knows what exists."
+     },
+     {
+      "t": "mc",
+      "q": "Why store state remotely with locking?",
+      "o": [
+       "It's faster to type",
+       "Required by AWS",
+       "So a team shares one state and can't apply at the same time",
+       "To make it public"
+      ],
+      "a": 2,
+      "w": "Remote state + locking prevents conflicting changes."
+     },
+     {
+      "t": "mc",
+      "q": "\"Declarative\" means…",
+      "o": [
+       "You script every step in order",
+       "You describe the desired end state",
+       "You click in the console",
+       "You only use YAML"
+      ],
+      "a": 1,
+      "w": "The tool figures out how to reach that state."
+     }
+    ]
+   },
+   {
+    "id": "u7l2",
+    "title": "Ansible & IaC practices",
+    "cards": [
+     {
+      "h": "Provision vs configure",
+      "p": "<b>Terraform provisions</b> infrastructure (networks, VMs, databases). <b>Ansible configures</b> what's inside servers (packages, files, services). Ansible is <b>agentless</b> — it connects over SSH."
+     },
+     {
+      "h": "Playbooks",
+      "p": "Playbooks are YAML lists of tasks using <b>idempotent modules</b>: they only change things that aren't already in the desired state.",
+      "code": "- hosts: web\n  become: true\n  tasks:\n    - name: Install Docker\n      apt:\n        name: docker.io\n        state: present\n    - name: Ensure Docker is running\n      service:\n        name: docker\n        state: started\n        enabled: true"
+     },
+     {
+      "h": "IaC discipline",
+      "p": "<b>Drift</b> is when real infrastructure no longer matches code (someone clicked in the console). Fix: all changes go through code + PR. Reuse with <b>Terraform modules</b>. Review <code>plan</code> output in CI.",
+      "tip": "\"No ClickOps\" is a real interview answer. Say you'd import manual resources into Terraform."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "How does Ansible connect to Linux servers?",
+      "o": [
+       "Over SSH, agentless",
+       "Through an installed agent only",
+       "Via FTP",
+       "Through Docker Hub"
+      ],
+      "a": 0,
+      "w": "No agent needed — just SSH and Python on the target."
+     },
+     {
+      "t": "mc",
+      "q": "Best split of tools?",
+      "o": [
+       "Ansible creates VPCs, Terraform installs nginx",
+       "Terraform provisions infra, Ansible configures servers",
+       "Both only for Windows",
+       "Neither is used together"
+      ],
+      "a": 1,
+      "w": "Provisioning vs configuration management."
+     },
+     {
+      "t": "mc",
+      "q": "Someone changed a security group in the console. Terraform code is now out of sync. This is…",
+      "o": [
+       "Rollback",
+       "Caching",
+       "Drift",
+       "Scaling"
+      ],
+      "a": 2,
+      "w": "Drift = reality differs from code."
+     },
+     {
+      "t": "fill",
+      "q": "Ensure a package is installed with Ansible:",
+      "code": "apt:\n  name: nginx\n  state: ___",
+      "o": [
+       "installed-now",
+       "yes",
+       "running",
+       "present"
+      ],
+      "a": 3,
+      "w": "state: present installs it only if missing — idempotent."
+     }
+    ]
+   },
+   {
+    "id": "u7b",
+    "title": "BUILD: shipyard as code",
+    "build": true,
+    "mission": "Recreate your Unit 6 AWS setup for <b>shipyard</b> entirely with code.",
+    "steps": [
+     "Terraform: VPC, subnets, security groups, EC2 (or ALB + ASG) with variables and outputs",
+     "Remote state in S3 with locking (S3 native lockfile or DynamoDB)",
+     "Ansible playbook that installs Docker and runs your container",
+     "Run terraform plan in CI on pull requests",
+     "Prove it: destroy and recreate everything with two commands, then destroy again"
+    ],
+    "submit": "Paste your main.tf and Ansible playbook."
+   }
+  ]
+ },
+ {
+  "id": "u8",
+  "phase": "Phase 3 · Cloud & Orchestration",
+  "title": "Kubernetes",
+  "color": "#1cb0f6",
+  "goal": "Kubernetes (and Red Hat OpenShift, built on it) runs containers at scale. Local listings ask for it repeatedly.",
+  "lessons": [
+   {
+    "id": "u8l1",
+    "title": "Core objects",
+    "cards": [
+     {
+      "h": "Architecture",
+      "p": "A cluster has a <b>control plane</b> (API server, scheduler, etcd, controllers) and <b>worker nodes</b> running your containers. You talk to it with <code>kubectl</code>. Practice locally with <b>kind</b> or <b>minikube</b>."
+     },
+     {
+      "h": "Pods & Deployments",
+      "p": "A <b>Pod</b> is the smallest deployable unit (one or more containers). A <b>Deployment</b> keeps N replicas running and <b>self-heals</b>: if a pod dies, it creates a new one.",
+      "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: shipyard\nspec:\n  replicas: 3\n  selector:\n    matchLabels: { app: shipyard }\n  template:\n    metadata:\n      labels: { app: shipyard }\n    spec:\n      containers:\n        - name: web\n          image: ghcr.io/geo/shipyard:3f2a9c1\n          ports: [{ containerPort: 8000 }]"
+     },
+     {
+      "h": "Services",
+      "p": "Pods come and go with changing IPs. A <b>Service</b> gives a stable address: <b>ClusterIP</b> (internal only), <b>NodePort</b> (port on each node), <b>LoadBalancer</b> (cloud load balancer).",
+      "code": "kubectl apply -f deploy.yaml\nkubectl get pods -o wide\nkubectl get svc\nkubectl scale deploy shipyard --replicas=5"
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "The smallest deployable unit in Kubernetes is a…",
+      "o": [
+       "Node",
+       "Container image",
+       "Pod",
+       "Service"
+      ],
+      "a": 2,
+      "w": "Pods wrap one or more containers."
+     },
+     {
+      "t": "fill",
+      "q": "Create or update resources from a file:",
+      "code": "kubectl ___ -f deploy.yaml",
+      "o": [
+       "run",
+       "apply",
+       "push",
+       "build"
+      ],
+      "a": 1,
+      "w": "kubectl apply is declarative create-or-update."
+     },
+     {
+      "t": "mc",
+      "q": "A Deployment has replicas: 3 and one pod crashes. What happens?",
+      "o": [
+       "Kubernetes creates a replacement pod",
+       "Nothing until you restart it",
+       "The whole Deployment is deleted",
+       "The node reboots"
+      ],
+      "a": 0,
+      "w": "The controller restores the desired replica count."
+     },
+     {
+      "t": "mc",
+      "q": "Expose a database only inside the cluster:",
+      "o": [
+       "LoadBalancer",
+       "NodePort",
+       "Ingress",
+       "ClusterIP"
+      ],
+      "a": 3,
+      "w": "ClusterIP is internal-only (the default)."
+     }
+    ]
+   },
+   {
+    "id": "u8l2",
+    "title": "Running apps for real",
+    "cards": [
+     {
+      "h": "Config & secrets",
+      "p": "<b>ConfigMaps</b> hold non-secret config; <b>Secrets</b> hold sensitive values. Careful: Secrets are only <b>base64-encoded, not encrypted</b> by default — restrict access with RBAC and enable encryption at rest."
+     },
+     {
+      "h": "Health & resources",
+      "p": "<b>Liveness probe</b> fails → container is restarted. <b>Readiness probe</b> fails → pod is removed from Service traffic until ready. Set <b>requests</b> (guaranteed) and <b>limits</b> (max) for CPU and memory.",
+      "code": "readinessProbe:\n  httpGet: { path: /health, port: 8000 }\nresources:\n  requests: { cpu: 100m, memory: 128Mi }\n  limits:   { cpu: 500m, memory: 256Mi }"
+     },
+     {
+      "h": "Debug & ship",
+      "p": "Deployments do <b>rolling updates</b> and can be undone. <code>CrashLoopBackOff</code> = the container keeps crashing; read <code>describe</code> and <code>logs</code>. <b>Helm</b> packages apps as charts; <b>Ingress</b> routes HTTP by host/path.",
+      "code": "kubectl describe pod <pod>\nkubectl logs <pod> --previous\nkubectl rollout status deploy/shipyard\nkubectl rollout undo deploy/shipyard",
+      "tip": "OpenShift adds Routes, built-in registry and stricter security (non-root by default) on top of Kubernetes."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "A readiness probe starts failing. What happens?",
+      "o": [
+       "The node is deleted",
+       "The pod stops receiving Service traffic until it's ready",
+       "The image is rebuilt",
+       "Nothing"
+      ],
+      "a": 1,
+      "w": "Readiness controls traffic; liveness controls restarts."
+     },
+     {
+      "t": "mc",
+      "q": "By default, Kubernetes Secrets are…",
+      "o": [
+       "Encrypted with AES-256 everywhere",
+       "Stored in Git",
+       "Base64-encoded, not encrypted",
+       "Impossible to read"
+      ],
+      "a": 2,
+      "w": "Base64 is encoding, not security — enable encryption at rest and use RBAC."
+     },
+     {
+      "t": "order",
+      "q": "Order debugging a pod in CrashLoopBackOff:",
+      "items": [
+       "kubectl get pods",
+       "kubectl describe pod",
+       "kubectl logs --previous",
+       "Fix the config or image",
+       "kubectl apply"
+      ],
+      "w": "Find it, read events, read logs, fix, re-apply."
+     },
+     {
+      "t": "mc",
+      "q": "A bad release is live. Fastest fix?",
+      "o": [
+       "kubectl rollout undo deploy/shipyard",
+       "Delete the cluster",
+       "Rebuild every node",
+       "Wait for it to fix itself"
+      ],
+      "a": 0,
+      "w": "Roll back first, investigate after."
+     },
+     {
+      "t": "mc",
+      "q": "Helm is…",
+      "o": [
+       "A monitoring tool",
+       "A Linux distro",
+       "A cloud provider",
+       "A package manager for Kubernetes apps (charts)"
+      ],
+      "a": 3,
+      "w": "Charts bundle templated manifests for reuse."
+     }
+    ]
+   },
+   {
+    "id": "u8b",
+    "title": "BUILD: shipyard on Kubernetes",
+    "build": true,
+    "mission": "Run <b>shipyard</b> on a local kind (or minikube) cluster like a production service.",
+    "steps": [
+     "Deployment (3 replicas) + Service + Ingress",
+     "Config via ConfigMap, DB password via Secret",
+     "Readiness + liveness probes and resource requests/limits",
+     "Roll out v2 (new image tag), then roll back with kubectl rollout undo",
+     "Bonus: package it as a Helm chart"
+    ],
+    "submit": "Paste your Kubernetes manifests."
+   }
+  ]
+ },
+ {
+  "id": "u9",
+  "phase": "Phase 4 · Operate & Launch",
+  "title": "Observability & SRE",
+  "color": "#e056a0",
+  "goal": "Juniors watch production and join incidents. Learn to see problems before users do — and handle them calmly when they happen.",
+  "lessons": [
+   {
+    "id": "u9l1",
+    "title": "Monitoring & observability",
+    "cards": [
+     {
+      "h": "Three pillars",
+      "p": "<b>Metrics</b> (numbers over time: CPU, request rate), <b>logs</b> (event records), <b>traces</b> (one request's path across services). Together they answer \"what's wrong and where?\""
+     },
+     {
+      "h": "Prometheus & Grafana",
+      "p": "<b>Prometheus</b> <b>pulls</b> (scrapes) metrics from <code>/metrics</code> endpoints and stores time series; <b>Grafana</b> builds dashboards; <b>Alertmanager</b> routes alerts. Logs often go to <b>Loki</b> or the <b>ELK</b> stack.",
+      "code": "# PromQL: error ratio over 5 minutes\nsum(rate(http_requests_total{status=~\"5..\"}[5m]))\n/\nsum(rate(http_requests_total[5m]))"
+     },
+     {
+      "h": "The four golden signals",
+      "p": "Monitor <b>latency</b>, <b>traffic</b>, <b>errors</b> and <b>saturation</b> (how full a resource is). Alert on symptoms users feel, and make every alert <b>actionable</b> — noisy alerts get ignored."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "Which is NOT one of the four golden signals?",
+      "o": [
+       "Latency",
+       "Saturation",
+       "Code coverage",
+       "Errors"
+      ],
+      "a": 2,
+      "w": "Golden signals: latency, traffic, errors, saturation."
+     },
+     {
+      "t": "mc",
+      "q": "How does Prometheus usually collect metrics?",
+      "o": [
+       "It pulls (scrapes) /metrics endpoints",
+       "Apps email it",
+       "It reads Git commits",
+       "Users upload CSVs"
+      ],
+      "a": 0,
+      "w": "Prometheus uses a pull model on a schedule."
+     },
+     {
+      "t": "mc",
+      "q": "A request is slow, passing through 5 services. Which pillar finds the slow hop?",
+      "o": [
+       "Logs only",
+       "CPU metrics",
+       "Uptime checks",
+       "Distributed traces"
+      ],
+      "a": 3,
+      "w": "Traces follow a single request across services."
+     },
+     {
+      "t": "mc",
+      "q": "Which alert is best?",
+      "o": [
+       "CPU above 50% on any server",
+       "Checkout error rate above 2% for 5 minutes",
+       "Any log line containing 'warn'",
+       "Disk used above 10%"
+      ],
+      "a": 1,
+      "w": "Actionable and tied to user impact."
+     }
+    ]
+   },
+   {
+    "id": "u9l2",
+    "title": "SRE & incidents",
+    "cards": [
+     {
+      "h": "SLI, SLO, SLA",
+      "p": "<b>SLI</b> = what you measure (e.g. % successful requests). <b>SLO</b> = your internal target (99.9%). <b>SLA</b> = the contract with customers, with penalties. The <b>error budget</b> is the allowed failure: 99.9% over 30 days ≈ <b>43 minutes</b> of downtime."
+     },
+     {
+      "h": "Incident response",
+      "p": "<b>Detect → triage → mitigate → resolve → learn.</b> During an incident, <b>restore service first</b> (roll back, scale up, fail over) — find the root cause after. Communicate status regularly."
+     },
+     {
+      "h": "Blameless postmortems",
+      "p": "After an incident, write what happened, the timeline, impact, root cause and action items. <b>Blameless</b> means focusing on systems and processes, not punishing people — so people report problems honestly.",
+      "tip": "Your DORA metrics (Unit 1) include time to restore — good monitoring and fast rollback improve it directly."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "A 99.9% monthly availability SLO allows roughly how much downtime per 30 days?",
+      "o": [
+       "43 minutes",
+       "4 hours",
+       "7 hours",
+       "1 minute"
+      ],
+      "a": 0,
+      "w": "0.1% × 43,200 minutes ≈ 43.2 minutes."
+     },
+     {
+      "t": "mc",
+      "q": "Production checkout is failing after a deploy. First priority?",
+      "o": [
+       "Find the exact root cause",
+       "Write the postmortem",
+       "Restore service (e.g. roll back)",
+       "Blame the author"
+      ],
+      "a": 2,
+      "w": "Mitigate first; investigate when users are safe."
+     },
+     {
+      "t": "order",
+      "q": "Order the incident lifecycle:",
+      "items": [
+       "Detect",
+       "Triage",
+       "Mitigate",
+       "Resolve",
+       "Postmortem"
+      ],
+      "w": "Notice it, size it, stop the bleeding, fix it, learn."
+     },
+     {
+      "t": "mc",
+      "q": "A blameless postmortem focuses on…",
+      "o": [
+       "Who caused the outage",
+       "Systems and process gaps that allowed it",
+       "Hiding the incident",
+       "Legal liability"
+      ],
+      "a": 1,
+      "w": "Fixing systems prevents repeats; blame hides information."
+     },
+     {
+      "t": "mc",
+      "q": "The contract with customers including penalties is the…",
+      "o": [
+       "SLI",
+       "SLO",
+       "Error budget",
+       "SLA"
+      ],
+      "a": 3,
+      "w": "SLA = agreement; SLO = internal target; SLI = measurement."
+     }
+    ]
+   },
+   {
+    "id": "u9b",
+    "title": "BUILD: Observe shipyard",
+    "build": true,
+    "mission": "Make <b>shipyard</b> observable and practise an incident.",
+    "steps": [
+     "Expose /metrics from the app (prometheus_client) with request count + latency",
+     "Run Prometheus + Grafana (kube-prometheus-stack via Helm, or Docker Compose)",
+     "Dashboard with the four golden signals",
+     "Alert rule: error rate above 2% for 5 minutes",
+     "Break something on purpose, recover, and write a 1-page blameless postmortem with an SLO"
+    ],
+    "submit": "Paste your alert rule, SLO statement and postmortem."
+   }
+  ]
+ },
+ {
+  "id": "u10",
+  "phase": "Phase 4 · Operate & Launch",
+  "title": "DevSecOps & Job Launch",
+  "color": "#58cc02",
+  "goal": "Secure the pipeline, polish the portfolio, and land the junior DevOps role.",
+  "lessons": [
+   {
+    "id": "u10l1",
+    "title": "DevSecOps",
+    "cards": [
+     {
+      "h": "Shift left",
+      "p": "<b>Shift left</b> = catch security issues early in the pipeline, when they're cheap to fix, instead of after release. Security becomes everyone's job, automated in CI."
+     },
+     {
+      "h": "What to scan",
+      "p": "<b>SAST</b> (your code), <b>dependency scanning</b> (Dependabot), <b>container image scanning</b> (Trivy), <b>IaC scanning</b> (Checkov, tfsec), and <b>secret scanning</b> (gitleaks).",
+      "code": "- name: Scan image\n  run: trivy image --exit-code 1 --severity CRITICAL ghcr.io/geo/shipyard:${{ github.sha }}"
+     },
+     {
+      "h": "Secrets done right",
+      "p": "Use a secrets manager (AWS Secrets Manager, HashiCorp Vault), short-lived credentials (OIDC, IAM roles) and least privilege. If a key leaks: <b>revoke/rotate it immediately</b>, then clean history and investigate usage.",
+      "tip": "Your cybersecurity webinars + AWS security training are a real differentiator here — mention them."
+     }
+    ],
+    "qs": [
+     {
+      "t": "mc",
+      "q": "\"Shift left\" means…",
+      "o": [
+       "Move servers to another region",
+       "Catch security issues earlier in the development pipeline",
+       "Deploy on Mondays",
+       "Use left-aligned YAML"
+      ],
+      "a": 1,
+      "w": "Earlier detection is cheaper and safer."
+     },
+     {
+      "t": "mc",
+      "q": "Trivy is mainly used to…",
+      "o": [
+       "Scan container images and IaC for vulnerabilities",
+       "Load-balance traffic",
+       "Write Terraform",
+       "Send alerts"
+      ],
+      "a": 0,
+      "w": "Trivy scans images, filesystems and IaC."
+     },
+     {
+      "t": "mc",
+      "q": "You pushed an AWS access key to a public repo. FIRST step?",
+      "o": [
+       "Delete the repo and hope",
+       "Make the repo private later",
+       "Wait to see if it's abused",
+       "Revoke/rotate the key immediately"
+      ],
+      "a": 3,
+      "w": "Assume it's already compromised — revoke first, clean up after."
+     },
+     {
+      "t": "fill",
+      "q": "Fail the build only on the most serious vulnerabilities:",
+      "code": "trivy image --exit-code 1 --severity ___ shipyard:sha",
+      "o": [
+       "CRITICAL",
+       "LOW",
+       "INFO",
+       "DEBUG"
+      ],
+      "a": 0,
+      "w": "Trivy severities: UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL."
+     }
+    ]
+   },
+   {
+    "id": "u10l2",
+    "title": "Landing the job",
+    "cards": [
+     {
+      "h": "Portfolio > certificates",
+      "p": "Hiring managers want proof. Your <b>shipyard</b> repo should show: architecture diagram, pipeline badge, Terraform, Kubernetes manifests, dashboards, and a postmortem. A 3-minute demo video helps."
+     },
+     {
+      "h": "Certs that help",
+      "p": "Pick one next: <b>AWS Certified Cloud Practitioner</b> (entry) → <b>Solutions Architect – Associate</b>; <b>CKA</b> (Certified Kubernetes Administrator); <b>HashiCorp Terraform Associate</b>. Combine with your Network+ and Red Hat background."
+     },
+     {
+      "h": "Interview patterns",
+      "p": "Expect: \"Walk me through your pipeline end to end\", \"The site is down — what do you do?\", \"Container vs VM?\", plus STAR behavioral questions. Think out loud and say what you'd check and why.",
+      "tip": "For \"site is down\": scope → recent changes → logs/metrics → mitigate (rollback) → root cause → postmortem."
+     }
+    ],
+    "qs": [
+     {
+      "t": "order",
+      "q": "Order your answer to \"The website is down\":",
+      "items": [
+       "Confirm scope via monitoring",
+       "Check recent deploys/changes",
+       "Read logs and metrics",
+       "Mitigate (e.g. roll back)",
+       "Find root cause + postmortem"
+      ],
+      "w": "Scope, suspect changes, gather evidence, restore, learn."
+     },
+     {
+      "t": "mc",
+      "q": "What impresses a DevOps hiring manager most?",
+      "o": [
+       "A long list of tools on the resume",
+       "A repo showing a working pipeline, IaC, K8s and monitoring end to end",
+       "Certificates alone",
+       "A fancy LinkedIn banner"
+      ],
+      "a": 1,
+      "w": "Proof of hands-on work beats claims."
+     },
+     {
+      "t": "mc",
+      "q": "Which certification validates Kubernetes administration?",
+      "o": [
+       "CompTIA A+",
+       "AWS Cloud Practitioner",
+       "Terraform Associate",
+       "CKA"
+      ],
+      "a": 3,
+      "w": "CKA = Certified Kubernetes Administrator (CNCF / Linux Foundation)."
+     },
+     {
+      "t": "mc",
+      "q": "\"Explain your pipeline\" — best answer style?",
+      "o": [
+       "Walk end to end: trigger, stages, tools, why each exists, how you'd roll back",
+       "Just list tool names",
+       "Say it was a team project",
+       "Read your YAML aloud"
+      ],
+      "a": 0,
+      "w": "Show understanding of flow and decisions."
+     }
+    ]
+   },
+   {
+    "id": "u10b",
+    "title": "BUILD: Ship & apply",
+    "build": true,
+    "mission": "Finish <b>shipyard</b> and go get the job.",
+    "steps": [
+     "Add Trivy image scan + dependency/secret scanning to the pipeline; no hardcoded secrets anywhere",
+     "README: architecture diagram, tech stack, how to run, screenshots, lessons learned",
+     "Record a 3-minute demo video and link it",
+     "Update resume + LinkedIn with shipyard bullets and certifications",
+     "Do 2 mock interviews in the Mentor tab, then apply to 5 junior DevOps roles"
+    ],
+    "submit": "Paste your resume project section and README intro for final review."
+   }
+  ]
+ }
+];
+
+/*@@CONTENT_END@@*/
+const ALL = []; UNITS.forEach(u=>u.lessons.forEach(l=>{l.unit=u;ALL.push(l)}));
+
+/* ============ STATE ============ */
+const KEY=CONFIG.id+'_v1';
+document.title=CONFIG.appName;
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const dayDiff=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+let S={xp:0,streak:0,last:null,hearts:5,heartTs:Date.now(),done:{},daily:{d:today(),xp:0},goal:30,perfect:0,builds:{},checks:{},reviews:{}};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+
+let DB=null,UID=null,docRef=null,writing=false,pendingWrite=false,syncMsg='Progress saved on this device';
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  if(docRef){ if(writing){pendingWrite=true;return} writing=true;
+    docRef.set(JSON.parse(JSON.stringify(S))).catch(()=>{}).finally(()=>{writing=false;if(pendingWrite){pendingWrite=false;save()}});
+  }
+}
+async function initCloud(){
+  try{
+    if(!window.claude||!claude.use)return;
+    const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+    if(!db||!user)return;
+    const id=await user.id(); if(!id)return;
+    DB=db;UID=id;
+    const ref=db.doc('data/users/'+id+'/progress');
+    const snap=await ref.get();
+    if(snap.exists){
+      const c=snap.data()||{};
+      if((c.xp||0)>=S.xp){S=Object.assign({},S,JSON.parse(JSON.stringify(c)))}
+      else{S.done=Object.assign({},c.done||{},S.done)}
+    }
+    docRef=ref; syncMsg='Progress synced to your account ☁️'; save(); renderAll();
+  }catch(e){}
+}
+
+function regenHearts(){
+  const MS=20*60*1000;
+  if(S.hearts>=5){S.heartTs=Date.now();return}
+  const n=Math.floor((Date.now()-S.heartTs)/MS);
+  if(n>0){S.hearts=Math.min(5,S.hearts+n);S.heartTs+=n*MS}
+}
+function liveStreak(){ if(!S.last)return 0; const d=dayDiff(S.last,today()); return d<=1?S.streak:0 }
+function level(){return Math.floor(S.xp/120)+1}
+function addXp(n){
+  S.xp+=n; if(S.daily.d!==today())S.daily={d:today(),xp:0}; S.daily.xp+=n;
+  const t=today(); if(S.last!==t){ S.streak = (S.last && dayDiff(S.last,t)===1) ? S.streak+1 : 1; S.last=t }
+}
+const nextIdx=()=>{const i=ALL.findIndex(l=>!S.done[l.id]);return i<0?ALL.length:i};
+
+/* ============ RENDER: TOP ============ */
+function renderTop(){
+  regenHearts();
+  document.getElementById('sXp').textContent=S.xp;
+  document.getElementById('sLvl').textContent=level();
+  const st=liveStreak();document.getElementById('sStreak').textContent=st;
+  document.getElementById('streakStat').classList.toggle('off',!(S.last===today()));
+  document.getElementById('sHearts').textContent=S.hearts;
+}
+
+const ICON={
+ learn:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>',
+ done:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" fill="#6a7d8b"><path d="M7 10V7a5 5 0 0110 0v3h1a1 1 0 011 1v9a1 1 0 01-1 1H6a1 1 0 01-1-1v-9a1 1 0 011-1zm2 0h6V7a3 3 0 00-6 0z"/></svg>',
+ build:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>',
+ buildLock:'<svg viewBox="0 0 24 24" fill="#6a7d8b"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>'
+};
+
+function renderLearn(){
+  const v=document.getElementById('v-learn');
+  const ni=nextIdx();
+  const dx=S.daily.d===today()?S.daily.xp:0, pct=Math.min(1,dx/S.goal);
+  const C=2*Math.PI*24;
+  let h=`<div class="daily"><svg class="ring" viewBox="0 0 58 58"><circle cx="29" cy="29" r="24" stroke="#37464f" stroke-width="7" fill="none"/><circle cx="29" cy="29" r="24" stroke="${pct>=1?'#ffc800':'#58cc02'}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}" transform="rotate(-90 29 29)"/><text x="29" y="34" text-anchor="middle" fill="#eef4f8" font-size="14" font-weight="900" font-family="Nunito">${Math.round(pct*100)}%</text></svg>
+  <div><h3>${pct>=1?'Daily goal crushed! 🔥':'Daily goal: '+S.goal+' XP'}</h3><p>${dx} / ${S.goal} XP today · ${ni>=ALL.length?'Path complete!':'Next: '+ALL[Math.min(ni,ALL.length-1)].title}</p></div></div>`;
+  let gi=0;
+  UNITS.forEach((u,ui)=>{
+    h+=`<div class="unit" style="background:${u.color}"><div class="ph">${u.phase} · Unit ${ui+1}</div><h2>${u.title}</h2><p>${u.goal}</p><button class="guide" onclick="openGuide('${u.id}')">GUIDE</button></div><div class="path">`;
+    u.lessons.forEach((l,li)=>{
+      const idx=ALL.indexOf(l), done=!!S.done[l.id], cur=idx===ni, lock=idx>ni;
+      const off=Math.round(Math.sin((gi++)*0.95)*70);
+      const cls=(l.build?'build ':'')+(done?'done':cur?'cur':'lock');
+      const ic=done?ICON.done:lock?(l.build?ICON.buildLock:ICON.lock):(l.build?ICON.build:ICON.learn);
+      h+=`<button class="node ${cls}" style="transform:translateX(${off}px)" onclick="tapNode('${l.id}')">${cur?`<span class="startbub">${l.build?'BUILD':'START'}</span>`:''}${ic}<span class="lbl">${l.title}</span></button>`;
+    });
+    h+=`</div>`;
+  });
+  h+=`<div class="sync">${syncMsg}</div>`;
+  v.innerHTML=h;
+}
+
+function tapNode(id){
+  const l=ALL.find(x=>x.id===id), idx=ALL.indexOf(l), ni=nextIdx();
+  if(idx>ni){toast('🔒 Finish the lessons before this one first');return}
+  const done=!!S.done[id];
+  sheet(`<div class="mentorrow">${bit()}<div class="bubble">${l.build?'Time to build something real! This is portfolio material.':done?'Nice — replay to sharpen it. Replays give half XP.':'Ready? I\'ll teach, then quiz you. Wrong answers come back at the end.'}</div></div>
+  <h2>${l.title}</h2><div class="sub">${l.unit.title} · ${l.build?'Build mission · +50 XP':(l.qs.length+' questions · +'+(done?10:20)+' XP')}</div>
+  <button class="btn ${l.build?'purple':''}" onclick="closeSheet();${l.build?`openBuild('${id}')`:`startLesson('${id}')`}">${done?'PRACTICE AGAIN':l.build?'OPEN MISSION':'START LESSON'}</button>`);
+}
+
+function openGuide(uid){
+  const u=UNITS.find(x=>x.id===uid);
+  sheet(`<h2>${u.title}</h2><div class="sub">${u.goal}</div><b>You'll learn</b><ul>${u.lessons.filter(l=>!l.build).map(l=>'<li>'+l.title+' — '+l.cards.map(c=>c.h).join(', ')+'</li>').join('')}</ul><b>You'll build</b><ul>${u.lessons.filter(l=>l.build).map(l=>'<li>'+l.mission+'</li>').join('')}</ul><button class="btn blue" onclick="closeSheet()">GOT IT</button>`);
+}
+
+/* ============ LESSON ENGINE ============ */
+let L=null;
+function startLesson(id){
+  regenHearts();
+  if(S.hearts<=0){
+    const mins=Math.ceil((20*60*1000-(Date.now()-S.heartTs))/60000);
+    sheet(`<div class="mentorrow">${bit('sad')}<div class="bubble">Out of hearts! Take a breather — or review your notes.</div></div><h2>No hearts left</h2><div class="sub">Next heart in ~${mins} min. Or spend 30 XP to refill all.</div><button class="btn red" ${S.xp<30?'disabled':''} onclick="S.xp-=30;S.hearts=5;save();renderAll();closeSheet();startLesson('${id}')">REFILL FOR 30 XP</button><div style="height:10px"></div><button class="btn ghost" onclick="closeSheet()">LATER</button>`);
+    return;
+  }
+  const l=ALL.find(x=>x.id===id);
+  const steps=[...l.cards.map(c=>({k:'card',c})),...l.qs.map(q=>({k:'q',q}))];
+  L={l,steps,i:0,total:steps.length,right:0,wrong:0,firstTry:0,sel:null,answered:false,order:[],retry:new Set()};
+  document.getElementById('lesson').classList.add('on');
+  drawStep();
+}
+function quitLesson(){
+  sheet(`<div class="mentorrow">${bit('sad')}<div class="bubble">Wait, don't go! You'll lose this lesson's progress.</div></div><button class="btn blue" onclick="closeSheet()">KEEP LEARNING</button><div style="height:10px"></div><button class="btn ghost" style="color:var(--red)" onclick="closeSheet();endLessonUI()">END SESSION</button>`);
+}
+function endLessonUI(){document.getElementById('lesson').classList.remove('on');L=null;renderAll()}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function drawStep(){
+  const w=document.getElementById('lwrap');
+  const st=L.steps[L.i]; const prog=Math.min(100,(L.i/L.steps.length)*100);
+  let body='',foot='';
+  if(st.k==='card'){
+    const c=st.c;
+    body=`<div class="qtype">📘 Learn</div><div class="card"><h3>${c.h}</h3>${c.p?`<p>${c.p}</p>`:''}${c.code?`<pre class="code">${esc(c.code)}</pre>`:''}${c.tip?`<div class="tip">💡 ${c.tip}</div>`:''}</div>`;
+    foot=`<button class="btn" onclick="nextStep()">CONTINUE</button>`;
+  } else {
+    const q=st.q; L.sel=null; L.answered=false;
+    const label={mc:'Choose the answer',fill:'Fill in the blank',order:'Put in order',tf:'True or false'}[q.t];
+    body=`<div class="qtype">${st.retry?'🔁 Mistake review · ':''}${label}</div><h2 class="qtitle">${q.q}</h2>`;
+    if(q.code){ let c=esc(q.code); if(q.t==='fill')c=c.replace('___','<span class="bl" id="blank">____</span>'); body+=`<pre class="code">${c}</pre>`}
+    if(q.t==='order'){
+      L.order=[]; L.pool=shuffle(q.items.map((t,i)=>({t,i})));
+      if(L.pool.every((p,k)=>p.i===k)&&L.pool.length>1)L.pool.reverse();
+      body+=`<div class="answerrow" id="ans"></div><div class="tiles" id="pool"></div>`;
+    } else {
+      body+=`<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pick(${i})"><span class="k">${i+1}</span><span>${/[<>(){};=]/.test(o)?'<code>'+esc(o)+'</code>':esc(o)}</span></button>`).join('')}</div>`;
+    }
+    foot=`<button class="btn" id="chk" disabled onclick="check()">CHECK</button>`;
+  }
+  w.innerHTML=`<div class="lhead"><button class="x" onclick="quitLesson()">✕</button><div class="pbar"><i style="width:${prog}%"></i></div><div class="stat hearts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.2-8-11.2A4.6 4.6 0 0112 7a4.6 4.6 0 018 2.8C20 15.8 12 21 12 21z"/></svg>${S.hearts}</div></div>
+  <div class="lbody" id="lbody">${body}</div><div class="lfoot" id="lfoot">${foot}</div>`;
+  if(st.k==='q'&&st.q.t==='order')drawOrder();
+}
+function drawOrder(){
+  const ans=document.getElementById('ans'),pool=document.getElementById('pool');
+  ans.innerHTML=L.order.map((p,k)=>`<button class="tile" onclick="unOrder(${k})"><span class="n">${k+1}.</span>${esc(p.t)}</button>`).join('')||'<span style="color:var(--mute);font-size:13px;padding:8px 0">Tap tiles below in the right order</span>';
+  pool.innerHTML=L.pool.map((p,k)=>`<button class="tile ${L.order.includes(p)?'used':''}" onclick="toOrder(${k})">${esc(p.t)}</button>`).join('');
+  const chk=document.getElementById('chk'); if(chk)chk.disabled=L.order.length!==L.pool.length;
+}
+function toOrder(k){if(L.answered)return;const p=L.pool[k];if(!L.order.includes(p)){L.order.push(p);drawOrder()}}
+function unOrder(k){if(L.answered)return;L.order.splice(k,1);drawOrder()}
+function pick(i){
+  if(L.answered)return; L.sel=i;
+  document.querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',+b.dataset.i===i));
+  const q=L.steps[L.i].q; const bl=document.getElementById('blank'); if(bl)bl.textContent=q.o[i];
+  document.getElementById('chk').disabled=false;
+}
+document.addEventListener('keydown',e=>{
+  if(!L)return; const st=L.steps[L.i];
+  if(st&&st.k==='q'&&st.q.t!=='order'&&/^[1-4]$/.test(e.key)&&!L.answered){const i=+e.key-1;if(i<st.q.o.length)pick(i)}
+  if(e.key==='Enter'){const b=document.querySelector('#lfoot .btn');if(b&&!b.disabled)b.click()}
+});
+function check(){
+  const st=L.steps[L.i],q=st.q; L.answered=true;
+  let ok;
+  if(q.t==='order') ok=L.order.every((p,k)=>p.i===k);
+  else{ ok=L.sel===q.a;
+    document.querySelectorAll('.opt').forEach(b=>{const i=+b.dataset.i;if(i===q.a)b.classList.add('right');else if(i===L.sel)b.classList.add('wrong')});
+  }
+  const f=document.getElementById('lfoot');
+  if(ok){ L.right++; if(!st.retry)L.firstTry++;
+    f.className='lfoot good';
+    f.innerHTML=`<div class="fbtitle">✔ ${['Nice!','Excellent!','Correct!','You got it!','Sharp!'][Math.floor(Math.random()*5)]}</div><div class="fbtext">${q.w}</div><button class="btn" onclick="nextStep()">CONTINUE</button>`;
+  } else {
+    L.wrong++; if(S.hearts>=5)S.heartTs=Date.now(); S.hearts=Math.max(0,S.hearts-1); save();
+    const corr=q.t==='order'?q.items.map((t,k)=>(k+1)+'. '+t).join('<br>'):esc(q.o[q.a]);
+    L.steps.push({k:'q',q,retry:true});
+    f.className='lfoot bad';
+    f.innerHTML=`<div class="fbtitle">✖ Not quite</div><div class="fbtext"><b>Correct answer:</b><br>${corr}<br><br>${q.w}</div><button class="btn red" onclick="nextStep()">${S.hearts<=0?'OUT OF HEARTS':'GOT IT'}</button>`;
+    document.querySelector('.lhead .hearts').innerHTML=document.querySelector('.lhead .hearts').innerHTML.replace(/\d+$/,S.hearts);
+  }
+}
+function nextStep(){
+  if(S.hearts<=0&&L.steps[L.i].k==='q'&&L.answered&&L.wrong>0){
+    const id=L.l.id; endLessonUI(); startLesson(id); return;
+  }
+  L.i++;
+  if(L.i>=L.steps.length)finishLesson(); else drawStep();
+}
+function finishLesson(){
+  const l=L.l, replay=!!S.done[l.id];
+  const qn=l.qs.length, acc=Math.round(L.firstTry/qn*100);
+  let xp=replay?10:20; if(acc===100)xp+=5;
+  const prevLvl=level();
+  addXp(xp); S.done[l.id]=true; if(acc===100)S.perfect=(S.perfect||0)+1; save();
+  const lvlUp=level()>prevLvl;
+  document.getElementById('lwrap').innerHTML=`<div class="lbody"><div class="endbox"><div style="width:140px;margin:0 auto">${bit()}</div><h1>${acc===100?'Perfect lesson!':'Lesson complete!'}</h1>
+  <div class="endstats"><div class="es" style="border-color:var(--gold)"><div class="t" style="background:var(--gold)">Total XP</div><div class="v" style="color:var(--gold)">+${xp}</div></div><div class="es" style="border-color:var(--green)"><div class="t" style="background:var(--green)">Accuracy</div><div class="v" style="color:var(--green)">${acc}%</div></div><div class="es" style="border-color:var(--orange)"><div class="t" style="background:var(--orange)">Streak</div><div class="v" style="color:var(--orange)">🔥${liveStreak()}</div></div></div>
+  ${lvlUp?`<p style="color:var(--blue);font-size:18px;font-weight:900">⭐ Level up! You're now level ${level()}</p>`:''}</div></div>
+  <div class="lfoot"><button class="btn" onclick="endLessonUI()">CONTINUE</button></div>`;
+  confetti();
+}
+
+/* ============ BUILD MISSIONS ============ */
+let SAMPLE=null;
+function openBuild(id){
+  const l=ALL.find(x=>x.id===id); S.checks[id]=S.checks[id]||[];
+  const w=document.getElementById('lwrap'); document.getElementById('lesson').classList.add('on');
+  const rv=S.reviews[id];
+  w.innerHTML=`<div class="lhead"><button class="x" onclick="endLessonUI()">✕</button><div style="flex:1;font-weight:900">Build mission</div></div>
+  <div class="lbody"><div class="mission"><div class="qtype" style="color:#e3c4ff">🛠 ${l.unit.title}</div><h3>${l.title.replace('BUILD: ','')}</h3><p>${l.mission}</p></div>
+  <div class="qtype">Checklist</div>${l.steps.map((s,i)=>`<label class="check"><input type="checkbox" ${S.checks[id][i]?'checked':''} onchange="tick('${id}',${i},this.checked)"><span>${s}</span></label>`).join('')}
+  <div class="qtype" style="margin-top:16px">Mentor code review</div><p style="font-size:13px;color:var(--mute);margin:0 0 8px;font-weight:600">${l.submit}</p>
+  <textarea id="sub" placeholder="Paste here…">${esc(S.builds[id]||'')}</textarea>
+  <div style="height:10px"></div><button class="btn blue" id="revBtn" onclick="review('${id}')">${SAMPLE?'GET MENTOR REVIEW':'SAVE SUBMISSION'}</button>
+  <div id="revOut">${rv?`<div class="review">${md(rv)}</div>`:''}</div></div>
+  <div class="lfoot"><button class="btn purple" id="doneBtn" onclick="completeBuild('${id}')">${S.done[id]?'MISSION COMPLETE ✔':'MARK MISSION COMPLETE'}</button></div>`;
+  updDone(id);
+}
+function tick(id,i,v){S.checks[id][i]=v;save();updDone(id)}
+function updDone(id){const l=ALL.find(x=>x.id===id);const b=document.getElementById('doneBtn');if(!b)return;const all=l.steps.every((_,i)=>S.checks[id][i]);b.disabled=!all||!!S.done[id];if(!all&&!S.done[id])b.textContent='TICK ALL STEPS TO COMPLETE'}
+function completeBuild(id){
+  if(S.done[id])return; const p=level(); addXp(50); S.done[id]=true; save();
+  document.getElementById('doneBtn').textContent='MISSION COMPLETE ✔';document.getElementById('doneBtn').disabled=true;
+  confetti(); toast('+50 XP · Mission complete!'+(level()>p?' ⭐ Level '+level():''));
+}
+async function review(id){
+  const l=ALL.find(x=>x.id===id), txt=document.getElementById('sub').value.trim();
+  S.builds[id]=txt; save();
+  if(!SAMPLE){toast('Submission saved');return}
+  if(txt.length<20){toast('Paste a bit more for a useful review');return}
+  const out=document.getElementById('revOut'),btn=document.getElementById('revBtn');
+  btn.disabled=true;btn.textContent='MENTOR IS REVIEWING…';
+  out.innerHTML='<div class="review" id="rv">Thinking…</div>';
+  const prompt=`You are ${CONFIG.reviewerRole} mentoring ${CONFIG.learner}. Be concise, precise and encouraging, like a good reviewer.
+
+Mission: ${l.title} — ${l.mission.replace(/<[^>]+>/g,'')}
+Checklist: ${l.steps.join('; ')}
+
+Student submission:
+"""
+${txt.slice(0,12000)}
+"""
+
+Reply in this format (markdown, under 250 words):
+**Score: X/10**
+**What's good:** 2-3 bullets
+**Fix next:** 2-4 specific bullets, with a short code snippet if it helps
+**Interview angle:** one sentence on how to talk about this in an interview.`;
+  try{
+    const r=await SAMPLE(prompt,{cache:false,onText:({text})=>{const e=document.getElementById('rv');if(e)e.innerHTML=md(text)}});
+    S.reviews[id]=r.text; save(); document.getElementById('rv').innerHTML=md(r.text);
+  }catch(e){ out.innerHTML=`<div class="review">${e&&e.code==='rate_limited'?'Mentor is busy — try again in a minute.':'Couldn\'t reach the mentor right now. Your submission is saved.'}</div>` }
+  btn.disabled=false;btn.textContent='GET MENTOR REVIEW';
+}
+
+/* ============ ROADMAP ============ */
+function renderRoad(){
+  const ph=CONFIG.phases;
+  let h=`<div class="sec"><h1>${CONFIG.roadTitle}</h1><p class="lead">${CONFIG.roadIntro}</p>`;
+  ph.forEach(p=>{
+    const ls=ALL.filter(l=>p.u.includes(l.unit.id)), d=ls.filter(l=>S.done[l.id]).length;
+    h+=`<div class="phase"><div class="bar" style="background:${p.c}"></div><div class="wk">${p.w}</div><h3>${p.n}</h3><div class="chips">${p.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div><p>${p.why}</p><div class="mini"><i style="width:${d/ls.length*100}%;background:${p.c}"></i></div><p style="margin-top:6px;color:var(--mute);font-size:12px">${d}/${ls.length} complete</p></div>`;
+  });
+  h+=`<h3 style="margin:22px 0 10px">Your weekly rhythm</h3><div class="phase"><div class="bar" style="background:var(--gold)"></div><p>${CONFIG.rhythm}</p></div>
+  <h3 style="margin:22px 0 10px">Free resources</h3><div class="res">${CONFIG.resources.map(r=>`<a href="${r[1]}" target="_blank">${r[0]}<span>${r[2]}</span></a>`).join('')}</div></div>`;
+  document.getElementById('v-road').innerHTML=h;
+}
+
+/* ============ MENTOR CHAT ============ */
+let CHAT=[];
+function md(t){
+  let s=esc(t);
+  s=s.replace(/```(\w*)\n?([\s\S]*?)```/g,(m,l,c)=>'<pre>'+c+'</pre>');
+  s=s.replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  s=s.replace(/^### (.*)$/gm,'<b>$1</b>').replace(/^## (.*)$/gm,'<b>$1</b>').replace(/^[-*] (.*)$/gm,'• $1');
+  return s.split(/(<pre>[\s\S]*?<\/pre>)/).map(p=>p.startsWith('<pre>')?p:p.replace(/\n/g,'<br>')).join('');
+}
+function renderMentor(){
+  const v=document.getElementById('v-mentor');
+  const ni=nextIdx(), cur=ALL[Math.min(ni,ALL.length-1)];
+  if(!SAMPLE){
+    v.innerHTML=`<div class="sec"><div class="mentorrow">${bit()}<div class="bubble">Hi! I'm ${CONFIG.mascot}, your mentor. I can answer questions, quiz you and run practice drills.</div></div></div><div class="notice">The live mentor needs this page opened on claude.ai while signed in. You can also ask me anything in your Claude chat — I'll pick up right where your path is: <b>${cur.unit.title} → ${cur.title}</b>.</div>`;
+    return;
+  }
+  if(!document.getElementById('chatbox')){
+    v.innerHTML=`<div class="sec" style="padding-bottom:6px"><div class="mentorrow">${bit()}<div class="bubble">I'm ${CONFIG.mascot}, your mentor. Ask me anything, or pick a drill. You're on <b id="curTopic"></b>.</div></div></div>
+    <div class="quick" id="quick"></div><div class="chat" id="chatbox"></div><div style="height:80px"></div>
+    <form class="composer" id="cform"><input id="cin" placeholder="Ask your mentor…" autocomplete="off"><button>SEND</button></form>`;
+    document.getElementById('cform').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('cin');if(i.value.trim()){ask(i.value.trim());i.value=''}});
+  }
+  document.getElementById('curTopic').textContent=cur.unit.title+' → '+cur.title;
+  const qs=CONFIG.quick.map(q=>[q[0],q[1].replace(/\{unit\}/g,cur.unit.title).replace(/\{lesson\}/g,cur.title)]);
+  document.getElementById('quick').innerHTML=qs.map((q,i)=>`<button data-i="${i}">${q[0]}</button>`).join('');
+  document.querySelectorAll('#quick button').forEach(b=>b.onclick=()=>ask(qs[+b.dataset.i][1]));
+  drawChat();
+}
+function drawChat(){
+  const box=document.getElementById('chatbox'); if(!box)return;
+  box.innerHTML=CHAT.map(m=>`<div class="msg ${m.role==='user'?'me':'ai'}">${m.role==='user'?esc(m.content):md(m.content||'…')}</div>`).join('');
+  window.scrollTo(0,document.body.scrollHeight);
+}
+let asking=false;
+async function ask(text){
+  if(asking||!SAMPLE)return; asking=true;
+  CHAT.push({role:'user',content:text}); CHAT.push({role:'assistant',content:'Thinking…'}); drawChat();
+  const ni=nextIdx(), cur=ALL[Math.min(ni,ALL.length-1)];
+  const sys=`[Mentor instructions] You are "${CONFIG.mascot}", a concise, precise and friendly mentor inside the Duolingo-style learning app ${CONFIG.appName}. The learner is ${CONFIG.learner}. Current unit: ${cur.unit.title}; next lesson: ${cur.title}. Completed lessons: ${Object.keys(S.done).length}/${ALL.length}. Keep replies short (under 180 words unless asked), use small concrete examples, check understanding with a question when teaching, and say so when you are unsure instead of inventing facts.\n\n`;
+  const msgs=CHAT.slice(0,-1).slice(-12).map((m,i)=>({role:m.role,content:m.content}));
+  msgs[0]={role:msgs[0].role,content:(msgs[0].role==='user'?sys:'')+msgs[0].content};
+  if(msgs[0].role!=='user')msgs.unshift({role:'user',content:sys+'Hi'});
+  try{
+    const r=await SAMPLE(msgs,{cache:false,onText:({text})=>{CHAT[CHAT.length-1].content=text;drawChat()}});
+    CHAT[CHAT.length-1].content=r.text;
+  }catch(e){CHAT[CHAT.length-1].content=e&&e.code==='rate_limited'?'I\'m getting a lot of questions — try again in a minute.':'I couldn\'t answer just now. Try again.'}
+  asking=false; drawChat();
+}
+
+/* ============ PROFILE ============ */
+function renderMe(){
+  const nd=Object.keys(S.done).length, builds=ALL.filter(l=>l.build&&S.done[l.id]).length;
+  const units=UNITS.filter(u=>u.lessons.every(l=>S.done[l.id])).length;
+  const totalBuilds=ALL.filter(l=>l.build).length;
+  const ok=r=>r.lessons?nd>=r.lessons:r.streak?Math.max(S.streak,liveStreak())>=r.streak:r.perfect?(S.perfect||0)>=r.perfect:r.builds?builds>=r.builds:r.unit?(UNITS.find(u=>u.id===r.unit)||{lessons:[{id:'_'}]}).lessons.every(l=>S.done[l.id]):r.lesson?!!S.done[r.lesson]:r.all?nd>=ALL.length:false;
+  const B=CONFIG.badges.map(b=>[b[0],b[1],ok(b[2])]);
+  document.getElementById('v-me').innerHTML=`<div class="pcard">${bit()}<div><h2>${CONFIG.profileTitle}</h2><p>Level ${level()} · ${S.xp} XP · ${Math.round(nd/ALL.length*100)}% of path</p></div></div>
+  <h3 class="h2s" style="margin-top:14px">Statistics</h3><div class="grid">
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ff9600"><path d="M12 2c1 4 5 6 5 11a5 5 0 01-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3-1-3 0-7 1-9.5z"/></svg><div><b>${liveStreak()}</b><span>Day streak</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ffc800"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg><div><b>${S.xp}</b><span>Total XP</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#58cc02"><path d="M5 12l5 5 9-10" stroke="#58cc02" stroke-width="3" fill="none"/></svg><div><b>${nd}/${ALL.length}</b><span>Lessons</span></div></div>
+   <div class="gcell"><svg viewBox="0 0 24 24" fill="#ce82ff"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg><div><b>${builds}/${totalBuilds}</b><span>Builds shipped</span></div></div>
+  </div>
+  <h3 class="h2s">Daily goal</h3><div style="display:flex;gap:8px;padding:12px 16px">${[10,20,30,50].map(g=>`<button class="tile" style="flex:1;${S.goal===g?'border-color:var(--blue);color:var(--blue)':''}" onclick="S.goal=${g};save();renderAll()">${g} XP</button>`).join('')}</div>
+  <h3 class="h2s">Achievements</h3><div class="badges" style="padding-top:12px">${B.map(b=>`<div class="badge ${b[2]?'got':''}"><span class="em">${b[0]}</span>${b[1]}</div>`).join('')}</div>
+  <div class="sync">${syncMsg}</div>`;
+}
+
+/* ============ UI UTILS ============ */
+function sheet(html){document.getElementById('sheet').innerHTML=html;document.getElementById('ov').classList.add('on')}
+function closeSheet(){document.getElementById('ov').classList.remove('on')}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet()});
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',2400)}
+function confetti(){
+  const c=document.getElementById('conf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+  const cols=['#58cc02','#1cb0f6','#ffc800','#ff4b4b','#ce82ff','#ff9600'];
+  const P=Array.from({length:120},()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-4,s:Math.random()*7+4,c:cols[Math.floor(Math.random()*6)],r:Math.random()*6}));
+  let f=0;(function tick(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(tick);else x.clearRect(0,0,c.width,c.height)})();
+}
+let VIEW='learn';
+document.querySelectorAll('nav.bottom button').forEach(b=>b.onclick=()=>{
+  VIEW=b.dataset.v;document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+VIEW));
+  renderAll();window.scrollTo(0,0);
+});
+function renderAll(){renderTop();if(VIEW==='learn')renderLearn();if(VIEW==='road')renderRoad();if(VIEW==='mentor')renderMentor();if(VIEW==='me')renderMe()}
+renderAll();
+setInterval(renderTop,60000);
+function waitClaude(){return new Promise(res=>{let n=0;(function p(){if(window.claude&&window.claude.use)return res(true);if(++n>40)return res(false);setTimeout(p,150)})()})}
+(async()=>{
+  if(!(await waitClaude()))return;
+  initCloud();
+  try{const s=await claude.use('sample');if(s){SAMPLE=s;if(VIEW==='mentor')renderMentor()}}catch(e){}
+})();
+</script>
+<script>
+/* PWA: offline support when hosted outside claude.ai (GitHub Pages / APK). Harmless elsewhere. */
+try{ if('serviceWorker' in navigator && location.protocol==='https:' && !/claude\.(ai|site)|claudeusercontent/.test(location.hostname)){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})) } }catch(e){}
+</script>
+</body>
+</html>
